@@ -1,9 +1,9 @@
-import { IconButton, Typography } from "@mui/material"
+import { IconButton, Typography } from '@mui/material'
 
-import StyledRoot from "./components/Root"
-import StyledToolbar from "./components/Toolbar"
+import StyledRoot from './components/Root'
+import StyledToolbar from './components/Toolbar'
 
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Menu'
 
 interface Props {
   onOpenNav: () => void
@@ -18,7 +18,7 @@ const Header = ({ onOpenNav }: Props) => {
           sx={{
             mr: 1,
             color: 'text.primary',
-            display: { lg: 'none' },
+            display: { lg: 'none' }
           }}
         >
           <MenuIcon />

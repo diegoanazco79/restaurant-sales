@@ -1,7 +1,9 @@
-import { useEffect } from "react"
-import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material"
-import NavMenu from "./components/NavMenu"
-import { NAV_WIDTH } from "theme/helpers/constants"
+import { useEffect } from 'react'
+import { Box, Drawer, useMediaQuery, useTheme } from '@mui/material'
+
+import NavMenu from './components/NavMenu'
+
+import { NAV_WIDTH } from 'theme/helpers/constants'
 
 interface Props {
   openNavbar: boolean
@@ -14,7 +16,7 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
 
   useEffect(() => {
     if (openNavbar) {
-      onCloseNavbar();
+      onCloseNavbar()
     }
   }, []); //eslint-disable-line
 
@@ -23,10 +25,11 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
       component="nav"
       sx={{
         flexShrink: { lg: 0 },
-        width: { lg: NAV_WIDTH },
+        width: { lg: NAV_WIDTH }
       }}
     >
-      {isDesktop ? (
+      {isDesktop
+        ? (
         <Drawer
           open
           variant="permanent"
@@ -34,26 +37,27 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
             sx: {
               width: NAV_WIDTH,
               bgcolor: 'background.default',
-              borderRightStyle: 'dashed',
-            },
+              borderRightStyle: 'dashed'
+            }
           }}
         >
           <NavMenu />
         </Drawer>
-      ) : (
+          )
+        : (
         <Drawer
           open={openNavbar}
           onClose={onCloseNavbar}
           ModalProps={{
-            keepMounted: true,
+            keepMounted: true
           }}
           PaperProps={{
-            sx: { width: NAV_WIDTH },
+            sx: { width: NAV_WIDTH }
           }}
         >
           <NavMenu />
         </Drawer>
-      )}
+          )}
     </Box>
   )
 }

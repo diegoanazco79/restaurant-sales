@@ -1,6 +1,6 @@
-import { alpha } from "@mui/material/styles"
+import { alpha } from '@mui/material/styles'
 
-import palette from "./palette"
+import palette from './palette'
 
 interface BreakpointsProps {
   sm: number
@@ -14,9 +14,8 @@ interface BreakpointsProps {
  * @returns A string.
  */
 export const pxToRem = (value: number) => {
-  return `${value / 16}rem`;
+  return `${value / 16}rem`
 }
-
 
 /**
  * Convert a fontsize for responsive views
@@ -26,21 +25,21 @@ export const pxToRem = (value: number) => {
 export const responsiveFontSizes = ({ sm, md, lg }: BreakpointsProps) => {
   return {
     '@media (min-width:600px)': {
-      fontSize: pxToRem(sm),
+      fontSize: pxToRem(sm)
     },
     '@media (min-width:900px)': {
-      fontSize: pxToRem(md),
+      fontSize: pxToRem(md)
     },
     '@media (min-width:1200px)': {
-      fontSize: pxToRem(lg),
-    },
-  };
+      fontSize: pxToRem(lg)
+    }
+  }
 }
 
 export const customShadows = () => {
-  const color = palette.grey[500];
+  const color = palette.grey[500]
 
-  const transparent = alpha(color, 0.16);
+  const transparent = alpha(color, 0.16)
   return {
     z1: `0 1px 2px 0 ${transparent}`,
     z4: `0 4px 8px 0 ${transparent}`,
@@ -59,6 +58,6 @@ export const customShadows = () => {
 
     card: `0 0 2px 0 ${alpha(color, 0.2)}, 0 12px 24px -4px ${alpha(color, 0.12)}`,
     dialog: `-40px 40px 80px -8px ${alpha(color, 0.24)}`,
-    dropdown: `0 0 2px 0 ${alpha(color, 0.24)}, -20px 20px 40px -4px ${alpha(color, 0.24)}`,
-  };
+    dropdown: `0 0 2px 0 ${alpha(color, 0.24)}, -20px 20px 40px -4px ${alpha(color, 0.24)}`
+  }
 }
