@@ -1,10 +1,10 @@
-import DashboardLayout from 'layouts/dashboard'
 import ThemeProvider from 'theme'
+import AppRoutes from 'routes'
 
 const App = () => {
   return (
     <ThemeProvider>
-      <DashboardLayout />
+      <AppRoutes />
     </ThemeProvider>
   )
 }

@@ -35,7 +35,9 @@ export const responsiveFontSizes = ({ sm, md, lg }: BreakpointsProps) => {
     }
   }
 }
-
+/**
+ * Return a custom shadows for theme
+ */
 export const customShadows = () => {
   const color = palette.grey[500]
 
