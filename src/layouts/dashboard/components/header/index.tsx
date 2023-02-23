@@ -1,10 +1,10 @@
-import { IconButton, Typography } from '@mui/material'
+import { Box, IconButton, Stack } from '@mui/material'
 
+import AccountPopover from './components/AccountPopover'
 import StyledRoot from './components/Root'
 import StyledToolbar from './components/Toolbar'
 
-import MenuIcon from '@mui/icons-material/Menu'
-
+import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 interface Props {
   onOpenNav: () => void
 }
@@ -16,14 +16,24 @@ const Header = ({ onOpenNav }: Props) => {
         <IconButton
           onClick={onOpenNav}
           sx={{
-            mr: 1,
             color: 'text.primary',
             display: { lg: 'none' }
           }}
         >
-          <MenuIcon />
+          <MenuOpenIcon />
         </IconButton>
-        <Typography variant="h4" gutterBottom>Header</Typography>
+        <Box sx={{ flexGrow: 1 }} />
+
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={{
+            xs: 0.5,
+            sm: 1
+          }}
+        >
+          <AccountPopover/>
+        </Stack>
       </StyledToolbar>
     </StyledRoot>
   )
