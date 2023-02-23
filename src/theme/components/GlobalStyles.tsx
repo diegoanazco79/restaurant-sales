@@ -1,5 +1,7 @@
 import { GlobalStyles as MUIGlobalStyles } from '@mui/material'
 
+import { pxToRem } from 'theme/helpers/functions'
+
 const GlobalStyles = () => {
   return (
     <MUIGlobalStyles
@@ -22,7 +24,10 @@ const GlobalStyles = () => {
         },
         '#root': {
           width: '100%',
-          height: '100%'
+          height: '100%',
+          '.formik-error': {
+            fontSize: pxToRem(14)
+          }
         },
         input: {
           '&[type=number]': {

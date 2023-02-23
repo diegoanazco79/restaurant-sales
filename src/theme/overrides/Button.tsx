@@ -20,10 +20,16 @@ export default function Button (theme: any) {
           }
         },
         containedPrimary: {
-          boxShadow: theme.customShadows.primary
+          textTransform: 'none',
+          fontWeight: '500'
         },
         containedSecondary: {
           boxShadow: theme.customShadows.secondary
+        },
+        textPrimary: {
+          fontSize: '14px',
+          textTransform: 'none',
+          fontWeight: '500'
         },
         outlinedInherit: {
           border: `1px solid ${alpha(theme.palette.grey[500], 0.32)}`,

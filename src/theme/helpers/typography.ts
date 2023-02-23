@@ -1,6 +1,6 @@
 import { pxToRem, responsiveFontSizes } from './functions'
 
-const FONT_PRIMARY = 'Montserrat'
+const FONT_PRIMARY = 'DM Sans'
 
 const typography = {
   fontFamily: FONT_PRIMARY,
