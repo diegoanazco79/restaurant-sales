@@ -29,8 +29,7 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
       }}
     >
       {isDesktop
-        ? (
-        <Drawer
+        ? <Drawer
           open
           variant="permanent"
           PaperProps={{
@@ -43,9 +42,7 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
         >
           <NavMenu />
         </Drawer>
-          )
-        : (
-        <Drawer
+        : <Drawer
           open={openNavbar}
           onClose={onCloseNavbar}
           ModalProps={{
@@ -57,7 +54,7 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
         >
           <NavMenu />
         </Drawer>
-          )}
+      }
     </Box>
   )
 }

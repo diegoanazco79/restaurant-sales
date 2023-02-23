@@ -1,12 +1,13 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { type Organization, type Profile } from './interfaces/authType'
+import { type Rol, type Organization, type Profile } from './interfaces/authType'
 
 interface State {
   token: string
   profile: Profile | null
   organization: Organization | null
+  roles: Rol[] | null
   isAuth: boolean
 }
 
@@ -15,6 +16,7 @@ interface Actions {
   setProfile: (profile: Profile) => void
   logout: () => void
   setOrganization: (organization: Organization) => void
+  setRoles: (roles: Rol[]) => void
 }
 
 export const useAuthStore = create(persist<State & Actions>((set) => ({
@@ -22,10 +24,12 @@ export const useAuthStore = create(persist<State & Actions>((set) => ({
   profile: null,
   isAuth: false,
   organization: null,
+  roles: null,
   setToken: (token: string) => { set((state) => ({ token, isAuth: true })) },
   setProfile: (profile: Profile) => { set((state) => ({ profile })) },
-  logout: () => { set((state) => ({ token: '', isAuth: false, profile: null })) },
-  setOrganization: (organization: Organization) => { set((state) => ({ organization })) }
+  logout: () => { set((state) => ({ token: '', isAuth: false, profile: null, roles: null })) },
+  setOrganization: (organization: Organization) => { set((state) => ({ organization })) },
+  setRoles: (roles: Rol[]) => { set((state) => ({ roles })) }
 }), {
   name: 'auth'
 }

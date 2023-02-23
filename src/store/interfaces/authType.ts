@@ -9,3 +9,8 @@ export interface Organization {
   name: string | undefined
   logo: string | undefined
 }
+
+export interface Rol {
+  id: string | undefined
+  name: string | undefined
+}

@@ -18,7 +18,7 @@ const AppRoutes = () => {
       <Route index path='/' element={<LoginPage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route element={<ProtectedRoutes isAuth={isAuth} />} >
-        <Route path='/dashboard' element={<DashboardPage />} />
+        <Route path='/reports' element={<DashboardPage />} />
         <Route path='/sales' element={<SalesPage />} />
       </Route>
     </Routes>

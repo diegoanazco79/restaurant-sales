@@ -11,6 +11,7 @@ const useLogin = () => {
   const setOrganization = useAuthStore((state) => state.setOrganization)
   const setToken = useAuthStore((state) => state.setToken)
   const setProfile = useAuthStore((state) => state.setProfile)
+  const setRoles = useAuthStore((state) => state.setRoles)
 
   const navigate = useNavigate()
 
@@ -42,6 +43,7 @@ const useLogin = () => {
       name: 'Diego Añazco',
       username: 'danazcob'
     })
+    setRoles([{ id: 'id_admin', name: 'Admin' }])
     navigate('/dashboard')
   }
 
