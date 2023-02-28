@@ -1,20 +1,23 @@
+import { type Dispatch, type SetStateAction } from 'react'
 import { ListItemIcon, MenuItem, Stack, Typography, useTheme } from '@mui/material'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 interface Props {
-  handleClose: () => void
+  idOrder: string
+  onDeleteOrder: (setOpen: Dispatch<SetStateAction<HTMLButtonElement | null>>, idOrder: string) => void
+  setOpen: Dispatch<SetStateAction<HTMLButtonElement | null>>
 }
 
-const OrderActions = ({ handleClose }: Props) => {
+const OrderActions = ({ idOrder, setOpen, onDeleteOrder }: Props) => {
   const { palette } = useTheme()
 
   return (
     <Stack sx={{ p: 1 }}>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={handleClose}>
+        onClick={() => { console.log('Editar') }}>
         <ListItemIcon>
           <EditIcon fontSize="small" />
         </ListItemIcon>
@@ -22,7 +25,7 @@ const OrderActions = ({ handleClose }: Props) => {
       </MenuItem>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={handleClose}>
+        onClick={() => { onDeleteOrder(setOpen, idOrder) }}>
         <ListItemIcon>
           <DeleteIcon
             sx={{ color: palette.error.main }}

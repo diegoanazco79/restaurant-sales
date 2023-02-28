@@ -2,13 +2,25 @@ import { Container, Grid } from '@mui/material'
 
 import OrderCard from './components/orderCard'
 
+import useOrders from './hooks/useOrders'
+
 const SalesPage = () => {
+  const { orders, onDeleteOrder } = useOrders()
+
+  /* Component's Props */
+  const orderCardProps = {
+    onDeleteOrder
+  }
+
   return (
     <Container maxWidth='xl'>
       <Grid container spacing={3}>
-        {[1, 2, 3, 4, 5].map((idx, order) => (
-          <Grid key={idx} item xs={12} sm={6} md={3}>
-            <OrderCard/>
+        {orders?.map(order => (
+          <Grid key={order.id} item xs={12} sm={6} md={3}>
+            <OrderCard
+              order={order}
+              {...orderCardProps}
+            />
           </Grid>
         ))}
       </Grid>

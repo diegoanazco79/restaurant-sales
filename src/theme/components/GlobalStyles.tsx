@@ -1,8 +1,10 @@
-import { GlobalStyles as MUIGlobalStyles } from '@mui/material'
+import { GlobalStyles as MUIGlobalStyles, useTheme } from '@mui/material'
 
-import { pxToRem } from 'theme/helpers/functions'
+import { pxToRem, responsiveFontSizes } from 'theme/helpers/functions'
 
 const GlobalStyles = () => {
+  const { palette } = useTheme()
+
   return (
     <MUIGlobalStyles
       styles={{
@@ -20,7 +22,50 @@ const GlobalStyles = () => {
           margin: 0,
           padding: 0,
           width: '100%',
-          height: '100%'
+          height: '100%',
+          '& .swal2-container': {
+            zIndex: 10000,
+            '& .swal2-title': {
+              fontWeight: 700,
+              lineHeight: 1.5,
+              fontSize: pxToRem(20),
+              color: '#212B36',
+              ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 })
+            },
+            '& .swal2-html-container': {
+              lineHeight: 1.5,
+              fontSize: pxToRem(16),
+              color: '#212B36'
+            },
+            '& .swal2-actions': {
+              width: '100%',
+              justifyContent: 'space-around',
+              '& .swal2-confirm': {
+                fontWeight: 500,
+                fontFamily: 'DM Sans',
+                lineHeight: 24 / 14,
+                fontSize: pxToRem(14),
+                backgroundColor: palette.primary.main,
+                ':focus': {
+                  outline: 'none',
+                  boxShadow: 'none'
+                },
+                ':hover': {
+                  backgroundColor: palette.primary.dark
+                }
+              },
+              '& .swal2-cancel': {
+                fontWeight: 500,
+                fontFamily: 'DM Sans',
+                lineHeight: 24 / 14,
+                fontSize: pxToRem(14),
+                ':focus': {
+                  outline: 'none',
+                  boxShadow: 'none'
+                }
+              }
+            }
+          }
         },
         '#root': {
           width: '100%',
