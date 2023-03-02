@@ -23,7 +23,10 @@ const OrderActions = ({
     <Stack sx={{ p: 1 }}>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={() => { setOpenEditModal(true) }}>
+        onClick={() => {
+          setOpenEditModal(true)
+          setOpen(null)
+        }}>
         <ListItemIcon>
           <EditIcon fontSize="small" />
         </ListItemIcon>
