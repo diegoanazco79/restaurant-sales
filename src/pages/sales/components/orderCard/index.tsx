@@ -1,9 +1,10 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
-import { Card, Popover } from '@mui/material'
+import { Popover, useTheme } from '@mui/material'
 
 import OrderActions from './components/OrderActions'
 import OrderBody from './components/OrderBody'
 import OrderHeader from './components/OrderHeader'
+import { StyledOrderBox } from './components/StyledOrderBox'
 
 import { type OrderType } from 'pages/sales/interfaces/Orders'
 import styles from './styles'
@@ -15,6 +16,7 @@ interface Props {
 
 const OrderCard = ({ order, onDeleteOrder }: Props) => {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null)
+  const theme = useTheme()
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget)
@@ -45,10 +47,15 @@ const OrderCard = ({ order, onDeleteOrder }: Props) => {
 
   return (
     <>
-      <Card>
+
+      <StyledOrderBox
+        theme={theme}
+        onClick={() => { console.log('Click') }}
+        status={order?.status}
+      >
         <OrderHeader {...orderHeader} />
         <OrderBody {...orderBody} />
-      </Card>
+      </StyledOrderBox>
       <Popover
         open={Boolean(open)}
         anchorEl={open}
