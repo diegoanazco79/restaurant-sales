@@ -23,6 +23,10 @@ const GlobalStyles = () => {
           padding: 0,
           width: '100%',
           height: '100%',
+          '& .formik-error': {
+            color: palette.error.main,
+            fontSize: pxToRem(14)
+          },
           '& .swal2-container': {
             zIndex: 10000,
             '& .swal2-title': {
@@ -69,10 +73,7 @@ const GlobalStyles = () => {
         },
         '#root': {
           width: '100%',
-          height: '100%',
-          '.formik-error': {
-            fontSize: pxToRem(14)
-          }
+          height: '100%'
         },
         input: {
           '&[type=number]': {

@@ -6,18 +6,24 @@ import EditIcon from '@mui/icons-material/Edit'
 
 interface Props {
   idOrder: string
-  onDeleteOrder: (setOpen: Dispatch<SetStateAction<HTMLButtonElement | null>>, idOrder: string) => void
+  onDeleteOrder: (idOrder: string) => void
   setOpen: Dispatch<SetStateAction<HTMLButtonElement | null>>
+  setOpenEditModal: (open: boolean) => void
 }
 
-const OrderActions = ({ idOrder, setOpen, onDeleteOrder }: Props) => {
+const OrderActions = ({
+  idOrder,
+  setOpen,
+  setOpenEditModal,
+  onDeleteOrder
+}: Props) => {
   const { palette } = useTheme()
 
   return (
     <Stack sx={{ p: 1 }}>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={() => { console.log('Editar') }}>
+        onClick={() => { setOpenEditModal(true) }}>
         <ListItemIcon>
           <EditIcon fontSize="small" />
         </ListItemIcon>
@@ -25,7 +31,10 @@ const OrderActions = ({ idOrder, setOpen, onDeleteOrder }: Props) => {
       </MenuItem>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={() => { onDeleteOrder(setOpen, idOrder) }}>
+        onClick={() => {
+          onDeleteOrder(idOrder)
+          setOpen(null)
+        }}>
         <ListItemIcon>
           <DeleteIcon
             sx={{ color: palette.error.main }}

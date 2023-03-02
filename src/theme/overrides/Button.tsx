@@ -15,17 +15,21 @@ export default function Button (theme: any) {
         containedInherit: {
           color: theme.palette.grey[800],
           boxShadow: theme.customShadows.z8,
+          textTransform: 'none',
+          fontWeight: '500',
           '&:hover': {
             backgroundColor: theme.palette.grey[400]
           }
         },
         containedPrimary: {
+          boxShadow: 'none',
           textTransform: 'none',
           fontWeight: '500'
         },
         containedSecondary: {
           boxShadow: theme.customShadows.secondary
         },
+
         textPrimary: {
           fontSize: '14px',
           textTransform: 'none',

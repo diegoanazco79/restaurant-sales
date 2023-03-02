@@ -5,11 +5,11 @@ import OrderCard from './components/orderCard'
 import useOrders from './hooks/useOrders'
 
 const SalesPage = () => {
-  const { orders, onDeleteOrder } = useOrders()
+  const { orders, onDeleteOrder, onEditOrder } = useOrders()
 
   /* Component's Props */
   const orderCardProps = {
-    onDeleteOrder
+    onDeleteOrder, onEditOrder
   }
 
   return (

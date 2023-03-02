@@ -8,12 +8,55 @@ const useOrders = () => {
   const [orders] = useState<OrderType[]>(ordersMock)
 
   /**
+   * Handles when user want to edit a order
+   * @param idOrder - Id order
+   * @param orderName - New order name
+   */
+  const onEditOrder = (
+    idOrder: string,
+    orderName: string,
+    setOpenEditModal: Dispatch<SetStateAction<boolean>>
+  ) => {
+    void Swal.fire({
+      title: '¿Estas seguro de editar esta orden?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, editar',
+      cancelButtonText: 'No, cancelar',
+      reverseButtons: true,
+      showCancelButton: true,
+      preConfirm: () => {
+        try {
+          return { isConfirmed: true }
+          // eslint-disable-next-line no-unreachable
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if ((result.value?.isConfirmed) ?? false) {
+        void Swal.fire({
+          title: '¡Editada!',
+          text: 'Su orden ha sido editada correctamente',
+          icon: 'success'
+        })
+        setOpenEditModal(false)
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+  /**
    * Handles when user want to delete a order
-   * @param setOpen - Handles a popover state
    * @param idOrder - Id order
    */
-  const onDeleteOrder = (setOpen: Dispatch<SetStateAction<HTMLButtonElement | null>>, idOrder: string) => {
-    setOpen(null)
+  const onDeleteOrder = (idOrder: string) => {
     void Swal.fire({
       title: '¿Estas seguro de eliminar esta orden?',
       text: 'Esta acción no se puede deshacer',
@@ -26,7 +69,7 @@ const useOrders = () => {
       preConfirm: () => {
         try {
           return { isConfirmed: true }
-        // eslint-disable-next-line no-unreachable
+          // eslint-disable-next-line no-unreachable
         } catch (error) {
           return { isConfirmed: false }
         }
@@ -56,7 +99,8 @@ const useOrders = () => {
     /* Function States */
 
     /* Functions */
-    onDeleteOrder
+    onDeleteOrder,
+    onEditOrder
   }
 }
 
