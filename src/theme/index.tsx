@@ -9,6 +9,12 @@ import palette from './helpers/palette'
 import typography from './helpers/typography'
 import { customShadows } from './helpers/functions'
 
+declare module '@mui/material/styles/createPalette' {
+  interface PaletteColor {
+    lighter: string
+    darker: string
+  }
+}
 interface Props {
   children: JSX.Element
 }

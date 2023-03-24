@@ -9,11 +9,5 @@ export const ordersMock = [
   { id: '8', name: 'Mesa 08', start_order: '6/7/2022', clients: 5, total_payment: 0, type: 'restaurant', status: 'empty' },
   { id: '9', name: 'Mesa 09', start_order: '2/18/2023', clients: 7, total_payment: 0, type: 'delivery', status: 'empty' },
   { id: '10', name: 'Mesa 10', start_order: '7/18/2022', clients: 5, total_payment: 15.59, type: 'restaurant', status: 'in_progress' },
-  { id: '11', name: 'Mesa 11', start_order: '5/28/2022', clients: 9, total_payment: 4.32, type: 'restaurant', status: 'in_progress' },
-  { id: '12', name: 'Mesa 12', start_order: '10/19/2022', clients: 3, total_payment: 0, type: 'pickup', status: 'empty' },
-  { id: '13', name: 'Mesa 13', start_order: '8/8/2022', clients: 1, total_payment: 32.43, type: 'delivery', status: 'in_progress' },
-  { id: '14', name: 'Mesa 14', start_order: '12/4/2022', clients: 5, total_payment: 0, type: 'pickup', status: 'empty' },
-  { id: '15', name: 'Mesa 15', start_order: '2/26/2023', clients: 8, total_payment: 0, type: 'restaurant', status: 'empty' },
-  { id: '16', name: 'Mesa 16', start_order: '12/1/2022', clients: 4, total_payment: 0, type: 'pickup', status: 'empty' },
-  { id: '17', name: 'Mesa 17', start_order: '3/4/2022', clients: 9, total_payment: 0, type: 'restaurant', status: 'empty' }
+  { id: '11', name: 'Mesa 11', start_order: '5/28/2022', clients: 9, total_payment: 4.32, type: 'restaurant', status: 'in_progress' }
 ]

@@ -1,7 +1,7 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
-import { Popover, useTheme } from '@mui/material'
+import { Popover } from '@mui/material'
 
-import { StyledOrderBox } from './components/StyledOrderBox'
+import { StyledOrderBox } from '../StyledOrderBox'
 import EditOrder from './components/EditOrder'
 import Modal from 'components/modal/Modal'
 import OrderActions from './components/OrderActions'
@@ -20,8 +20,6 @@ interface Props {
 const OrderCard = ({ order, onDeleteOrder, onEditOrder }: Props) => {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null)
   const [openEditModal, setOpenEditModal] = useState(false)
-
-  const theme = useTheme()
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget)
@@ -62,7 +60,6 @@ const OrderCard = ({ order, onDeleteOrder, onEditOrder }: Props) => {
   return (
     <>
       <StyledOrderBox
-        theme={theme}
         onClick={() => { console.log('Click') }}
         status={order?.status}
       >

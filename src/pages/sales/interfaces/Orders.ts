@@ -7,3 +7,7 @@ export interface OrderType {
   type: string
   status: string
 }
+
+export interface RoomType {
+  type: 'restaurant' | 'delivery'
+}

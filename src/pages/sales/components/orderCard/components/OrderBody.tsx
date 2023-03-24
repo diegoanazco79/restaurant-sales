@@ -14,22 +14,26 @@ interface Props {
 const OrderBody = ({ startOrder, clients, status, totalPayment }: Props) => {
   return (
     <Box pt={2}>
-      <Typography variant="body2" gutterBottom>
-        <b>Inicio:</b> {startOrder}
-      </Typography>
-      <Typography variant="body2" gutterBottom>
-        <b>N° personas:</b> {clients}
-      </Typography>
-      {
-        status === EMPTY
-          ? <Badge
+      {status === EMPTY
+        ? (
+          <Badge
             type='default'
-            label='Vacío'
+            label='Vacía'
           />
-          : <Typography variant="body2" gutterBottom>
-            <b>Total a pagar:</b> S/ {totalPayment}
-          </Typography>
-      }
+        )
+        : (
+          <>
+            <Typography variant="body2" gutterBottom>
+              <b>Inicio:</b> {startOrder}
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              <b>N° personas:</b> {clients}
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              <b>Total a pagar:</b> S/ {totalPayment}
+            </Typography>
+          </>
+        )}
     </Box>
   )
 }

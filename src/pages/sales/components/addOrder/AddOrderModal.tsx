@@ -1,36 +1,32 @@
 import { Box, Button, Divider, Stack, Typography } from '@mui/material'
-import { type Dispatch, type SetStateAction } from 'react'
 import { Form, Formik } from 'formik'
+import { type Dispatch, type SetStateAction } from 'react'
 import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 
 interface Props {
-  idOrder: string
-  orderName: string
-  setOpenEditModal: Dispatch<SetStateAction<boolean>>
-  onEditOrder: (idOrder: string, orderName: string, setOpenEditModal: Dispatch<SetStateAction<boolean>>) => void
+  setOpenAddOrder: Dispatch<SetStateAction<boolean>>
+  onAddOrder: (orderName: string, setShow: Dispatch<SetStateAction<boolean>>) => void
 }
 
-const EditOrder = ({
-  idOrder, orderName,
-  setOpenEditModal, onEditOrder
-}: Props) => {
+const AddOrderModal = ({ setOpenAddOrder, onAddOrder }: Props) => {
   const validationSchema = Yup.object({
     orderName: Yup.string().required('* Este campo es obligatorio')
   })
 
   const initialValues = {
-    orderName
+    orderName: ''
   }
 
   return (
     <>
-      <Typography variant='h5'>Editar Mesa</Typography>
+      <Typography variant='h5'>Añadir Mesa</Typography>
       <Divider sx={{ mb: 2 }} />
+
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => { onEditOrder(idOrder, values.orderName, setOpenEditModal) }}
+        onSubmit={(values) => { onAddOrder(values?.orderName, setOpenAddOrder) }}
         validationSchema={validationSchema}
       >
         {() => {
@@ -46,7 +42,7 @@ const EditOrder = ({
                   <Button
                     variant='contained'
                     color='inherit'
-                    onClick={() => { setOpenEditModal(false) }}
+                    onClick={() => { setOpenAddOrder(false) }}
                   >
                       Cancelar
                   </Button>
@@ -55,7 +51,7 @@ const EditOrder = ({
                     variant='contained'
                     color='primary'
                   >
-                    Editar
+                    Añadir
                   </Button>
                 </Box>
               </Stack>
@@ -67,4 +63,4 @@ const EditOrder = ({
   )
 }
 
-export default EditOrder
+export default AddOrderModal

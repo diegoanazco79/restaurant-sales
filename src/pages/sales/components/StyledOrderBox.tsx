@@ -1,19 +1,22 @@
 import { styled } from '@mui/material/styles'
-import { alpha, Box, type Theme } from '@mui/material'
+import { alpha, Box, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
 import { EMPTY } from 'pages/sales/helpers/constants'
 
 interface Props {
-  theme: Theme
   status: string
 }
 
-export const StyledOrderBox = styled(Box)(({ theme, status }: Props) => {
+export const StyledOrderBox = styled(Box)(({ status }: Props) => {
+  const theme = useTheme()
   const isEmpty = status === EMPTY
 
   return {
+    height: '184px',
+    minHeight: '184px',
+    maxHeight: '184px',
     cursor: 'pointer',
     padding: pxToRem(24),
     borderRadius: pxToRem(12),

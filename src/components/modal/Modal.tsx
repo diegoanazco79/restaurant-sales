@@ -16,7 +16,7 @@ const Modal = ({ open, setOpen, children }: Props) => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    maxWidth: '85%',
+    maxWidth: '95%',
     width: 600,
     bgcolor: theme.palette.common.white,
     border: `${pxToRem(1)} solid ${theme.palette.grey[200]}`,

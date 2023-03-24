@@ -1,11 +1,35 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
 import Swal from 'sweetalert2'
 
-import { type OrderType } from '../interfaces/Orders'
+import { type RoomType, type OrderType } from '../interfaces/Orders'
 import { ordersMock } from '../mock/ordersMock'
 
 const useOrders = () => {
+  const [roomType, setRoomType] = useState<RoomType['type']>('restaurant')
   const [orders] = useState<OrderType[]>(ordersMock)
+
+  /**
+ * Handles a switch roomtype button
+ * @param type - RoomType['type']
+ */
+  const onChangeRoomType = (type: RoomType['type']) => {
+    setRoomType(type)
+  }
+
+  /**
+   * Handles when user want to add a order
+   * @param orderName - New order name
+   */
+  const onAddOrder = (
+    orderName: string,
+    setShow: Dispatch<SetStateAction<boolean>>
+  ) => {
+    setShow(false)
+    void Swal.fire({
+      title: 'Su mesa ha sido añadida correctamente',
+      icon: 'success'
+    })
+  }
 
   /**
    * Handles when user want to edit a order
@@ -18,7 +42,7 @@ const useOrders = () => {
     setOpenEditModal: Dispatch<SetStateAction<boolean>>
   ) => {
     void Swal.fire({
-      title: '¿Estas seguro de editar esta orden?',
+      title: '¿Estas seguro de editar esta mesa?',
       icon: 'warning',
       showConfirmButton: true,
       confirmButtonText: 'Sí, editar',
@@ -38,7 +62,7 @@ const useOrders = () => {
       if ((result.value?.isConfirmed) ?? false) {
         void Swal.fire({
           title: '¡Editada!',
-          text: 'Su orden ha sido editada correctamente',
+          text: 'Su mesa ha sido editada correctamente',
           icon: 'success'
         })
         setOpenEditModal(false)
@@ -58,7 +82,7 @@ const useOrders = () => {
    */
   const onDeleteOrder = (idOrder: string) => {
     void Swal.fire({
-      title: '¿Estas seguro de eliminar esta orden?',
+      title: '¿Estas seguro de eliminar esta mesa?',
       text: 'Esta acción no se puede deshacer',
       icon: 'warning',
       showConfirmButton: true,
@@ -79,7 +103,7 @@ const useOrders = () => {
       if ((result.value?.isConfirmed) ?? false) {
         void Swal.fire({
           title: '¡Eliminada!',
-          text: 'Su orden ha sido eliminada correctamente',
+          text: 'Su mesa ha sido eliminada correctamente',
           icon: 'success'
         })
       } else if (!result?.isDismissed) {
@@ -95,12 +119,15 @@ const useOrders = () => {
   return {
     /* States */
     orders,
+    roomType,
 
     /* Function States */
 
     /* Functions */
     onDeleteOrder,
-    onEditOrder
+    onEditOrder,
+    onAddOrder,
+    onChangeRoomType
   }
 }
 
