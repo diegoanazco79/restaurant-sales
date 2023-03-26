@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 
-import LoadingPage from 'components/loading-page'
+import LoadingPage from 'components/loadingPage'
 
 const Loadable = (Component: React.LazyExoticComponent<() => JSX.Element>) => () =>
   (

@@ -1,6 +1,5 @@
-import { Box, IconButton, Stack } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 
-import AccountPopover from './components/AccountPopover'
 import StyledRoot from './components/Root'
 import StyledToolbar from './components/Toolbar'
 
@@ -24,16 +23,6 @@ const Header = ({ onOpenNav }: Props) => {
         </IconButton>
         <Box sx={{ flexGrow: 1 }} />
 
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={{
-            xs: 0.5,
-            sm: 1
-          }}
-        >
-          <AccountPopover/>
-        </Stack>
       </StyledToolbar>
     </StyledRoot>
   )

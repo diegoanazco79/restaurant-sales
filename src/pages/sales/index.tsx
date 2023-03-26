@@ -1,6 +1,7 @@
 import { Container, Grid } from '@mui/material'
-import AddOrderCard from './components/addOrder'
 
+import AddOrderCard from './components/addOrder'
+import Filters from './components/Filters'
 import OrderCard from './components/orderCard'
 import Title from './components/Title'
 
@@ -19,10 +20,15 @@ const SalesPage = () => {
     onDeleteOrder, onEditOrder
   }
 
+  const filtersProps = {
+    roomType
+  }
+
   return (
     <Container maxWidth='xl'>
       <Title {...titleProps}/>
-      <Grid container spacing={3} marginTop={1}>
+      <Filters {...filtersProps} />
+      <Grid container spacing={3}>
         {orders?.map(order => (
           <Grid key={order.id} item xs={12} sm={6} md={3}>
             <OrderCard
