@@ -46,7 +46,7 @@ const GlobalStyles = () => {
               justifyContent: 'space-around',
               '& .swal2-confirm': {
                 fontWeight: 500,
-                fontFamily: 'DM Sans',
+                fontFamily: 'Montserrat',
                 lineHeight: 24 / 14,
                 fontSize: pxToRem(14),
                 backgroundColor: palette.primary.main,
@@ -60,7 +60,7 @@ const GlobalStyles = () => {
               },
               '& .swal2-cancel': {
                 fontWeight: 500,
-                fontFamily: 'DM Sans',
+                fontFamily: 'Montserrat',
                 lineHeight: 24 / 14,
                 fontSize: pxToRem(14),
                 ':focus': {
