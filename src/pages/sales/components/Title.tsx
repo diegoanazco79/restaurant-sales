@@ -4,7 +4,7 @@ import {
   Divider, Paper, Typography
 } from '@mui/material'
 
-import { StyledSwitchBtn } from './StyledSwitchBtn'
+import { StyledSwitchBtn } from './styled/StyledSwitchBtn'
 
 import useResponsive from 'helpers/hooks/useResponsive'
 import { getRoomTypeLabel } from '../helpers/functions'

@@ -1,12 +1,12 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
 import { Popover } from '@mui/material'
 
-import { StyledOrderBox } from '../StyledOrderBox'
-import EditOrder from './components/EditOrder'
+import { StyledOrderBox } from '../styled/StyledOrderBox'
+import EditOrder from './EditOrder'
 import Modal from 'components/modal/Modal'
-import OrderActions from './components/OrderActions'
-import OrderBody from './components/OrderBody'
-import OrderHeader from './components/OrderHeader'
+import OrderActions from './OrderActions'
+import OrderBody from './OrderBody'
+import OrderHeader from './OrderHeader'
 
 import { type OrderType } from 'pages/sales/interfaces/Orders'
 import styles from './styles'

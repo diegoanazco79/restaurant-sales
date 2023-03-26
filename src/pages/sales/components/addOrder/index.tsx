@@ -3,7 +3,7 @@ import { Typography } from '@mui/material'
 import Modal from 'components/modal/Modal'
 import { type Dispatch, type SetStateAction, useState } from 'react'
 
-import { StyledOrderBox } from '../StyledOrderBox'
+import { StyledOrderBox } from '../styled/StyledOrderBox'
 import AddOrderModal from './AddOrderModal'
 
 interface Props {
