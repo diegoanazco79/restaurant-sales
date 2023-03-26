@@ -15,7 +15,7 @@ import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
 import { type RoomType } from '../interfaces/Orders'
 
 interface Props {
-  roomType: string
+  roomType: RoomType['type']
   onChangeRoomType: (type: RoomType['type']) => void
 }
 

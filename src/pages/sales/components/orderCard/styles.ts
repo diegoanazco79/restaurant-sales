@@ -1,7 +1,7 @@
 const styles = {
   popoverPaper: {
     p: 0,
-    width: 120,
+    width: 'fit-content',
     '& .MuiMenuItem-root': {
       typography: 'body2',
       borderRadius: 0.75

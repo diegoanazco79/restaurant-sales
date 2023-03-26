@@ -15,9 +15,14 @@ interface Props {
   order: OrderType
   onDeleteOrder: (idOrder: string) => void
   onEditOrder: (idOrder: string, orderName: string, setOpenEditModal: Dispatch<SetStateAction<boolean>>) => void
+  onBlockOrder: (idOrder: string) => void
+  onUnlockOrder: (idOrder: string) => void
 }
 
-const OrderCard = ({ order, onDeleteOrder, onEditOrder }: Props) => {
+const OrderCard = ({
+  order, onDeleteOrder, onEditOrder, onBlockOrder,
+  onUnlockOrder
+}: Props) => {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null)
   const [openEditModal, setOpenEditModal] = useState(false)
 
@@ -38,16 +43,19 @@ const OrderCard = ({ order, onDeleteOrder, onEditOrder }: Props) => {
 
   const orderBodyProps = {
     startOrder: order?.start_order,
-    clients: order?.clients,
+    ambient: order?.ambient,
     status: order?.status,
     totalPayment: order?.total_payment
   }
 
   const orderActionsProps = {
     idOrder: order?.id,
+    status: order?.status,
     setOpen,
     setOpenEditModal,
-    onDeleteOrder
+    onDeleteOrder,
+    onBlockOrder,
+    onUnlockOrder
   }
 
   const editOrderProps = {

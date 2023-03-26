@@ -10,14 +10,15 @@ import useOrders from './hooks/useOrders'
 const SalesPage = () => {
   const {
     orders, roomType,
-    onDeleteOrder, onEditOrder, onAddOrder, onChangeRoomType
+    onDeleteOrder, onEditOrder, onAddOrder, onChangeRoomType,
+    onBlockOrder, onUnlockOrder
   } = useOrders()
 
   /* Component's Props */
   const titleProps = { roomType, onChangeRoomType }
 
   const orderCardProps = {
-    onDeleteOrder, onEditOrder
+    onDeleteOrder, onEditOrder, onBlockOrder, onUnlockOrder
   }
 
   const filtersProps = {

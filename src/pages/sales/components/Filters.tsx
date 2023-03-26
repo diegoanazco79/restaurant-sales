@@ -11,15 +11,16 @@ interface Props {
 const Filters = ({ roomType }: Props) => {
   return (
     <Box marginY={2}>
-      <Grid container direction='row'>
-        <Grid item sm={6} md={3} >
+      <Grid container>
+        <Grid item sm={6} md={3}>
           <SearchInput />
         </Grid>
         <Grid item sm={6} md={9} paddingLeft={2}>
-          <IconButton> <TuneIcon/></IconButton>
+          <IconButton>
+            <TuneIcon />
+          </IconButton>
         </Grid>
       </Grid>
-
     </Box>
   )
 }

@@ -1,11 +1,11 @@
-import { type OrderType } from '../interfaces/Orders'
+import { type RoomType } from '../interfaces/Orders'
 
 /**
  * Return a label for roomtype
- * @param roomType - OrderType['type']
+ * @param roomType - RoomType['type']
  * @returns A function that returns a string.
  */
-export const getRoomTypeLabel = (roomType: OrderType['type']) => {
+export const getRoomTypeLabel = (roomType: RoomType['type']) => {
   switch (roomType) {
     case 'restaurant':
       return 'Restaurante'

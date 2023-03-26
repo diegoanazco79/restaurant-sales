@@ -77,6 +77,82 @@ const useOrders = () => {
   }
 
   /**
+   * Handles when user want to block a order
+   * @param idOrder - Id order
+   */
+  const onBlockOrder = (idOrder: string) => {
+    void Swal.fire({
+      title: '¿Estas seguro de bloquear esta mesa?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, bloquear',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      preConfirm: () => {
+        try {
+          return { isConfirmed: true }
+        // eslint-disable-next-line no-unreachable
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if ((result.value?.isConfirmed) ?? false) {
+        void Swal.fire({
+          title: '¡Bloqueada!',
+          text: 'Su mesa ha sido bloqueada correctamente',
+          icon: 'success'
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+  /**
+   * Handles when user want to unlock a order
+   * @param idOrder - Id order
+   */
+  const onUnlockOrder = (idOrder: string) => {
+    void Swal.fire({
+      title: '¿Estas seguro de desbloquear esta mesa?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, desbloquear',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      preConfirm: () => {
+        try {
+          return { isConfirmed: true }
+        // eslint-disable-next-line no-unreachable
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if ((result.value?.isConfirmed) ?? false) {
+        void Swal.fire({
+          title: '¡Desbloqueada!',
+          text: 'Su mesa ha sido desbloqueada correctamente',
+          icon: 'success'
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+  /**
    * Handles when user want to delete a order
    * @param idOrder - Id order
    */
@@ -127,7 +203,9 @@ const useOrders = () => {
     onDeleteOrder,
     onEditOrder,
     onAddOrder,
-    onChangeRoomType
+    onChangeRoomType,
+    onBlockOrder,
+    onUnlockOrder
   }
 }
 
