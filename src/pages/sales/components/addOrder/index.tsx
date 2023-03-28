@@ -27,6 +27,7 @@ const AddOrderCard = ({ onAddOrder }: Props) => {
         <Typography variant="body1"> Añadir nueva mesa </Typography>
       </StyledOrderBox>
       <Modal
+        title='Añadir Mesa'
         open={openAddOrder}
         setOpen={setOpenAddOrder}
       >

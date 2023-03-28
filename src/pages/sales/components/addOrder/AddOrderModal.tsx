@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Stack, Typography } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { type Dispatch, type SetStateAction } from 'react'
 import * as Yup from 'yup'
@@ -20,46 +20,41 @@ const AddOrderModal = ({ setOpenAddOrder, onAddOrder }: Props) => {
   }
 
   return (
-    <>
-      <Typography variant='h5'>Añadir Mesa</Typography>
-      <Divider sx={{ mb: 2 }} />
-
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => { onAddOrder(values?.orderName, setOpenAddOrder) }}
-        validationSchema={validationSchema}
-      >
-        {() => {
-          return (
-            <Form>
-              <Stack spacing={2}>
-                <Input
-                  label='Nombre de Mesa'
-                  name="orderName"
-                  placeholder="Escribe aquí el nombre de tu mesa"
-                />
-                <Box display='flex' justifyContent='space-between'>
-                  <Button
-                    variant='contained'
-                    color='inherit'
-                    onClick={() => { setOpenAddOrder(false) }}
-                  >
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values) => { onAddOrder(values?.orderName, setOpenAddOrder) }}
+      validationSchema={validationSchema}
+    >
+      {() => {
+        return (
+          <Form>
+            <Stack spacing={2}>
+              <Input
+                label='Nombre de Mesa'
+                name="orderName"
+                placeholder="Escribe aquí el nombre de tu mesa"
+              />
+              <Box display='flex' justifyContent='space-between'>
+                <Button
+                  variant='contained'
+                  color='inherit'
+                  onClick={() => { setOpenAddOrder(false) }}
+                >
                       Cancelar
-                  </Button>
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    color='primary'
-                  >
+                </Button>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  color='primary'
+                >
                     Añadir
-                  </Button>
-                </Box>
-              </Stack>
-            </Form>
-          )
-        }}
-      </Formik>
-    </>
+                </Button>
+              </Box>
+            </Stack>
+          </Form>
+        )
+      }}
+    </Formik>
   )
 }
 

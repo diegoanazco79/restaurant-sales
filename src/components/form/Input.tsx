@@ -16,7 +16,7 @@ const Input = ({ label, className, ...props }: Props) => {
 
   return (
     <Box sx={{ span: { color: theme.palette.error.dark }, ...className }}>
-      <Typography variant="body2">
+      <Typography variant="body2" fontWeight={600}>
         {label}
       </Typography>
       <TextField
@@ -28,7 +28,11 @@ const Input = ({ label, className, ...props }: Props) => {
         {...props}
         {...field}
       />
-      <ErrorMessage name={props.name} component='span' className='formik-error' />
+      <ErrorMessage
+        className='formik-error'
+        name={props.name}
+        component='span'
+      />
     </Box>
   )
 }

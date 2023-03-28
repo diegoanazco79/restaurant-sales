@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Stack, Typography } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import { type Dispatch, type SetStateAction } from 'react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
@@ -25,45 +25,41 @@ const EditOrder = ({
   }
 
   return (
-    <>
-      <Typography variant='h5'>Editar Mesa</Typography>
-      <Divider sx={{ mb: 2 }} />
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values) => { onEditOrder(idOrder, values.orderName, setOpenEditModal) }}
-        validationSchema={validationSchema}
-      >
-        {() => {
-          return (
-            <Form>
-              <Stack spacing={2}>
-                <Input
-                  label='Nombre de Mesa'
-                  name="orderName"
-                  placeholder="Escribe aquí el nombre de tu mesa"
-                />
-                <Box display='flex' justifyContent='space-between'>
-                  <Button
-                    variant='contained'
-                    color='inherit'
-                    onClick={() => { setOpenEditModal(false) }}
-                  >
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values) => { onEditOrder(idOrder, values.orderName, setOpenEditModal) }}
+      validationSchema={validationSchema}
+    >
+      {() => {
+        return (
+          <Form>
+            <Stack spacing={2}>
+              <Input
+                label='Nombre de Mesa'
+                name="orderName"
+                placeholder="Escribe aquí el nombre de tu mesa"
+              />
+              <Box display='flex' justifyContent='space-between'>
+                <Button
+                  variant='contained'
+                  color='inherit'
+                  onClick={() => { setOpenEditModal(false) }}
+                >
                       Cancelar
-                  </Button>
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    color='primary'
-                  >
+                </Button>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  color='primary'
+                >
                     Editar
-                  </Button>
-                </Box>
-              </Stack>
-            </Form>
-          )
-        }}
-      </Formik>
-    </>
+                </Button>
+              </Box>
+            </Stack>
+          </Form>
+        )
+      }}
+    </Formik>
   )
 }
 

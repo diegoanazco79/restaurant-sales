@@ -1,14 +1,15 @@
-import { Box, Modal as MaterialModal, useTheme } from '@mui/material'
+import { Box, Divider, Modal as MaterialModal, Typography, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
 interface Props {
   open: boolean
+  title: string
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   children: JSX.Element
 }
 
-const Modal = ({ open, setOpen, children }: Props) => {
+const Modal = ({ open, title, setOpen, children }: Props) => {
   const theme = useTheme()
 
   const style = {
@@ -32,6 +33,8 @@ const Modal = ({ open, setOpen, children }: Props) => {
       onClose={() => { setOpen(false) }}
     >
       <Box sx={style}>
+        <Typography variant='h5'>{title}</Typography>
+        <Divider sx={{ mb: 2 }} />
         {children}
       </Box>
     </MaterialModal>

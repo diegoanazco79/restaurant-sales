@@ -10,3 +10,14 @@ export interface OrderType {
 export interface RoomType {
   type: 'restaurant' | 'delivery'
 }
+
+export interface OrdersAppliedFiltersType {
+  status: boolean
+  ambient: boolean
+}
+
+export interface OrdersFiltersType {
+  search: string
+  status: string
+  ambient: string
+}

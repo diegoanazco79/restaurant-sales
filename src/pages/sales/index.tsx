@@ -1,7 +1,7 @@
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Typography } from '@mui/material'
 
 import AddOrderCard from './components/addOrder'
-import Filters from './components/Filters'
+import OrdersFilters from './components/OrdersFilters'
 import OrderCard from './components/orderCard'
 import Title from './components/Title'
 
@@ -9,9 +9,10 @@ import useOrders from './hooks/useOrders'
 
 const SalesPage = () => {
   const {
-    orders, roomType,
+    orders, roomType, filters: orderFilters, appliedFilters: orderAppliedFilters,
     onDeleteOrder, onEditOrder, onAddOrder, onChangeRoomType,
-    onBlockOrder, onUnlockOrder
+    onBlockOrder, onUnlockOrder, onFilterByStatus, onFilterByAmbient, onDeleteStatusFilter,
+    onDeleteAmbientFilter
   } = useOrders()
 
   /* Component's Props */
@@ -21,27 +22,37 @@ const SalesPage = () => {
     onDeleteOrder, onEditOrder, onBlockOrder, onUnlockOrder
   }
 
-  const filtersProps = {
-    roomType
+  const orderFiltersProps = {
+    orderFilters,
+    orderAppliedFilters,
+    onFilterByStatus,
+    onFilterByAmbient,
+    onDeleteStatusFilter,
+    onDeleteAmbientFilter
   }
 
   return (
     <Container maxWidth='xl'>
       <Title {...titleProps}/>
-      <Filters {...filtersProps} />
-      <Grid container spacing={3}>
-        {orders?.map(order => (
-          <Grid key={order.id} item xs={12} sm={6} md={3}>
-            <OrderCard
-              order={order}
-              {...orderCardProps}
-            />
+      <OrdersFilters {...orderFiltersProps} />
+      {roomType === 'restaurant' && (
+        <Grid container spacing={3}>
+          {orders?.map(order => (
+            <Grid key={order.id} item xs={12} sm={6} md={3}>
+              <OrderCard
+                order={order}
+                {...orderCardProps}
+              />
+            </Grid>
+          ))}
+          <Grid item xs={12} sm={6} md={3}>
+            <AddOrderCard onAddOrder={onAddOrder}/>
           </Grid>
-        ))}
-        <Grid item xs={12} sm={6} md={3}>
-          <AddOrderCard onAddOrder={onAddOrder}/>
         </Grid>
-      </Grid>
+      )}
+      {roomType === 'delivery' && (
+        <Typography>Órdenes por delivery</Typography>
+      )}
     </Container>
   )
 }

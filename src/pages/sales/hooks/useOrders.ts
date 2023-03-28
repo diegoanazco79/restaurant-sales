@@ -1,12 +1,50 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
 import Swal from 'sweetalert2'
+import { initialOrdersAppliedFilters, initialOrdersFilters } from '../helpers/constants'
 
-import { type RoomType, type OrderType } from '../interfaces/Orders'
+import { type RoomType, type OrderType, type OrdersAppliedFiltersType } from '../interfaces/Orders'
 import { ordersMock } from '../mock/ordersMock'
 
 const useOrders = () => {
   const [roomType, setRoomType] = useState<RoomType['type']>('restaurant')
   const [orders] = useState<OrderType[]>(ordersMock)
+
+  const [filters, setFilters] = useState(initialOrdersFilters)
+  const [appliedFilters, setAppliedFilters] = useState<OrdersAppliedFiltersType>(initialOrdersAppliedFilters)
+
+  /**
+ * Handles when user filter orders by status
+ * @param {string} status - string - this is the status that is passed in from the filter component
+ */
+  const onFilterByStatus = (status: string) => {
+    setFilters({ ...filters, status })
+    setAppliedFilters({ ...appliedFilters, status: true })
+  }
+
+  /**
+ * Handles when user filter orders by ambient
+ * @param {string} status - string - this is the ambient that is passed in from the filter component
+ */
+  const onFilterByAmbient = (ambient: string) => {
+    setFilters({ ...filters, ambient })
+    setAppliedFilters({ ...appliedFilters, ambient: true })
+  }
+
+  /**
+ * Handles when user detele status filter
+ */
+  const onDeleteStatusFilter = () => {
+    setFilters({ ...filters, status: '' })
+    setAppliedFilters({ ...appliedFilters, status: false })
+  }
+
+  /**
+ * Handles when user detele ambient filter
+ */
+  const onDeleteAmbientFilter = () => {
+    setFilters({ ...filters, ambient: '' })
+    setAppliedFilters({ ...appliedFilters, ambient: false })
+  }
 
   /**
  * Handles a switch roomtype button
@@ -196,6 +234,8 @@ const useOrders = () => {
     /* States */
     orders,
     roomType,
+    filters,
+    appliedFilters,
 
     /* Function States */
 
@@ -205,7 +245,11 @@ const useOrders = () => {
     onAddOrder,
     onChangeRoomType,
     onBlockOrder,
-    onUnlockOrder
+    onUnlockOrder,
+    onFilterByStatus,
+    onFilterByAmbient,
+    onDeleteStatusFilter,
+    onDeleteAmbientFilter
   }
 }
 

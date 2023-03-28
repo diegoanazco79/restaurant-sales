@@ -35,6 +35,11 @@ export default function Button (theme: any) {
           textTransform: 'none',
           fontWeight: '500'
         },
+        outlinedPrimary: {
+          boxShadow: 'none',
+          textTransform: 'none',
+          fontWeight: '500'
+        },
         outlinedInherit: {
           border: `1px solid ${alpha(theme.palette.grey[500], 0.32)}`,
           '&:hover': {

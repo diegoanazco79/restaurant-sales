@@ -69,6 +69,9 @@ const GlobalStyles = () => {
                 }
               }
             }
+          },
+          '& .MuiAutocomplete-listbox': {
+            fontSize: pxToRem(14)
           }
         },
         '#root': {

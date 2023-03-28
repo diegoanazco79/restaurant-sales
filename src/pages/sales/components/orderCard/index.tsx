@@ -85,6 +85,7 @@ const OrderCard = ({
         <OrderActions {...orderActionsProps} />
       </Popover>
       <Modal
+        title='Editar Mesa'
         open={openEditModal}
         setOpen={setOpenEditModal}
       >
