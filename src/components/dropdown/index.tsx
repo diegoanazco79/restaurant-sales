@@ -43,6 +43,7 @@ const Dropdown = ({ buttonLabel, selected, sx, options }: Props) => {
         sx={{
           ...sx,
           height: '100%',
+          justifyContent: 'space-between',
           ...(!open) && {
             borderColor: alpha(theme.palette.grey[500], 0.32),
             color: theme.palette.grey[800]
