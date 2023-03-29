@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import Input from 'components/form/Input'
 import Modal from 'components/modal/Modal'
 import Select, { type Option } from 'components/form/Select'
-import { StyledTableBox } from '../../styled/StyledTableBox'
+import { StyledTableBox } from '../styled/StyledTableBox'
 
 import AddIcon from '@mui/icons-material/Add'
 import { ambientsMock } from '../../mock/ambientsMock'

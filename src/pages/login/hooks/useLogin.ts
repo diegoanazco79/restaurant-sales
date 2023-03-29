@@ -44,7 +44,7 @@ const useLogin = () => {
       username: 'danazcob'
     })
     setRoles([{ id: 'id_admin', name: 'Admin' }])
-    navigate('/sales')
+    navigate('/restaurant')
   }
 
   /* Handles a hide/unhide password button */

@@ -1,10 +1,10 @@
 import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material'
 
 import FiltersMobile from './modals/FiltersMobile'
+import { StyledFilterBadge } from './styled/StyledFilterBadge'
 
 import TuneIcon from '@mui/icons-material/Tune'
 import { type AppliedFiltersType, type FiltersType } from '../interfaces/Tables'
-import { StyledFilterBadge } from '../styled/StyledFilterBadge'
 
 interface Props {
   showFiltersModal: boolean

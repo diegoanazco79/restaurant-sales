@@ -15,6 +15,8 @@ const useRestaurant = () => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [currentTableEdit, setCurrentTableEdit] = useState<TableType>(initialTable)
 
+  const [tableOrder, setTableOrder] = useState<TableType>(initialTable)
+
   /**
  * Handles when user filter tables by status
  * @param {string} status - string - this is the status that is passed in from the filter component
@@ -233,11 +235,13 @@ const useRestaurant = () => {
     showEditModal,
     currentTableEdit,
     showFiltersModal,
+    tableOrder,
 
     /* Function States */
     setShowEditModal,
     setCurrentTableEdit,
     setShowFiltersModal,
+    setTableOrder,
 
     /* Functions */
     onDeleteTable,

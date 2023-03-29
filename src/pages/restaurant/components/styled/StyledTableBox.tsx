@@ -3,7 +3,7 @@ import { alpha, Box, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-import { BLOCKED, EMPTY, IN_PROGRESS } from '../helpers/constants'
+import { BLOCKED, EMPTY, IN_PROGRESS } from '../../helpers/constants'
 
 interface Props {
   status: string

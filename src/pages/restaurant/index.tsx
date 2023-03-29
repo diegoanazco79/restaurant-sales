@@ -5,17 +5,20 @@ import EditTable from './components/modals/EditTable'
 import Filters from './components/Filters'
 import Modal from 'components/modal/Modal'
 import Navigation from './components/Navigation'
+import OrderManagement from 'containers/orderManagement'
 import TableCard from './components/TableCard'
 import TitlePage from 'components/titlePage'
 
 import useRestaurant from './hooks/useRestaurant'
 import useResponsive from 'helpers/hooks/useResponsive'
 
+import { initialTable } from './helpers/constants'
+
 const RestaurantPage = () => {
   const {
     filters, appliedFilters, tables, showEditModal, currentTableEdit,
-    showFiltersModal,
-    setShowEditModal, setCurrentTableEdit, setShowFiltersModal,
+    showFiltersModal, tableOrder,
+    setShowEditModal, setCurrentTableEdit, setShowFiltersModal, setTableOrder,
     onAddTable, onDeleteTable, onEditTable, onBlockTable, onUnlockTable,
     onFilterByStatus, onFilterByAmbient, onDeleteStatusFilter, onDeleteAmbientFilter
   } = useRestaurant()
@@ -35,6 +38,7 @@ const RestaurantPage = () => {
   const tableCardProps = {
     setShowEditModal,
     setCurrentTableEdit,
+    setTableOrder,
     onDeleteTable,
     onEditTable,
     onBlockTable,
@@ -58,32 +62,46 @@ const RestaurantPage = () => {
     onDeleteAmbientFilter
   }
 
+  const orderManagementProps = {
+    tableOrder,
+    roomType: 'restaurant',
+    onBackAction: () => { setTableOrder(initialTable) }
+  }
+
   return (
-    <Container maxWidth='xl'>
-      <TitlePage title='Restaurante' />
-      {!isMobileOrTablet && <Filters {...filtersProps} /> }
-      {isMobileOrTablet && <Navigation {...navigationProps} />}
-      <Grid container spacing={3}>
-        {tables?.map(table => (
-          <Grid key={table.id} item xs={12} sm={6} md={3}>
-            <TableCard
-              table={table}
-              {...tableCardProps}
-            />
-          </Grid>
-        ))}
-        <Grid item xs={12} sm={6} md={3}>
-          <AddTable onAddTable={onAddTable}/>
-        </Grid>
-      </Grid>
-      <Modal
-        open={showEditModal}
-        setOpen={setShowEditModal}
-        title='Editar Mesa'
-      >
-        <EditTable {...editTableProps} />
-      </Modal>
-    </Container>
+    <>
+      {tableOrder === initialTable
+        ? (
+          <Container maxWidth='xl'>
+            <TitlePage title='Restaurante' />
+            {!isMobileOrTablet && <Filters {...filtersProps} /> }
+            {isMobileOrTablet && <Navigation {...navigationProps} />}
+            <Grid container spacing={3}>
+              {tables?.map(table => (
+                <Grid key={table.id} item xs={12} sm={6} md={3}>
+                  <TableCard
+                    table={table}
+                    {...tableCardProps}
+                  />
+                </Grid>
+              ))}
+              <Grid item xs={12} sm={6} md={3}>
+                <AddTable onAddTable={onAddTable}/>
+              </Grid>
+            </Grid>
+            <Modal
+              open={showEditModal}
+              setOpen={setShowEditModal}
+              title='Editar Mesa'
+            >
+              <EditTable {...editTableProps} />
+            </Modal>
+          </Container>
+        )
+        : (
+          <OrderManagement {...orderManagementProps} />
+        )}
+    </>
   )
 }
 

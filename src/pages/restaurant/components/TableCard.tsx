@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Popover } from '@mui/material'
 
-import { StyledTableBox } from '../styled/StyledTableBox'
 import TableActions from './TableActions'
 import TableBody from './tableCard/TableBody'
 import TableHeader from './tableCard/TableHeader'
+import { StyledTableBox } from './styled/StyledTableBox'
 
 import { type TableType } from '../interfaces/Tables'
 
@@ -12,16 +12,16 @@ interface Props {
   table: TableType
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>
   setCurrentTableEdit: React.Dispatch<React.SetStateAction<TableType>>
+  setTableOrder: React.Dispatch<React.SetStateAction<TableType>>
   onDeleteTable: (idTable: string) => void
-  onEditTable: (idTable: string, orderName: string, setOpenEditModal: React.Dispatch<React.SetStateAction<boolean>>) => void
   onBlockTable: (idTable: string) => void
   onUnlockTable: (idTable: string) => void
 }
 
 const TableCard = ({
   table,
-  setShowEditModal, setCurrentTableEdit,
-  onDeleteTable, onEditTable, onBlockTable, onUnlockTable
+  setShowEditModal, setCurrentTableEdit, setTableOrder,
+  onDeleteTable, onBlockTable, onUnlockTable
 }: Props) => {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null)
 
@@ -61,7 +61,7 @@ const TableCard = ({
   return (
     <>
       <StyledTableBox
-        onClick={() => { console.log('Click') }}
+        onClick={() => { setTableOrder(table) }}
         status={table?.status}
       >
         <TableHeader {...tableHeaderProps} />
