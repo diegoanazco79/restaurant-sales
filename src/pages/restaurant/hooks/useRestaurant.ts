@@ -1,19 +1,22 @@
 import { type Dispatch, type SetStateAction, useState } from 'react'
 import Swal from 'sweetalert2'
-import { initialOrdersAppliedFilters, initialOrdersFilters } from '../helpers/constants'
 
-import { type RoomType, type OrderType, type OrdersAppliedFiltersType } from '../interfaces/Orders'
-import { ordersMock } from '../mock/ordersMock'
+import { tablesMock } from '../mock/tablesMock'
+import { initialOrdersAppliedFilters, initialOrdersFilters, initialTable } from '../helpers/constants'
+import { type AppliedFiltersType, type FiltersType, type TableType } from '../interfaces/Tables'
 
-const useOrders = () => {
-  const [roomType, setRoomType] = useState<RoomType['type']>('restaurant')
-  const [orders] = useState<OrderType[]>(ordersMock)
+const useRestaurant = () => {
+  const [tables] = useState<TableType[]>(tablesMock)
 
-  const [filters, setFilters] = useState(initialOrdersFilters)
-  const [appliedFilters, setAppliedFilters] = useState<OrdersAppliedFiltersType>(initialOrdersAppliedFilters)
+  const [showFiltersModal, setShowFiltersModal] = useState(false)
+  const [filters, setFilters] = useState<FiltersType>(initialOrdersFilters)
+  const [appliedFilters, setAppliedFilters] = useState<AppliedFiltersType>(initialOrdersAppliedFilters)
+
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [currentTableEdit, setCurrentTableEdit] = useState<TableType>(initialTable)
 
   /**
- * Handles when user filter orders by status
+ * Handles when user filter tables by status
  * @param {string} status - string - this is the status that is passed in from the filter component
  */
   const onFilterByStatus = (status: string) => {
@@ -22,7 +25,7 @@ const useOrders = () => {
   }
 
   /**
- * Handles when user filter orders by ambient
+ * Handles when user filter tables by ambient
  * @param {string} status - string - this is the ambient that is passed in from the filter component
  */
   const onFilterByAmbient = (ambient: string) => {
@@ -39,7 +42,7 @@ const useOrders = () => {
   }
 
   /**
- * Handles when user detele ambient filter
+ * Handles when user delete ambient filter
  */
   const onDeleteAmbientFilter = () => {
     setFilters({ ...filters, ambient: '' })
@@ -47,29 +50,11 @@ const useOrders = () => {
   }
 
   /**
- * Handles when user apply orders filters in mobile or tablet
- * @param {string} status
- * @param {string} ambient
- */
-  const onApplyModalFilters = (status: string, ambient: string) => {
-    setFilters({ ...filters, status, ambient })
-    setAppliedFilters({ ...appliedFilters, status: status !== '', ambient: ambient !== '' })
-  }
-
-  /**
- * Handles a switch roomtype button
- * @param type - RoomType['type']
- */
-  const onChangeRoomType = (type: RoomType['type']) => {
-    setRoomType(type)
-  }
-
-  /**
-   * Handles when user want to add a order
-   * @param orderName - New order name
+   * Handles when user want to add a table
+   * @param tableName - New table name
    */
-  const onAddOrder = (
-    orderName: string,
+  const onAddTable = (
+    tableName: string,
     setShow: Dispatch<SetStateAction<boolean>>
   ) => {
     setShow(false)
@@ -80,13 +65,13 @@ const useOrders = () => {
   }
 
   /**
-   * Handles when user want to edit a order
-   * @param idOrder - Id order
-   * @param orderName - New order name
+   * Handles when user want to edit a rable
+   * @param idTable - Id order
+   * @param tableName - New table name
    */
-  const onEditOrder = (
-    idOrder: string,
-    orderName: string,
+  const onEditTable = (
+    idTable: any,
+    tableName: string,
     setOpenEditModal: Dispatch<SetStateAction<boolean>>
   ) => {
     void Swal.fire({
@@ -125,10 +110,10 @@ const useOrders = () => {
   }
 
   /**
-   * Handles when user want to block a order
-   * @param idOrder - Id order
+   * Handles when user want to block a table
+   * @param idTable - Id table
    */
-  const onBlockOrder = (idOrder: string) => {
+  const onBlockTable = (idTable: string) => {
     void Swal.fire({
       title: '¿Estas seguro de bloquear esta mesa?',
       icon: 'warning',
@@ -163,10 +148,10 @@ const useOrders = () => {
   }
 
   /**
-   * Handles when user want to unlock a order
-   * @param idOrder - Id order
+   * Handles when user want to unlock a table
+   * @param idTable - Id table
    */
-  const onUnlockOrder = (idOrder: string) => {
+  const onUnlockTable = (idTable: string) => {
     void Swal.fire({
       title: '¿Estas seguro de desbloquear esta mesa?',
       icon: 'warning',
@@ -201,10 +186,10 @@ const useOrders = () => {
   }
 
   /**
-   * Handles when user want to delete a order
-   * @param idOrder - Id order
+   * Handles when user want to delete a table
+   * @param idTable - Id table
    */
-  const onDeleteOrder = (idOrder: string) => {
+  const onDeleteTable = (idTable: string) => {
     void Swal.fire({
       title: '¿Estas seguro de eliminar esta mesa?',
       text: 'Esta acción no se puede deshacer',
@@ -242,26 +227,29 @@ const useOrders = () => {
 
   return {
     /* States */
-    orders,
-    roomType,
+    tables,
     filters,
     appliedFilters,
+    showEditModal,
+    currentTableEdit,
+    showFiltersModal,
 
     /* Function States */
+    setShowEditModal,
+    setCurrentTableEdit,
+    setShowFiltersModal,
 
     /* Functions */
-    onDeleteOrder,
-    onEditOrder,
-    onAddOrder,
-    onChangeRoomType,
-    onBlockOrder,
-    onUnlockOrder,
+    onDeleteTable,
+    onEditTable,
+    onAddTable,
+    onBlockTable,
+    onUnlockTable,
     onFilterByStatus,
     onFilterByAmbient,
     onDeleteStatusFilter,
-    onDeleteAmbientFilter,
-    onApplyModalFilters
+    onDeleteAmbientFilter
   }
 }
 
-export default useOrders
+export default useRestaurant

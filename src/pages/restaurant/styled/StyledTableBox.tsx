@@ -3,13 +3,13 @@ import { alpha, Box, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-import { BLOCKED, EMPTY, IN_PROGRESS } from 'pages/sales/helpers/constants'
+import { BLOCKED, EMPTY, IN_PROGRESS } from '../helpers/constants'
 
 interface Props {
   status: string
 }
 
-export const StyledOrderBox = styled(Box)(({ status }: Props) => {
+export const StyledTableBox = styled(Box)(({ status }: Props) => {
   const theme = useTheme()
 
   /**
@@ -45,9 +45,9 @@ export const StyledOrderBox = styled(Box)(({ status }: Props) => {
   }
 
   return {
-    height: '184px',
-    minHeight: '184px',
-    maxHeight: '184px',
+    height: pxToRem(184),
+    minHeight: pxToRem(184),
+    maxHeight: pxToRem(184),
     cursor: 'pointer',
     padding: pxToRem(24),
     borderRadius: pxToRem(12),

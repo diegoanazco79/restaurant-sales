@@ -1,16 +1,16 @@
 import { adminRole } from 'helpers/constants'
 
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore'
 import QueryStatsIcon from '@mui/icons-material/QueryStats'
+import StorefrontIcon from '@mui/icons-material/Storefront'
 
 export const menuItems = [
   {
-    id: 'sales',
+    id: 'restaurant',
     main: true,
-    name: 'Ventas',
-    to: '/sales',
+    name: 'Restaurante',
+    to: '/restaurant',
     roles: [],
-    icon: <LocalGroceryStoreIcon />
+    icon: <StorefrontIcon />
   },
   {
     id: 'analytics-reports',

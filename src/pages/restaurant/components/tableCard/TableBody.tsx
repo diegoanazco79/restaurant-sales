@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 
 import Badge from 'components/badge'
 
-import { BLOCKED, EMPTY, IN_PROGRESS } from 'pages/sales/helpers/constants'
+import { BLOCKED, IN_PROGRESS, EMPTY } from 'pages/restaurant/helpers/constants'
 
 interface Props {
   startOrder: string
@@ -11,7 +11,7 @@ interface Props {
   totalPayment: number
 }
 
-const OrderBody = ({ startOrder, ambient, status, totalPayment }: Props) => {
+const TableBody = ({ startOrder, ambient, status, totalPayment }: Props) => {
   return (
     <Box pt={2}>
       {status === EMPTY && (
@@ -44,4 +44,4 @@ const OrderBody = ({ startOrder, ambient, status, totalPayment }: Props) => {
   )
 }
 
-export default OrderBody
+export default TableBody

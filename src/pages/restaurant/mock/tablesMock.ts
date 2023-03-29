@@ -1,4 +1,4 @@
-export const ordersMock = [
+export const tablesMock = [
   {
     id: 'mesa-01',
     name: 'Mesa 01',

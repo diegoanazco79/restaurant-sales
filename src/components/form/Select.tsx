@@ -2,7 +2,7 @@ import { type SyntheticEvent } from 'react'
 import { ErrorMessage } from 'formik'
 import { Autocomplete, Box, type SxProps, TextField, type Theme, Typography, useTheme } from '@mui/material'
 
-interface Option {
+export interface Option {
   id: string
   label: string
 }
@@ -10,6 +10,7 @@ interface Option {
 interface Props {
   label: string
   name: string
+  placeholder: string
   options: Option[]
   initValue?: Option | undefined
   className?: SxProps<Theme>
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const Select = ({
-  label, options, className, initValue,
+  label, options, className, initValue, placeholder,
   onChange, ...props
 }: Props) => {
   const theme = useTheme()
@@ -47,6 +48,7 @@ const Select = ({
             InputLabelProps={{
               shrink: true
             }}
+            placeholder={placeholder}
             variant="outlined"
             {...props}
           />

@@ -8,16 +8,14 @@ export const StyledFilterBadge = styled(Badge)(() => {
 
   return {
     padding: 5,
-    position: 'fixed',
-    bottom: 70,
-    zIndex: 10,
-    width: 'fit-content',
-    left: 0,
-    right: 0,
-    margin: 'auto',
     borderRadius: pxToRem(5),
     backgroundColor: theme.palette.common.white,
-    border: `${pxToRem(1)} solid ${theme.palette.grey[300]}`,
+    '& .MuiBadge-badge': {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '0 4px'
+    },
     '& .MuiBadge-standard': {
       fontSize: pxToRem(10),
       fontWeight: 500,

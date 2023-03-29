@@ -1,26 +1,27 @@
-import { type Dispatch, type SetStateAction } from 'react'
+import React from 'react'
 import { ListItemIcon, MenuItem, Stack, Typography, useTheme } from '@mui/material'
 
-import { EMPTY, IN_PROGRESS } from 'pages/sales/helpers/constants'
-
+import { type TableType } from '../interfaces/Tables'
+import { EMPTY, IN_PROGRESS } from '../helpers/constants'
 import BlockIcon from '@mui/icons-material/Block'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 interface Props {
-  idOrder: string
+  table: TableType
   status: string
-  onDeleteOrder: (idOrder: string) => void
-  setOpen: Dispatch<SetStateAction<HTMLButtonElement | null>>
-  setOpenEditModal: (open: boolean) => void
-  onBlockOrder: (idOrder: string) => void
-  onUnlockOrder: (idOrder: string) => void
+  onDeleteTable: (idTable: string) => void
+  setOpen: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>
+  setShowEditModal: (open: boolean) => void
+  setCurrentTableEdit: React.Dispatch<React.SetStateAction<TableType>>
+  onBlockTable: (idTable: string) => void
+  onUnlockTable: (idTable: string) => void
 }
 
-const OrderActions = ({
-  idOrder, status,
-  setOpen, setOpenEditModal,
-  onDeleteOrder, onBlockOrder, onUnlockOrder
+const TableActions = ({
+  table, status,
+  setOpen, setShowEditModal, setCurrentTableEdit,
+  onDeleteTable, onBlockTable, onUnlockTable
 }: Props) => {
   const { palette } = useTheme()
 
@@ -29,18 +30,19 @@ const OrderActions = ({
       <MenuItem
         sx={{ px: 1 }}
         onClick={() => {
-          setOpenEditModal(true)
+          setCurrentTableEdit(table)
+          setShowEditModal(true)
           setOpen(null)
         }}>
         <ListItemIcon>
           <EditIcon fontSize="small" />
         </ListItemIcon>
-        Editar
+      Editar
       </MenuItem>
       <MenuItem
         sx={{ px: 1 }}
         onClick={() => {
-          [EMPTY, IN_PROGRESS].includes(status) ? onBlockOrder(idOrder) : onUnlockOrder(idOrder)
+          [EMPTY, IN_PROGRESS].includes(status) ? onBlockTable(table?.id) : onUnlockTable(table?.id)
           setOpen(null)
         }}>
         <ListItemIcon>
@@ -59,7 +61,7 @@ const OrderActions = ({
       <MenuItem
         sx={{ px: 1 }}
         onClick={() => {
-          onDeleteOrder(idOrder)
+          onDeleteTable(table?.id)
           setOpen(null)
         }}>
         <ListItemIcon>
@@ -72,11 +74,11 @@ const OrderActions = ({
           sx={{ color: palette.error.main }}
           variant='body2'
         >
-          Delete
+        Delete
         </Typography>
       </MenuItem>
     </Stack>
   )
 }
 
-export default OrderActions
+export default TableActions

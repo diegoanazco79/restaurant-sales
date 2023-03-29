@@ -12,3 +12,12 @@ export const initialOrdersAppliedFilters = {
   status: false,
   ambient: false
 }
+
+export const initialTable = {
+  id: '',
+  name: '',
+  start_order: '',
+  ambient: '',
+  total_payment: 0,
+  status: ''
+}
