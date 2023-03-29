@@ -47,6 +47,16 @@ const useOrders = () => {
   }
 
   /**
+ * Handles when user apply orders filters in mobile or tablet
+ * @param {string} status
+ * @param {string} ambient
+ */
+  const onApplyModalFilters = (status: string, ambient: string) => {
+    setFilters({ ...filters, status, ambient })
+    setAppliedFilters({ ...appliedFilters, status: status !== '', ambient: ambient !== '' })
+  }
+
+  /**
  * Handles a switch roomtype button
  * @param type - RoomType['type']
  */
@@ -249,7 +259,8 @@ const useOrders = () => {
     onFilterByStatus,
     onFilterByAmbient,
     onDeleteStatusFilter,
-    onDeleteAmbientFilter
+    onDeleteAmbientFilter,
+    onApplyModalFilters
   }
 }
 
