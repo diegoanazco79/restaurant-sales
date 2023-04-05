@@ -1,6 +1,7 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material'
 
 import FirstPageIcon from '@mui/icons-material/FirstPage'
+import FastfoodIcon from '@mui/icons-material/Fastfood'
 
 interface Props {
   onBackAction: () => void
@@ -15,6 +16,11 @@ const Navigation = ({ onBackAction }: Props) => {
         <BottomNavigationAction
           label="Volver"
           icon={<FirstPageIcon />}
+          onClick={onBackAction}
+        />
+        <BottomNavigationAction
+          label="Productos"
+          icon={<FastfoodIcon />}
           onClick={onBackAction}
         />
       </BottomNavigation>

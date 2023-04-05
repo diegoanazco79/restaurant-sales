@@ -72,7 +72,7 @@ const RestaurantPage = () => {
     <>
       {tableOrder === initialTable
         ? (
-          <Container maxWidth='xl'>
+          <Container maxWidth='xl' sx={{ height: '100%' }}>
             <TitlePage title='Restaurante' />
             {!isMobileOrTablet && <Filters {...filtersProps} /> }
             {isMobileOrTablet && <Navigation {...navigationProps} />}
