@@ -3,9 +3,18 @@ import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import Counter from './Counter'
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import { useState } from 'react'
 
-const Item = () => {
+interface Props {
+  id: string
+  name: string
+  price: number
+}
+
+const Item = ({ id, name, price }: Props) => {
   const theme = useTheme()
+
+  const [counter, setCounter] = useState(1)
 
   return (
     <Grid
@@ -23,16 +32,18 @@ const Item = () => {
         </IconButton>
       </Grid>
       <Grid item xs={5} sm={6} md={6}>
-        <Typography variant='body2'>
-        Pollo a la brasa
-        </Typography>
+        <Typography variant='body2'> {name} </Typography>
       </Grid>
       <Grid item xs={3} sm={3} md={3}>
-        <Counter />
+        <Counter
+          counter={counter}
+          setCounter={setCounter}
+          price={price}
+        />
       </Grid>
       <Grid item xs={3} sm={2} md={2}>
         <Typography variant='body2'>
-        S/ 178.50
+          S/ {price * counter}
         </Typography>
       </Grid>
     </Grid>

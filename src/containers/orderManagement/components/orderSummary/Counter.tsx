@@ -1,14 +1,19 @@
-import { useState } from 'react'
 import { Box, IconButton, Typography, useTheme } from '@mui/material'
+
+import useResponsive from 'helpers/hooks/useResponsive'
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined'
-import useResponsive from 'helpers/hooks/useResponsive'
 
-const Counter = () => {
+interface Props {
+  counter: number
+  price: number
+  setCounter: React.Dispatch<React.SetStateAction<number>>
+}
+
+const Counter = ({ counter, price, setCounter }: Props) => {
   const theme = useTheme()
   const { isMobileOrTablet } = useResponsive()
-  const [counter, setCounter] = useState(1)
 
   const handleDecrease = () => {
     if (counter > 1) {
