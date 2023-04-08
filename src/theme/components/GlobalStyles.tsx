@@ -18,6 +18,16 @@ const GlobalStyles = () => {
           height: '100%',
           WebkitOverflowScrolling: 'touch'
         },
+        '::-webkit-scrollbar': {
+          width: pxToRem(5)
+        },
+        '::-webkit-scrollbar-track': {
+          backgroundColor: palette.grey[200]
+        },
+        '::-webkit-scrollbar-thumb': {
+          backgroundColor: '#888',
+          borderRadius: pxToRem(5)
+        },
         body: {
           margin: 0,
           padding: 0,

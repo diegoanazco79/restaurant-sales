@@ -1,4 +1,4 @@
-const ordersMock = [
+const productsMock = [
   { id: '001', name: 'Ensalada César', price: 12.99 },
   { id: '002', name: 'Pizza Margarita', price: 15.5 },
   { id: '003', name: 'Bife de Chorizo', price: 24.75 },
@@ -16,4 +16,4 @@ const ordersMock = [
   { id: '015', name: 'Pastel de Chocolate', price: 8.75 }
 ]
 
-export default ordersMock
+export default productsMock

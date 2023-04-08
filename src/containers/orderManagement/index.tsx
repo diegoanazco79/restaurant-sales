@@ -1,5 +1,6 @@
 import { Button, Container, Grid } from '@mui/material'
 
+import CategoriesList from './components/categories'
 import Navigation from './components/Navigation'
 import OrderSummary from './components/orderSummary'
 import TitlePage from 'components/titlePage'
@@ -15,31 +16,27 @@ interface Props {
 }
 
 const OrderManagement = ({ roomType, tableOrder, onBackAction }: Props) => {
-  const orderName = tableOrder?.name ?? ''
-
   const { isMobileOrTablet } = useResponsive()
 
   return (
-    <Container maxWidth='xl' sx={{ height: '100%' }}>
+    <Container maxWidth="xl" sx={{ height: '100%' }}>
       {!isMobileOrTablet && (
-        <Button variant='text' onClick={onBackAction} >
+        <Button variant="text" onClick={onBackAction}>
           {' < Volver a las mesas'}
         </Button>
       )}
-      <TitlePage title={`Orden - ${orderName}`} />
-      <Grid container height='90%'>
+      <TitlePage title="Administración del Pedido" />
+      <Grid container height="90%">
         <Grid item xs={12} sm={12} md={6}>
           <OrderSummary />
         </Grid>
         {!isMobileOrTablet && (
-          <Grid item xs={12} sm={12} md={6}>
-            Productos
+          <Grid item xs={12} sm={12} md={6} paddingLeft={2} paddingTop={2}>
+            <CategoriesList />
           </Grid>
         )}
       </Grid>
-      {isMobileOrTablet && (
-        <Navigation onBackAction={onBackAction} />
-      )}
+      {isMobileOrTablet && <Navigation onBackAction={onBackAction} />}
     </Container>
   )
 }
