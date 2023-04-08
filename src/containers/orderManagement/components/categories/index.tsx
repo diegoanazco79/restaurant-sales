@@ -16,7 +16,7 @@ const CategoriesList = () => {
         </Typography>
       </Box>
       <CategoriesLayout>
-        <CategoryItem id="all-category-btn" name="Todas" selected={true} />
+        <CategoryItem id="all-category-btn" name="Todos" selected={true} />
         {categoriesMock.map((category) => (
           <CategoryItem
             key={category.id}

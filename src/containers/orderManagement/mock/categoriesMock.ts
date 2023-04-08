@@ -10,10 +10,7 @@ const categoriesMock = [
   { id: '9', name: 'Postres' },
   { id: '10', name: 'Bebidas' },
   { id: '11', name: 'Vinos' },
-  { id: '12', name: 'Cervezas' },
-  { id: '13', name: 'Cócteles' },
-  { id: '14', name: 'Bocadillos' },
-  { id: '15', name: 'Desayunos' }
+  { id: '12', name: 'Cervezas' }
 ]
 
 export default categoriesMock

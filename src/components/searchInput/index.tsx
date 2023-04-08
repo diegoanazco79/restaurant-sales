@@ -1,14 +1,17 @@
-import { InputAdornment, TextField } from '@mui/material'
+import { InputAdornment, type SxProps, TextField, type Theme } from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search'
 
-import styles from './styles'
+interface Props {
+  sx?: SxProps<Theme>
+  placeholder: string
+}
 
-const SearchInput = () => {
+const SearchInput = ({ sx, placeholder }: Props) => {
   return (
     <TextField
       fullWidth
-      sx={styles.mainInput}
+      sx={{ ...sx }}
       InputLabelProps={{ shrink: true }}
       InputProps={{
         startAdornment: (
@@ -17,7 +20,7 @@ const SearchInput = () => {
           </InputAdornment>
         )
       }}
-      placeholder='Escribe para buscar...'
+      placeholder={placeholder}
     />
   )
 }

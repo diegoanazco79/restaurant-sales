@@ -30,7 +30,7 @@ const Filters = ({
     <Box marginBottom={2}>
       <Grid container>
         <Grid item sm={6} md={3}>
-          <SearchInput />
+          <SearchInput placeholder='Escribe para buscar una mesa' />
         </Grid>
         <Grid item sm={6} md={9} paddingLeft={2} display='flex'>
           <Dropdown
