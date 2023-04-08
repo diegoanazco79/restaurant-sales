@@ -14,6 +14,7 @@ export const ProductItemButton = styled(Grid)(() => {
     alignItems: 'center',
     minHeight: pxToRem(40),
     cursor: 'pointer',
+    userSelect: 'none',
     fontSize: pxToRem(14),
     justifyContent: 'space-between',
     height: pxToRem(30),

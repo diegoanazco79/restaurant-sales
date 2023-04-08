@@ -6,24 +6,15 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined'
 
 interface Props {
-  counter: number
-  price: number
-  setCounter: React.Dispatch<React.SetStateAction<number>>
+  id: string
+  amount: number
+  handleIncrement: (id: string) => void
+  handleDecrement: (id: string) => void
 }
 
-const Counter = ({ counter, price, setCounter }: Props) => {
+const Counter = ({ id, amount, handleIncrement, handleDecrement }: Props) => {
   const theme = useTheme()
   const { isMobileOrTablet } = useResponsive()
-
-  const handleDecrease = () => {
-    if (counter > 1) {
-      setCounter(counter - 1)
-    }
-  }
-
-  const handleIncrease = () => {
-    setCounter(counter + 1)
-  }
 
   return (
     <Box display="flex" alignItems="center">
@@ -35,7 +26,7 @@ const Counter = ({ counter, price, setCounter }: Props) => {
             background: theme.palette.grey[400]
           }
         }}
-        onClick={handleDecrease}
+        onClick={() => { handleDecrement(id) }}
       >
         <RemoveOutlinedIcon sx={{ fontSize: '18px' }}/>
       </IconButton>
@@ -44,7 +35,7 @@ const Counter = ({ counter, price, setCounter }: Props) => {
         variant="body2"
         fontWeight={600}
       >
-        {counter}
+        {amount}
       </Typography>
       <IconButton
         size='small'
@@ -54,7 +45,7 @@ const Counter = ({ counter, price, setCounter }: Props) => {
             background: theme.palette.grey[400]
           }
         }}
-        onClick={handleIncrease}
+        onClick={() => { handleIncrement(id) }}
       >
         <AddOutlinedIcon sx={{ fontSize: '18px' }}/>
       </IconButton>

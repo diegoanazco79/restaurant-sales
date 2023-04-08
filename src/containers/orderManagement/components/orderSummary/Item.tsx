@@ -3,21 +3,26 @@ import { Grid, IconButton, Typography, useTheme } from '@mui/material'
 import Counter from './Counter'
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
-import { useState } from 'react'
 
 interface Props {
   id: string
   name: string
   price: number
+  amount: number
+  onDeleteOrder: (id: string) => void
+  handleIncrement: (id: string) => void
+  handleDecrement: (id: string) => void
 }
 
-const Item = ({ id, name, price }: Props) => {
+const Item = ({
+  id, name, price, amount,
+  onDeleteOrder, handleIncrement, handleDecrement
+}: Props) => {
   const theme = useTheme()
-
-  const [counter, setCounter] = useState(1)
 
   return (
     <Grid
+      id={`order-${id}`}
       container
       direction='row'
       alignItems='center'
@@ -27,7 +32,7 @@ const Item = ({ id, name, price }: Props) => {
       sx={{ borderBottom: `1px solid ${theme.palette.grey[300]}` }}
     >
       <Grid item xs={1} sm={1} md={1}>
-        <IconButton sx={{ padding: '2px' }} >
+        <IconButton sx={{ padding: '2px' }} onClick={() => { onDeleteOrder(id) }} >
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </Grid>
@@ -36,14 +41,15 @@ const Item = ({ id, name, price }: Props) => {
       </Grid>
       <Grid item xs={3} sm={3} md={3}>
         <Counter
-          counter={counter}
-          setCounter={setCounter}
-          price={price}
+          id={id}
+          amount={amount}
+          handleIncrement={handleIncrement}
+          handleDecrement={handleDecrement}
         />
       </Grid>
       <Grid item xs={3} sm={2} md={2}>
         <Typography variant='body2'>
-          S/ {price * counter}
+          S/ {(price * amount).toFixed(2)}
         </Typography>
       </Grid>
     </Grid>

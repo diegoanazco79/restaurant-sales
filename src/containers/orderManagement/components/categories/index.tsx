@@ -17,9 +17,9 @@ const CategoriesList = () => {
       </Box>
       <CategoriesLayout>
         <CategoryItem id="all-category-btn" name="Todos" selected={true} />
-        {categoriesMock.map((category) => (
+        {categoriesMock.map((category, idx) => (
           <CategoryItem
-            key={category.id}
+            key={idx}
             id={category.id}
             name={category.name}
             selected={false}

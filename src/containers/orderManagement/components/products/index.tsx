@@ -4,8 +4,13 @@ import SearchInput from 'components/searchInput'
 import ProductItem from './Item'
 
 import productsMock from 'containers/orderManagement/mock/productsMock'
+import { type Order } from 'containers/orderManagement/interfaces/Order'
 
-const ProductSelection = () => {
+interface Props {
+  onAddOrder: (order: Order) => void
+}
+
+const ProductSelection = ({ onAddOrder }: Props) => {
   return (
     <>
       <SearchInput
@@ -20,12 +25,13 @@ const ProductSelection = () => {
         display="flex"
         flexDirection="column"
       >
-        {productsMock.map((product) => (
+        {productsMock.map((product, idx) => (
           <ProductItem
-            key={product.id}
+            key={idx}
             id={product.id}
             name={product.name}
             price={product.price}
+            onAddOrder={onAddOrder}
           />
         ))}
       </Box>
