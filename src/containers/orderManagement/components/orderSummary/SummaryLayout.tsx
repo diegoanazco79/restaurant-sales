@@ -1,10 +1,10 @@
 import { styled } from '@mui/material/styles'
 import { Container, useTheme } from '@mui/material'
 
-import { pxToRem } from 'theme/helpers/functions'
 import useResponsive from 'helpers/hooks/useResponsive'
+import { pxToRem } from 'theme/helpers/functions'
 
-export const SummaryLayout = styled(Container)(() => {
+const SummaryLayout = styled(Container)(() => {
   const theme = useTheme()
   const { isMobileOrTablet } = useResponsive()
 
@@ -14,3 +14,5 @@ export const SummaryLayout = styled(Container)(() => {
     padding: '15px 5px 15px 0 !important'
   }
 })
+
+export default SummaryLayout

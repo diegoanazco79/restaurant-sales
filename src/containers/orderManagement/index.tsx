@@ -2,7 +2,7 @@ import { Button, Container, Grid } from '@mui/material'
 
 import CategoriesList from './components/categories'
 import Navigation from './components/Navigation'
-import OrderSummary from './components/orderSummary'
+import OrderSummary from './components/orderSummary/OrderSummary'
 import ProductSelection from './components/products'
 import TitlePage from 'components/titlePage'
 

@@ -14,7 +14,7 @@ interface Props {
   handleDecrement: (id: string) => void
 }
 
-const Item = ({
+const OrderItem = ({
   id, name, price, amount,
   onDeleteOrder, handleIncrement, handleDecrement
 }: Props) => {
@@ -56,4 +56,4 @@ const Item = ({
   )
 }
 
-export default Item
+export default OrderItem
