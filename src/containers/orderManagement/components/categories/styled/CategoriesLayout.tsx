@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-export const CategoriesLayout = styled(Box)(() => {
+const CategoriesLayout = styled(Box)(() => {
   return {
     display: 'flex',
     flexWrap: 'wrap',
@@ -13,3 +13,5 @@ export const CategoriesLayout = styled(Box)(() => {
     overflow: 'auto'
   }
 })
+
+export default CategoriesLayout

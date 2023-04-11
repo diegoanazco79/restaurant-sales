@@ -4,7 +4,7 @@ import EmptyOrders from './EmptyOrders'
 import OrderItem from './OrderItem'
 import OrdersActions from './OrdersActions'
 import OrdersInfo from './OrdersInfo'
-import SummaryLayout from './SummaryLayout'
+import SummaryLayout from './styled/SummaryLayout'
 import Title from './Title'
 
 import { type TableType } from 'pages/restaurant/interfaces/Tables'

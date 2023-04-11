@@ -1,4 +1,4 @@
-import { CategoryItemButton } from '../styled/CategoryItem'
+import CategoryBtn from './styled/CategoryButton'
 
 interface Props {
   id: string
@@ -6,16 +6,16 @@ interface Props {
   selected: boolean
 }
 
-const Item = ({ id, selected, name }: Props) => {
+const CategoryItem = ({ id, selected, name }: Props) => {
   return (
-    <CategoryItemButton
+    <CategoryBtn
       id={`category-${name}-${id}`}
       selected={selected}
       variant="contained"
     >
       {name}
-    </CategoryItemButton>
+    </CategoryBtn>
   )
 }
 
-export default Item
+export default CategoryItem

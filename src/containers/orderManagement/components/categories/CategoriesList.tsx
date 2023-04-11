@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 
-import CategoryItem from './Item'
-import { CategoriesLayout } from '../styled/CategoriesLayout'
+import CategoryItem from './CategoryItem'
+import CategoriesLayout from './styled/CategoriesLayout'
 
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined'
 import categoriesMock from 'containers/orderManagement/mock/categoriesMock'

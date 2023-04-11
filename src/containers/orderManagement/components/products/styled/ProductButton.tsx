@@ -3,7 +3,7 @@ import { Grid, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-export const ProductItemButton = styled(Grid)(() => {
+const ProductButton = styled(Grid)(() => {
   const theme = useTheme()
   const hoverBackground = theme.palette.grey[300]
 
@@ -24,3 +24,5 @@ export const ProductItemButton = styled(Grid)(() => {
     }
   }
 })
+
+export default ProductButton

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 
 import SearchInput from 'components/searchInput'
-import ProductItem from './Item'
+import ProductItem from './ProductItem'
 
 import productsMock from 'containers/orderManagement/mock/productsMock'
 import { type Order } from 'containers/orderManagement/interfaces/Order'

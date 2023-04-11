@@ -7,7 +7,7 @@ interface Props {
   selected: boolean
 }
 
-export const CategoryItemButton = styled(Button)(({ selected }: Props) => {
+const CategoryButton = styled(Button)(({ selected }: Props) => {
   const theme = useTheme()
   const background = selected
     ? alpha(theme.palette.primary.light, 0.4)
@@ -30,3 +30,5 @@ export const CategoryItemButton = styled(Button)(({ selected }: Props) => {
     }
   }
 })
+
+export default CategoryButton

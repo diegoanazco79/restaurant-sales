@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
 
-import { ProductItemButton } from '../styled/ProductItem'
+import ProductButton from './styled/ProductButton'
 import { type Order } from 'containers/orderManagement/interfaces/Order'
 
 interface Props {
@@ -10,9 +10,9 @@ interface Props {
   onAddOrder: (order: Order) => void
 }
 
-const Item = ({ id, name, price, onAddOrder }: Props) => {
+const ProductItem = ({ id, name, price, onAddOrder }: Props) => {
   return (
-    <ProductItemButton
+    <ProductButton
       id={`product-${id}`}
       container
       onClick={() => { onAddOrder({ id, name, price, amount: 1 }) }}
@@ -27,8 +27,8 @@ const Item = ({ id, name, price, onAddOrder }: Props) => {
           S/ {price}
         </Typography>
       </Grid>
-    </ProductItemButton>
+    </ProductButton>
   )
 }
 
-export default Item
+export default ProductItem

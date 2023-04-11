@@ -1,9 +1,9 @@
 import { Button, Container, Grid } from '@mui/material'
 
-import CategoriesList from './components/categories'
+import CategoriesList from './components/categories/CategoriesList'
 import Navigation from './components/Navigation'
 import OrderSummary from './components/orderSummary/OrderSummary'
-import ProductSelection from './components/products'
+import ProductSelection from './components/products/ProductsSelection'
 import TitlePage from 'components/titlePage'
 
 import useResponsive from 'helpers/hooks/useResponsive'
