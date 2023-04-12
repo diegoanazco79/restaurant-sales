@@ -37,7 +37,7 @@ const DeliveryItem = ({
         <b>Proveedor:</b> {provider}
       </Typography>
       <Typography variant='body2' gutterBottom>
-        <b>Total a Pagar:</b> {totalPayment}
+        <b>Total a Pagar:</b> S/ {totalPayment}
       </Typography>
       <Divider sx={{ my: 1 }} />
       <Typography variant='body2' gutterBottom>
