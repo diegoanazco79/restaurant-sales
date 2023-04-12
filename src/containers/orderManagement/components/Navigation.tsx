@@ -1,27 +1,41 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material'
 
+import NavigationBadge from '../styled/NavigationBadge'
+
 import FirstPageIcon from '@mui/icons-material/FirstPage'
-import FastfoodIcon from '@mui/icons-material/Fastfood'
+import ListAltIcon from '@mui/icons-material/ListAlt'
+import { type Order } from '../interfaces/Order'
 
 interface Props {
+  orders: Order[]
+  setShowSummaryModal: React.Dispatch<React.SetStateAction<boolean>>
   onBackAction: () => void
 }
 
-const Navigation = ({ onBackAction }: Props) => {
+const Navigation = ({ orders, setShowSummaryModal, onBackAction }: Props) => {
+  const ordersLength = orders.length
+
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
       <BottomNavigation
         showLabels
       >
         <BottomNavigationAction
-          label="Volver"
+          label="Volver a Mesas"
           icon={<FirstPageIcon />}
           onClick={onBackAction}
         />
         <BottomNavigationAction
-          label="Productos"
-          icon={<FastfoodIcon />}
-          onClick={onBackAction}
+          label="Ordenes"
+          icon={
+            <NavigationBadge
+              color="secondary"
+              badgeContent={ordersLength}
+            >
+              <ListAltIcon />
+            </NavigationBadge>
+          }
+          onClick={() => { setShowSummaryModal(true) }}
         />
       </BottomNavigation>
     </Paper>

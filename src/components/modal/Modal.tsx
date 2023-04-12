@@ -1,6 +1,8 @@
-import { Box, Divider, Modal as MaterialModal, Typography, useTheme } from '@mui/material'
+import { Box, Divider, IconButton, Modal as MaterialModal, Typography, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
+
+import CloseIcon from '@mui/icons-material/Close'
 
 interface Props {
   open: boolean
@@ -24,7 +26,9 @@ const Modal = ({ open, title, setOpen, children }: Props) => {
     borderRadius: pxToRem(6),
     boxShadow: 'rgb(145 158 171 / 20%) 0px 5px 5px -3px, rgb(145 158 171 / 14%) 0px 8px 10px 1px, rgb(145 158 171 / 12%) 0px 3px 14px 2px',
     p: 4,
-    outline: 'none'
+    outline: 'none',
+    maxHeight: '90vh',
+    overflowY: 'auto'
   }
 
   return (
@@ -33,7 +37,12 @@ const Modal = ({ open, title, setOpen, children }: Props) => {
       onClose={() => { setOpen(false) }}
     >
       <Box sx={style}>
-        <Typography variant='h5'>{title}</Typography>
+        <Box display='flex' alignItems='center' justifyContent='space-between'>
+          <Typography variant='h5'>{title}</Typography>
+          <IconButton onClick={() => { setOpen(false) }}>
+            <CloseIcon/>
+          </IconButton>
+        </Box>
         <Divider sx={{ mb: 2 }} />
         {children}
       </Box>

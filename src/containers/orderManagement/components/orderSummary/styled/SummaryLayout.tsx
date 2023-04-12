@@ -1,17 +1,21 @@
 import { styled } from '@mui/material/styles'
 import { Container, useTheme } from '@mui/material'
 
-import useResponsive from 'helpers/hooks/useResponsive'
 import { pxToRem } from 'theme/helpers/functions'
 
-const SummaryLayout = styled(Container)(() => {
+interface Props {
+  isMobileOrTablet: boolean
+}
+
+const SummaryLayout = styled(Container)(({ isMobileOrTablet }: Props) => {
   const theme = useTheme()
-  const { isMobileOrTablet } = useResponsive()
+
+  const padding = isMobileOrTablet ? '0 !important' : '15px 5px 15px 0 !important'
 
   return {
     borderRight: isMobileOrTablet ? 'transparent' : `${pxToRem(1)} solid ${theme.palette.grey[400]}`,
     height: '100%',
-    padding: '15px 5px 15px 0 !important'
+    padding
   }
 })
 

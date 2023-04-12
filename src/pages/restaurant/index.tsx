@@ -76,7 +76,7 @@ const RestaurantPage = () => {
             <TitlePage title='Restaurante' />
             {!isMobileOrTablet && <Filters {...filtersProps} /> }
             {isMobileOrTablet && <Navigation {...navigationProps} />}
-            <Grid container spacing={3}>
+            <Grid container spacing={3} pb={10}>
               {tables?.map(table => (
                 <Grid key={table.id} item xs={12} sm={6} md={3}>
                   <TableCard

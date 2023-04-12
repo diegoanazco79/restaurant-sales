@@ -1,16 +1,16 @@
 import { styled } from '@mui/material/styles'
-import { Button, useTheme } from '@mui/material'
+import { Button } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-const ActionButton = styled(Button)(() => {
-  const theme = useTheme()
+interface Props {
+  isMobileOrTablet: boolean
+}
 
-  console.log(theme)
-
+const ActionButton = styled(Button)(({ isMobileOrTablet }: Props) => {
   return {
     width: '100%',
-    height: pxToRem(60)
+    height: isMobileOrTablet ? pxToRem(45) : pxToRem(60)
   }
 })
 

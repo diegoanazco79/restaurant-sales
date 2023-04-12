@@ -9,13 +9,14 @@ interface Props {
   name: string
   price: number
   amount: number
+  isMobileOrTablet: boolean
   onDeleteOrder: (id: string) => void
   handleIncrement: (id: string) => void
   handleDecrement: (id: string) => void
 }
 
 const OrderItem = ({
-  id, name, price, amount,
+  id, name, price, amount, isMobileOrTablet,
   onDeleteOrder, handleIncrement, handleDecrement
 }: Props) => {
   const theme = useTheme()
@@ -36,18 +37,35 @@ const OrderItem = ({
           <DeleteOutlineOutlinedIcon />
         </IconButton>
       </Grid>
-      <Grid item xs={5} sm={6} md={6}>
+      <Grid
+        item
+        xs={8}
+        sm={8}
+        md={6}
+        pl={ isMobileOrTablet ? 1 : 0}
+        sx={{ ...(isMobileOrTablet && { display: 'flex', alignItems: 'center', flexDirection: 'column' }) }}
+      >
         <Typography variant='body2'> {name} </Typography>
+        {isMobileOrTablet && (
+          <Counter
+            id={id}
+            amount={amount}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+          />
+        )}
       </Grid>
-      <Grid item xs={3} sm={3} md={3}>
-        <Counter
-          id={id}
-          amount={amount}
-          handleIncrement={handleIncrement}
-          handleDecrement={handleDecrement}
-        />
-      </Grid>
-      <Grid item xs={3} sm={2} md={2}>
+      {!isMobileOrTablet && (
+        <Grid item xs={3} sm={3} md={3}>
+          <Counter
+            id={id}
+            amount={amount}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+          />
+        </Grid>
+      )}
+      <Grid item xs={3} sm={3} md={2}>
         <Typography variant='body2'>
           S/ {(price * amount).toFixed(2)}
         </Typography>

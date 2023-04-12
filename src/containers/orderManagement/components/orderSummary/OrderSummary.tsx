@@ -12,6 +12,7 @@ import { type Order } from 'containers/orderManagement/interfaces/Order'
 
 interface Props {
   tableOrder?: TableType
+  isMobileOrTablet: boolean
   roomType: string
   orders: Order[]
   totalOrder: number
@@ -21,23 +22,38 @@ interface Props {
 }
 
 const OrderSummary = ({
-  tableOrder, roomType, orders, totalOrder,
+  tableOrder, roomType, orders, totalOrder, isMobileOrTablet,
   onDeleteOrder, handleDecrement, handleIncrement
 }: Props) => {
   const orderTitle = tableOrder?.name ?? ''
 
   /* Component's Props */
   const orderItemProps = {
-    onDeleteOrder, handleIncrement, handleDecrement
+    isMobileOrTablet,
+    onDeleteOrder,
+    handleIncrement,
+    handleDecrement
+  }
+
+  const ordersInfoProps = {
+    isMobileOrTablet, totalOrder
+  }
+
+  const ordersActionsProps = {
+    isMobileOrTablet
   }
 
   return (
-    <SummaryLayout maxWidth="xl">
-      <Title orderTitle={orderTitle} />
+    <SummaryLayout maxWidth="xl" isMobileOrTablet={isMobileOrTablet}>
+      {!isMobileOrTablet && <Title orderTitle={orderTitle} /> }
       {orders.length > 0
         ? (
           <>
-            <Box height='60%' overflow='auto' marginTop={1}>
+            <Box
+              height={isMobileOrTablet ? '50vh' : '60%'}
+              overflow='auto'
+              mt={isMobileOrTablet ? 0 : 1}
+            >
               {orders.map((order, idx) => (
                 <OrderItem
                   key={idx}
@@ -49,8 +65,8 @@ const OrderSummary = ({
                 />
               ))}
             </Box>
-            <OrdersInfo totalOrder={totalOrder} />
-            <OrdersActions />
+            <OrdersInfo {...ordersInfoProps} />
+            <OrdersActions {...ordersActionsProps}/>
           </>
         )
         : <EmptyOrders />

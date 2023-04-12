@@ -5,6 +5,7 @@ import { type Order } from '../interfaces/Order'
 const useOrders = () => {
   const [orders, setOrders] = useState<Order[]>([])
   const [totalOrder, setTotalOrder] = useState(0)
+  const [showSummaryModal, setShowSummaryModal] = useState(false)
 
   useEffect(() => {
     let newTotal = 0
@@ -67,8 +68,10 @@ const useOrders = () => {
     /* States */
     orders,
     totalOrder,
+    showSummaryModal,
 
     /* Function States */
+    setShowSummaryModal,
 
     /* Functions */
     onAddOrder,

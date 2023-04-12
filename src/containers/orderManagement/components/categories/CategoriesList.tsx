@@ -11,7 +11,7 @@ const CategoriesList = () => {
     <>
       <Box display="flex" alignItems="center" justifyContent="center">
         <FastfoodOutlinedIcon />
-        <Typography variant="body1" marginLeft={1} fontWeight={600}>
+        <Typography variant="body2" marginLeft={1} fontWeight={600}>
           Categorias y Productos
         </Typography>
       </Box>
