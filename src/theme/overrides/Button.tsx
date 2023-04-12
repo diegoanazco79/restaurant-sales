@@ -16,7 +16,7 @@ export default function Button (theme: any) {
           color: theme.palette.grey[800],
           boxShadow: theme.customShadows.z8,
           textTransform: 'none',
-          fontWeight: '500',
+          fontWeight: '600',
           '&:hover': {
             backgroundColor: theme.palette.grey[400]
           }
@@ -24,7 +24,7 @@ export default function Button (theme: any) {
         containedPrimary: {
           boxShadow: 'none',
           textTransform: 'none',
-          fontWeight: '500'
+          fontWeight: '600'
         },
         containedSecondary: {
           boxShadow: theme.customShadows.secondary
@@ -33,12 +33,12 @@ export default function Button (theme: any) {
         textPrimary: {
           fontSize: '14px',
           textTransform: 'none',
-          fontWeight: '500'
+          fontWeight: '600'
         },
         outlinedPrimary: {
           boxShadow: 'none',
           textTransform: 'none',
-          fontWeight: '500'
+          fontWeight: '600'
         },
         outlinedInherit: {
           border: `1px solid ${alpha(theme.palette.grey[500], 0.32)}`,
