@@ -2,7 +2,7 @@ import { Chip, Typography } from '@mui/material'
 
 interface Props {
   label: string
-  type?: 'success' | 'error' | 'default'
+  type?: 'success' | 'error' | 'default' | 'warning'
 }
 
 const Badge = ({ label, type = 'default' }: Props) => {

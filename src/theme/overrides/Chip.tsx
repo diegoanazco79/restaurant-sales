@@ -21,6 +21,12 @@ export default function Chip (theme: any) {
           '& .MuiTypography-root': {
             color: theme.palette.success.dark
           }
+        },
+        colorWarning: {
+          backgroundColor: `${alpha(theme.palette.warning.main, 0.3)}`,
+          '& .MuiTypography-root': {
+            color: theme.palette.warning.dark
+          }
         }
       }
     }

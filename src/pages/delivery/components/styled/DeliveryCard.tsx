@@ -7,9 +7,9 @@ const DeliveryCard = styled(Box)(() => {
   const theme = useTheme()
 
   return {
-    height: pxToRem(184),
-    minHeight: pxToRem(184),
-    maxHeight: pxToRem(184),
+    height: 'fit-content',
+    minHeight: 'fit-content',
+    maxHeight: 'fit-content',
     cursor: 'pointer',
     padding: pxToRem(24),
     borderRadius: pxToRem(12),

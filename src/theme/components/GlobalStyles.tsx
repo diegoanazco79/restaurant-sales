@@ -1,4 +1,4 @@
-import { GlobalStyles as MUIGlobalStyles, useTheme } from '@mui/material'
+import { GlobalStyles as MUIGlobalStyles, alpha, useTheme } from '@mui/material'
 
 import { pxToRem, responsiveFontSizes } from 'theme/helpers/functions'
 
@@ -55,7 +55,7 @@ const GlobalStyles = () => {
               width: '100%',
               justifyContent: 'space-around',
               '& .swal2-confirm': {
-                fontWeight: 500,
+                fontWeight: 600,
                 fontFamily: 'Montserrat',
                 lineHeight: 24 / 14,
                 fontSize: pxToRem(14),
@@ -69,10 +69,15 @@ const GlobalStyles = () => {
                 }
               },
               '& .swal2-cancel': {
-                fontWeight: 500,
+                fontWeight: 600,
                 fontFamily: 'Montserrat',
                 lineHeight: 24 / 14,
                 fontSize: pxToRem(14),
+                color: palette.grey[800],
+                backgroundColor: palette.grey[300],
+                ':hover': {
+                  backgroundColor: alpha(palette.grey[400], 0.5)
+                },
                 ':focus': {
                   outline: 'none',
                   boxShadow: 'none'
