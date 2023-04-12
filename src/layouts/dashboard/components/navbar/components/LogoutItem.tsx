@@ -3,6 +3,7 @@ import {
 } from '@mui/material'
 
 import { useAuthStore } from 'store/auth'
+import { pxToRem } from 'theme/helpers/functions'
 
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
@@ -18,8 +19,7 @@ const LogoutItem = () => {
         position: 'relative',
         textTransform: 'capitalize',
         color: theme.palette.text.secondary,
-        borderRadius: '6px',
-        pl: 0
+        borderRadius: pxToRem(6)
       }}
       onClick={logout}
     >

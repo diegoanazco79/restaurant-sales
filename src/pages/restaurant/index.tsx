@@ -77,6 +77,9 @@ const RestaurantPage = () => {
             {!isMobileOrTablet && <Filters {...filtersProps} /> }
             {isMobileOrTablet && <Navigation {...navigationProps} />}
             <Grid container spacing={3} pb={10}>
+              <Grid item xs={12} sm={6} md={3}>
+                <AddTable onAddTable={onAddTable}/>
+              </Grid>
               {tables?.map(table => (
                 <Grid key={table.id} item xs={12} sm={6} md={3}>
                   <TableCard
@@ -85,9 +88,6 @@ const RestaurantPage = () => {
                   />
                 </Grid>
               ))}
-              <Grid item xs={12} sm={6} md={3}>
-                <AddTable onAddTable={onAddTable}/>
-              </Grid>
             </Grid>
             <Modal
               open={showEditModal}
