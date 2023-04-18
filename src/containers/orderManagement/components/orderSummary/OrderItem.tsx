@@ -66,7 +66,7 @@ const OrderItem = ({
         }}
       >
         <Box display="flex" flexDirection="column">
-          <Typography variant="body2"> {name} </Typography>
+          <Typography variant="body2" fontWeight={600}> {name} </Typography>
           {type && (
             <Typography variant="caption">Tipo: {type?.name}</Typography>
           )}

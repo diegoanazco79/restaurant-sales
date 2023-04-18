@@ -79,6 +79,63 @@ const productsMock = [
     name: 'Empanadas',
     types: [],
     price: 2.5
+  },
+  {
+    id: '011',
+    name: 'Sándwich de jamón y queso',
+    types: [],
+    price: 4.5
+  },
+  {
+    id: '012',
+    name: 'Sopa de pollo',
+    types: [],
+    price: 6.0
+  },
+  {
+    id: '013',
+    name: 'Alitas de pollo',
+    types: [],
+    price: 9.0
+  },
+  {
+    id: '014',
+    name: 'Sushi variado',
+    types: [],
+    price: 18.0
+  },
+  {
+    id: '015',
+    name: 'Parrillada de carne',
+    types: [],
+    price: 30.0
+  },
+  {
+    id: '016',
+    name: 'Tostadas',
+    types: [
+      { id: 'tostadas_001', name: 'De pollo', price: 3.5 },
+      { id: 'tostadas_002', name: 'De camarones', price: 4.0 },
+      { id: 'tostadas_003', name: 'De ceviche', price: 4.5 }
+    ]
+  },
+  {
+    id: '017',
+    name: 'Tamales',
+    types: [
+      { id: 'tamales_001', name: 'De pollo', price: 2.5 },
+      { id: 'tamales_002', name: 'De carne', price: 3.0 },
+      { id: 'tamales_003', name: 'Vegetariano', price: 2.5 }
+    ]
+  },
+  {
+    id: '018',
+    name: 'Enchiladas',
+    types: [
+      { id: 'enchiladas_001', name: 'De pollo', price: 3.5 },
+      { id: 'enchiladas_002', name: 'De carne', price: 4.0 },
+      { id: 'enchiladas_003', name: 'Vegetariano', price: 3.5 }
+    ]
   }
 ]
 
