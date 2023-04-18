@@ -2,11 +2,20 @@ import { Grid } from '@mui/material'
 
 import ActionButton from './styled/ActionButton'
 
+import { type DeliveryOrder } from 'pages/delivery/interfaces/DeliveryOrder'
+import Modal from 'components/modal/Modal'
+import { useState } from 'react'
+import DetailModal from '../detailModal/DetailModal'
+
 interface Props {
   isMobileOrTablet: boolean
+  deliveryOrder?: DeliveryOrder
+  roomType: string
 }
 
-const OrdersActions = ({ isMobileOrTablet }: Props) => {
+const OrdersActions = ({ deliveryOrder, isMobileOrTablet, roomType }: Props) => {
+  const [showDeliveryDetails, setShowDeliveryDetails] = useState(false)
+
   return (
     <>
       <Grid container marginTop={1} spacing={2}>
@@ -42,11 +51,25 @@ const OrdersActions = ({ isMobileOrTablet }: Props) => {
             isMobileOrTablet={isMobileOrTablet}
             variant="contained"
             color="primary"
+            onClick={() => {
+              roomType === 'delivery'
+                ? setShowDeliveryDetails(true)
+                : console.log('Holi')
+            }}
           >
-            Guardar Orden
+            Guardar orden
           </ActionButton>
         </Grid>
       </Grid>
+      <Modal
+        title='Detalles de entrega'
+        open={showDeliveryDetails}
+        setOpen={setShowDeliveryDetails}
+      >
+        <DetailModal
+          setShowDeliveryDetails={setShowDeliveryDetails}
+        />
+      </Modal>
     </>
   )
 }

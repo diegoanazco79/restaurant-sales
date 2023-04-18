@@ -11,14 +11,16 @@ import useResponsive from 'helpers/hooks/useResponsive'
 import useOrders from './hooks/useOrders'
 
 import { type TableType } from 'pages/restaurant/interfaces/Tables'
+import { type DeliveryOrder } from 'pages/delivery/interfaces/DeliveryOrder'
 
 interface Props {
   roomType: string
   tableOrder?: TableType
+  deliveryOrder?: DeliveryOrder
   onBackAction: () => void
 }
 
-const OrderManagement = ({ roomType, tableOrder, onBackAction }: Props) => {
+const OrderManagement = ({ roomType, deliveryOrder, tableOrder, onBackAction }: Props) => {
   const {
     orders, totalOrder, showSummaryModal,
     setShowSummaryModal,
@@ -33,6 +35,7 @@ const OrderManagement = ({ roomType, tableOrder, onBackAction }: Props) => {
     roomType,
     orders,
     totalOrder,
+    deliveryOrder,
     onDeleteOrder,
     handleIncrement,
     handleDecrement
@@ -52,7 +55,7 @@ const OrderManagement = ({ roomType, tableOrder, onBackAction }: Props) => {
     <Container maxWidth="xl" sx={{ height: '100%' }}>
       {!isMobileOrTablet && (
         <Button variant="text" onClick={onBackAction}>
-          {' < Volver a las mesas'}
+          {roomType === 'delivery' ? ' < Volver a los deliveries' : ' < Volver a las mesas'}
         </Button>
       )}
       <TitlePage title="Administración del Pedido" />

@@ -9,6 +9,7 @@ import Title from './Title'
 
 import { type TableType } from 'pages/restaurant/interfaces/Tables'
 import { type Order } from 'containers/orderManagement/interfaces/Order'
+import { type DeliveryOrder } from 'pages/delivery/interfaces/DeliveryOrder'
 
 interface Props {
   tableOrder?: TableType
@@ -16,6 +17,7 @@ interface Props {
   roomType: string
   orders: Order[]
   totalOrder: number
+  deliveryOrder?: DeliveryOrder
   onDeleteOrder: (id: string) => void
   handleIncrement: (id: string) => void
   handleDecrement: (id: string) => void
@@ -23,6 +25,7 @@ interface Props {
 
 const OrderSummary = ({
   tableOrder, roomType, orders, totalOrder, isMobileOrTablet,
+  deliveryOrder,
   onDeleteOrder, handleDecrement, handleIncrement
 }: Props) => {
   const orderTitle = tableOrder?.name ?? ''
@@ -36,22 +39,25 @@ const OrderSummary = ({
   }
 
   const ordersInfoProps = {
-    isMobileOrTablet, totalOrder
+    isMobileOrTablet,
+    totalOrder
   }
 
   const ordersActionsProps = {
-    isMobileOrTablet
+    isMobileOrTablet, deliveryOrder, roomType
   }
 
   return (
     <SummaryLayout maxWidth="xl" isMobileOrTablet={isMobileOrTablet}>
-      {!isMobileOrTablet && <Title orderTitle={orderTitle} /> }
+      {!isMobileOrTablet && (
+        <Title roomType={roomType} orderTitle={orderTitle} />
+      )}
       {orders.length > 0
         ? (
           <>
             <Box
               height={isMobileOrTablet ? '50vh' : '60%'}
-              overflow='auto'
+              overflow="auto"
               mt={isMobileOrTablet ? 0 : 1}
             >
               {orders.map((order, idx) => (
@@ -66,11 +72,12 @@ const OrderSummary = ({
               ))}
             </Box>
             <OrdersInfo {...ordersInfoProps} />
-            <OrdersActions {...ordersActionsProps}/>
+            <OrdersActions {...ordersActionsProps} />
           </>
         )
-        : <EmptyOrders />
-      }
+        : (
+          <EmptyOrders />
+        )}
     </SummaryLayout>
   )
 }

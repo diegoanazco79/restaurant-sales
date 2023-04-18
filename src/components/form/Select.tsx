@@ -2,6 +2,8 @@ import { type SyntheticEvent } from 'react'
 import { ErrorMessage } from 'formik'
 import { Autocomplete, Box, type SxProps, TextField, type Theme, Typography, useTheme } from '@mui/material'
 
+import { pxToRem } from 'theme/helpers/functions'
+
 export interface Option {
   id: string
   label: string
@@ -26,7 +28,7 @@ const Select = ({
 
   return (
     <Box sx={{ span: { color: theme.palette.error.dark }, ...className }}>
-      <Typography variant="body2" fontWeight={600}>
+      <Typography variant="body2" fontWeight={600} marginBottom={pxToRem(4)}>
         {label}
       </Typography>
       <Autocomplete

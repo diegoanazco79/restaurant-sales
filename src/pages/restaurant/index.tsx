@@ -98,9 +98,8 @@ const RestaurantPage = () => {
             </Modal>
           </Container>
         )
-        : (
-          <OrderManagement {...orderManagementProps} />
-        )}
+        : <OrderManagement {...orderManagementProps} />
+      }
     </>
   )
 }

@@ -2,9 +2,11 @@ import { Divider, Typography } from '@mui/material'
 
 import Badge from 'components/badge'
 import DeliveryCard from '../styled/DeliveryCard'
+import { type DeliveryOrder } from 'pages/delivery/interfaces/DeliveryOrder'
 
 interface Props {
   id: string
+  deliveryOrder: DeliveryOrder
   client: string
   address: string
   cellPhone: string
@@ -12,14 +14,19 @@ interface Props {
   provider: string
   totalPayment: number
   status: string
+  onSelectDelivery: (delivery: DeliveryOrder) => void
 }
 
 const DeliveryItem = ({
-  id, client, address, cellPhone, paymentType, provider,
-  totalPayment, status
+  id, deliveryOrder, client, address, cellPhone, paymentType, provider,
+  totalPayment, status,
+  onSelectDelivery
 }: Props) => {
   return (
-    <DeliveryCard id={`delivery-card-${id}`}>
+    <DeliveryCard
+      id={`delivery-card-${id}`}
+      onClick={() => { onSelectDelivery(deliveryOrder) }}
+    >
       <Typography variant='body2' gutterBottom>
         <b>Cliente:</b> {client}
       </Typography>

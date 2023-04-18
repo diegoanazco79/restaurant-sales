@@ -1,6 +1,8 @@
 import { ErrorMessage, useField } from 'formik'
 import { Typography, TextField, Box, type SxProps, type Theme, useTheme } from '@mui/material'
 
+import { pxToRem } from 'theme/helpers/functions'
+
 interface Props {
   label?: string
   name: string
@@ -16,7 +18,7 @@ const Input = ({ label, className, ...props }: Props) => {
 
   return (
     <Box sx={{ span: { color: theme.palette.error.dark }, ...className }}>
-      <Typography variant="body2" fontWeight={600}>
+      <Typography variant="body2" fontWeight={600} marginBottom={pxToRem(4)}>
         {label}
       </Typography>
       <TextField
