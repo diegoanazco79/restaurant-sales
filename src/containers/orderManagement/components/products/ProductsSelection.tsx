@@ -1,16 +1,38 @@
+import { useState } from 'react'
 import { Box } from '@mui/material'
 
-import SearchInput from 'components/searchInput'
+import Modal from 'components/modal/Modal'
 import ProductItem from './ProductItem'
+import SearchInput from 'components/searchInput'
+import TypesModal from './TypesModal'
+
+import { initialProduct } from 'containers/orderManagement/helpers/constants'
+import { type Order } from 'containers/orderManagement/interfaces/Order'
+import { type Product } from 'containers/orderManagement/interfaces/Products'
 
 import productsMock from 'containers/orderManagement/mock/productsMock'
-import { type Order } from 'containers/orderManagement/interfaces/Order'
 
 interface Props {
   onAddOrder: (order: Order) => void
 }
 
 const ProductSelection = ({ onAddOrder }: Props) => {
+  const [selectedProduct, setSelectedProduct] = useState<Product>(initialProduct)
+  const [showTypesModal, setShowTypesModal] = useState(false)
+
+  /* Component's Props */
+  const productItemProps = {
+    setSelectedProduct,
+    setShowTypesModal,
+    onAddOrder
+  }
+
+  const typeModalProps = {
+    selectedProduct,
+    setShowTypesModal,
+    onAddOrder
+  }
+
   return (
     <>
       <SearchInput
@@ -31,10 +53,18 @@ const ProductSelection = ({ onAddOrder }: Props) => {
             id={product.id}
             name={product.name}
             price={product.price}
-            onAddOrder={onAddOrder}
+            types={product.types}
+            {...productItemProps}
           />
         ))}
       </Box>
+      <Modal
+        open={showTypesModal}
+        setOpen={setShowTypesModal}
+        title={`Tipos del producto ${selectedProduct?.name ?? ''}`}
+      >
+        <TypesModal {...typeModalProps}/>
+      </Modal>
     </>
   )
 }

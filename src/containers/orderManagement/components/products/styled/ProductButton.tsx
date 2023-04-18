@@ -12,12 +12,10 @@ const ProductButton = styled(Grid)(() => {
     borderRadius: pxToRem(5),
     padding: pxToRem(5),
     alignItems: 'center',
-    minHeight: pxToRem(40),
     cursor: 'pointer',
     userSelect: 'none',
     fontSize: pxToRem(14),
     justifyContent: 'space-between',
-    height: pxToRem(30),
     fontWeight: 500,
     '&:hover': {
       background: hoverBackground

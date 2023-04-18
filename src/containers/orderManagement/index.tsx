@@ -22,9 +22,10 @@ interface Props {
 
 const OrderManagement = ({ roomType, deliveryOrder, tableOrder, onBackAction }: Props) => {
   const {
-    orders, totalOrder, showSummaryModal,
-    setShowSummaryModal,
-    onAddOrder, onDeleteOrder, handleIncrement, handleDecrement
+    orders, totalOrder, showSummaryModal, currentOrder,
+    setShowSummaryModal, setCurrentOrder,
+    onAddOrder, onDeleteOrder, handleIncrement, handleDecrement,
+    onAddNote
   } = useOrders()
   const { isMobileOrTablet } = useResponsive()
 
@@ -36,9 +37,12 @@ const OrderManagement = ({ roomType, deliveryOrder, tableOrder, onBackAction }: 
     orders,
     totalOrder,
     deliveryOrder,
+    currentOrder,
+    setCurrentOrder,
     onDeleteOrder,
     handleIncrement,
-    handleDecrement
+    handleDecrement,
+    onAddNote
   }
 
   const productSelectionProps = {

@@ -1,15 +1,19 @@
+import { useState } from 'react'
 import { Box } from '@mui/material'
 
 import EmptyOrders from './EmptyOrders'
+import Modal from 'components/modal/Modal'
+import NoteModal from './NoteModal'
 import OrderItem from './OrderItem'
 import OrdersActions from './OrdersActions'
 import OrdersInfo from './OrdersInfo'
 import SummaryLayout from './styled/SummaryLayout'
 import Title from './Title'
 
-import { type TableType } from 'pages/restaurant/interfaces/Tables'
-import { type Order } from 'containers/orderManagement/interfaces/Order'
 import { type DeliveryOrder } from 'pages/delivery/interfaces/DeliveryOrder'
+import { type Order } from 'containers/orderManagement/interfaces/Order'
+import { type ProductType } from 'containers/orderManagement/interfaces/Products'
+import { type TableType } from 'pages/restaurant/interfaces/Tables'
 
 interface Props {
   tableOrder?: TableType
@@ -18,21 +22,29 @@ interface Props {
   orders: Order[]
   totalOrder: number
   deliveryOrder?: DeliveryOrder
-  onDeleteOrder: (id: string) => void
-  handleIncrement: (id: string) => void
-  handleDecrement: (id: string) => void
+  currentOrder?: Order
+  setCurrentOrder: (order: Order) => void
+  onDeleteOrder: (id: string, type: ProductType['id']) => void
+  handleIncrement: (id: string, type: ProductType['id']) => void
+  handleDecrement: (id: string, type: ProductType['id']) => void
+  onAddNote: (note: string, type: ProductType['id']) => void
 }
 
 const OrderSummary = ({
   tableOrder, roomType, orders, totalOrder, isMobileOrTablet,
-  deliveryOrder,
-  onDeleteOrder, handleDecrement, handleIncrement
+  deliveryOrder, currentOrder,
+  setCurrentOrder,
+  onDeleteOrder, handleDecrement, handleIncrement, onAddNote
 }: Props) => {
+  const [showNoteModal, setShowNoteModal] = useState(false)
   const orderTitle = tableOrder?.name ?? ''
+  const currentOrderName = currentOrder?.name ?? ''
 
   /* Component's Props */
   const orderItemProps = {
     isMobileOrTablet,
+    setCurrentOrder,
+    setShowNoteModal,
     onDeleteOrder,
     handleIncrement,
     handleDecrement
@@ -47,6 +59,12 @@ const OrderSummary = ({
     isMobileOrTablet, deliveryOrder, roomType
   }
 
+  const noteModalProps = {
+    currentOrder,
+    setShowNoteModal,
+    onAddNote
+  }
+
   return (
     <SummaryLayout maxWidth="xl" isMobileOrTablet={isMobileOrTablet}>
       {!isMobileOrTablet && (
@@ -56,7 +74,7 @@ const OrderSummary = ({
         ? (
           <>
             <Box
-              height={isMobileOrTablet ? '50vh' : '60%'}
+              height='50vh'
               overflow="auto"
               mt={isMobileOrTablet ? 0 : 1}
             >
@@ -67,10 +85,19 @@ const OrderSummary = ({
                   name={order?.name}
                   price={order?.price}
                   amount={order?.amount}
+                  note={order?.note}
+                  type={order?.type}
                   {...orderItemProps}
                 />
               ))}
             </Box>
+            <Modal
+              open={showNoteModal}
+              setOpen={setShowNoteModal}
+              title={`Añadir nota a ${currentOrderName}`}
+            >
+              <NoteModal {...noteModalProps}/>
+            </Modal>
             <OrdersInfo {...ordersInfoProps} />
             <OrdersActions {...ordersActionsProps} />
           </>

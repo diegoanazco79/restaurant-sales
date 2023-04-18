@@ -1,9 +1,10 @@
+import { Box, Button, Stack } from '@mui/material'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 import Select, { type Option } from 'components/form/Select'
-import { Box, Button, Stack } from '@mui/material'
+
 import { paymentTypes } from 'containers/orderManagement/mock/paymentTypes'
 import { providersMock } from 'containers/orderManagement/mock/providersMock'
 
@@ -49,6 +50,7 @@ const DetailModal = ({ setShowDeliveryDetails }: Props) => {
     setSubmitting(false)
     resetForm()
   }
+
   return (
     <Formik
       initialValues={initialValues}

@@ -1,34 +1,85 @@
 const productsMock = [
-  { id: '001', name: 'Ensalada César', price: 12.99 },
-  { id: '002', name: 'Pizza Margarita', price: 15.5 },
-  { id: '003', name: 'Bife de Chorizo', price: 24.75 },
-  { id: '004', name: 'Hamburguesa Clásica', price: 10.99 },
-  { id: '005', name: 'Sopa de Pollo', price: 8.25 },
-  { id: '006', name: 'Fettuccine Alfredo', price: 18.5 },
-  { id: '007', name: 'Tacos de Carnitas', price: 13.25 },
-  { id: '008', name: 'Pollo a la Parrilla', price: 16.99 },
-  { id: '009', name: 'Parrilla de Mariscos', price: 28.75 },
-  { id: '010', name: 'Lasagna de Carne', price: 20.5 },
-  { id: '011', name: 'Empanadas de Carne', price: 7.99 },
-  { id: '012', name: 'Ensalada de Frutas', price: 6.5 },
-  { id: '013', name: 'Ceviche de Camarones', price: 22.99 },
-  { id: '014', name: 'Parrillada Mixta', price: 34.99 },
-  { id: '015', name: 'Pastel de Chocolate', price: 8.75 },
-  { id: '021', name: 'Ensalada César', price: 12.99 },
-  { id: '022', name: 'Pizza Margarita', price: 15.5 },
-  { id: '023', name: 'Bife de Chorizo', price: 24.75 },
-  { id: '024', name: 'Hamburguesa Clásica', price: 10.99 },
-  { id: '025', name: 'Sopa de Pollo', price: 8.25 },
-  { id: '026', name: 'Fettuccine Alfredo', price: 18.5 },
-  { id: '027', name: 'Tacos de Carnitas', price: 13.25 },
-  { id: '028', name: 'Pollo a la Parrilla', price: 16.99 },
-  { id: '029', name: 'Parrilla de Mariscos', price: 28.75 },
-  { id: '030', name: 'Lasagna de Carne', price: 20.5 },
-  { id: '031', name: 'Empanadas de Carne', price: 7.99 },
-  { id: '032', name: 'Ensalada de Frutas', price: 6.5 },
-  { id: '033', name: 'Ceviche de Camarones', price: 22.99 },
-  { id: '034', name: 'Parrillada Mixta', price: 34.99 },
-  { id: '035', name: 'Pastel de Chocolate', price: 8.75 }
+  {
+    id: '001',
+    name: 'Lomo Saltado',
+    types: [
+      { id: 'lomo_001', name: 'Termino medio', price: 10.0 },
+      { id: 'lomo_002', name: 'Bien cocido', price: 12.0 },
+      { id: 'lomo_003', name: 'Termino tres cuartos', price: 11.0 }
+    ]
+  },
+  {
+    id: '002',
+    name: 'Pollo a la Brasa',
+    types: [
+      { id: 'pollo_001', name: 'Porción', price: 8.0 },
+      { id: 'pollo_002', name: '1/2 Pollo', price: 15.0 },
+      { id: 'pollo_003', name: 'Pollo entero', price: 25.0 }
+    ]
+  },
+  {
+    id: '003',
+    name: 'Pizza Margarita',
+    types: [
+      { id: 'pizza_001', name: 'Personal', price: 8.0 },
+      { id: 'pizza_002', name: 'Mediana', price: 12.0 },
+      { id: 'pizza_003', name: 'Grande', price: 16.0 }
+    ]
+  },
+  {
+    id: '004',
+    name: 'Hamburguesa',
+    types: [],
+    price: 5.0
+  },
+  {
+    id: '005',
+    name: 'Ensalada César',
+    types: [],
+    price: 7.5
+  },
+  {
+    id: '006',
+    name: 'Ceviche',
+    types: [
+      { id: 'ceviche_001', name: 'Clásico', price: 14.0 },
+      { id: 'ceviche_002', name: 'Mixto', price: 16.0 },
+      { id: 'ceviche_003', name: 'Conchas negras', price: 18.0 }
+    ]
+  },
+  {
+    id: '007',
+    name: 'Tallarines Verdes',
+    types: [
+      { id: 'tallarines_001', name: 'Con pollo', price: 12.0 },
+      { id: 'tallarines_002', name: 'Con lomo', price: 15.0 },
+      { id: 'tallarines_003', name: 'Con churrasco', price: 17.0 }
+    ]
+  },
+  {
+    id: '008',
+    name: 'Arroz Chaufa',
+    types: [
+      { id: 'arroz_chaufa_001', name: 'Pollo', price: 10.0 },
+      { id: 'arroz_chaufa_002', name: 'Camarones', price: 14.0 },
+      { id: 'arroz_chaufa_003', name: 'Chifa', price: 16.0 }
+    ]
+  },
+  {
+    id: '009',
+    name: 'Taco',
+    types: [
+      { id: 'taco_001', name: 'Carne', price: 3.5 },
+      { id: 'taco_002', name: 'Pollo', price: 3.0 },
+      { id: 'taco_003', name: 'Vegetariano', price: 3.5 }
+    ]
+  },
+  {
+    id: '010',
+    name: 'Empanadas',
+    types: [],
+    price: 2.5
+  }
 ]
 
 export default productsMock

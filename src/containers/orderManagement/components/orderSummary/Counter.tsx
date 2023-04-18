@@ -2,17 +2,23 @@ import { Box, IconButton, Typography, useTheme } from '@mui/material'
 
 import useResponsive from 'helpers/hooks/useResponsive'
 
+import { type ProductType } from 'containers/orderManagement/interfaces/Products'
+
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined'
 
 interface Props {
   id: string
   amount: number
-  handleIncrement: (id: string) => void
-  handleDecrement: (id: string) => void
+  type: ProductType
+  handleIncrement: (id: string, type: ProductType['id']) => void
+  handleDecrement: (id: string, type: ProductType['id']) => void
 }
 
-const Counter = ({ id, amount, handleIncrement, handleDecrement }: Props) => {
+const Counter = ({
+  id, amount, type,
+  handleIncrement, handleDecrement
+}: Props) => {
   const theme = useTheme()
   const { isMobileOrTablet } = useResponsive()
 
@@ -26,7 +32,7 @@ const Counter = ({ id, amount, handleIncrement, handleDecrement }: Props) => {
             background: theme.palette.grey[400]
           }
         }}
-        onClick={() => { handleDecrement(id) }}
+        onClick={() => { handleDecrement(id, type?.id) }}
       >
         <RemoveOutlinedIcon sx={{ fontSize: '18px' }}/>
       </IconButton>
@@ -45,7 +51,7 @@ const Counter = ({ id, amount, handleIncrement, handleDecrement }: Props) => {
             background: theme.palette.grey[400]
           }
         }}
-        onClick={() => { handleIncrement(id) }}
+        onClick={() => { handleIncrement(id, type?.id) }}
       >
         <AddOutlinedIcon sx={{ fontSize: '18px' }}/>
       </IconButton>
