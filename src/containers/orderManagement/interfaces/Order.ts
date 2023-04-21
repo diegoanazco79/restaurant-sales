@@ -1,4 +1,4 @@
-import { type ProductType } from './Products'
+import { type ProductType } from '../../../pages/products/interfaces/Products'
 
 export interface Order {
   id: string

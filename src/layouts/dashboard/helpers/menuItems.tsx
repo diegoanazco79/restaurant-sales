@@ -3,6 +3,7 @@ import { adminRole } from 'helpers/constants'
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
 import QueryStatsIcon from '@mui/icons-material/QueryStats'
 import StorefrontIcon from '@mui/icons-material/Storefront'
+import TapasIcon from '@mui/icons-material/Tapas'
 
 export const menuItems = [
   {
@@ -20,6 +21,14 @@ export const menuItems = [
     to: '/delivery',
     roles: [],
     icon: <DeliveryDiningIcon />
+  },
+  {
+    id: 'products',
+    main: true,
+    name: 'Productos',
+    to: '/products',
+    roles: [],
+    icon: <TapasIcon />
   },
   {
     id: 'analytics-reports',

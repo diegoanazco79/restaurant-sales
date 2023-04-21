@@ -2,7 +2,7 @@ import { Box, IconButton, Typography, useTheme } from '@mui/material'
 
 import useResponsive from 'helpers/hooks/useResponsive'
 
-import { type ProductType } from 'containers/orderManagement/interfaces/Products'
+import { type ProductType } from 'pages/products/interfaces/Products'
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined'

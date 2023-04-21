@@ -12,7 +12,7 @@ import Title from './Title'
 
 import { type DeliveryOrder } from 'pages/delivery/interfaces/DeliveryOrder'
 import { type Order } from 'containers/orderManagement/interfaces/Order'
-import { type ProductType } from 'containers/orderManagement/interfaces/Products'
+import { type ProductType } from 'pages/products/interfaces/Products'
 import { type TableType } from 'pages/restaurant/interfaces/Tables'
 
 interface Props {

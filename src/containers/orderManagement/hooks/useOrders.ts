@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { initialOrder } from '../helpers/constants'
 import { type Order } from '../interfaces/Order'
-import { type ProductType } from '../interfaces/Products'
+import { type ProductType } from '../../../pages/products/interfaces/Products'
 
 const useOrders = () => {
   const [orders, setOrders] = useState<Order[]>([])

@@ -3,8 +3,8 @@ export default function Table (theme: any) {
     MuiTableCell: {
       styleOverrides: {
         head: {
-          color: theme.palette.text.secondary,
-          backgroundColor: theme.palette.background.neutral
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.primary.lighter
         }
       }
     }

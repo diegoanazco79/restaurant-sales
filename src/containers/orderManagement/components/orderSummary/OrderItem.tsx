@@ -3,7 +3,7 @@ import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material'
 import Counter from './Counter'
 
 import { type Order } from 'containers/orderManagement/interfaces/Order'
-import { type ProductType } from 'containers/orderManagement/interfaces/Products'
+import { type ProductType } from 'pages/products/interfaces/Products'
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'

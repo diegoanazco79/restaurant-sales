@@ -199,7 +199,6 @@ const useRestaurant = () => {
       showConfirmButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'No, cancelar',
-      reverseButtons: true,
       showCancelButton: true,
       preConfirm: () => {
         try {

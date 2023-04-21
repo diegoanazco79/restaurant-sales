@@ -19,7 +19,8 @@ const GlobalStyles = () => {
           WebkitOverflowScrolling: 'touch'
         },
         '::-webkit-scrollbar': {
-          width: pxToRem(5)
+          width: pxToRem(5),
+          height: pxToRem(5)
         },
         '::-webkit-scrollbar-track': {
           backgroundColor: palette.grey[200]

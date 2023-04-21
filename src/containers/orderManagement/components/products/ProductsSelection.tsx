@@ -8,9 +8,9 @@ import TypesModal from './TypesModal'
 
 import { initialProduct } from 'containers/orderManagement/helpers/constants'
 import { type Order } from 'containers/orderManagement/interfaces/Order'
-import { type Product } from 'containers/orderManagement/interfaces/Products'
+import { type Product } from 'pages/products/interfaces/Products'
 
-import productsMock from 'containers/orderManagement/mock/productsMock'
+import productsMock from 'pages/products/mock/productsMock'
 
 interface Props {
   onAddOrder: (order: Order) => void

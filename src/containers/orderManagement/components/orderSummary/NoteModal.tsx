@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import Input from 'components/form/Input'
 
 import { type Order } from 'containers/orderManagement/interfaces/Order'
-import { type ProductType } from 'containers/orderManagement/interfaces/Products'
+import { type ProductType } from 'pages/products/interfaces/Products'
 
 interface Props {
   currentOrder: Order | undefined

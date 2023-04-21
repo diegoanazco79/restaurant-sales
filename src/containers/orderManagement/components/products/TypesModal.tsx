@@ -4,7 +4,7 @@ import { Box, Button, FormControlLabel, Radio, RadioGroup, Typography } from '@m
 import { pxToRem } from 'theme/helpers/functions'
 
 import { type Order } from 'containers/orderManagement/interfaces/Order'
-import { type ProductType, type Product } from 'containers/orderManagement/interfaces/Products'
+import { type Product, type ProductType } from 'pages/products/interfaces/Products'
 
 interface Props {
   selectedProduct: Product

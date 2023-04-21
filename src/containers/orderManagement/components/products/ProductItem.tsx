@@ -5,7 +5,7 @@ import ProductButton from './styled/ProductButton'
 import useReponsive from 'helpers/hooks/useResponsive'
 
 import { type Order } from 'containers/orderManagement/interfaces/Order'
-import { type Product, type ProductType } from 'containers/orderManagement/interfaces/Products'
+import { type Product, type ProductType } from 'pages/products/interfaces/Products'
 
 interface Props {
   id: string
