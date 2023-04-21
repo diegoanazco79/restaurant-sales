@@ -4,6 +4,7 @@ import {
 } from '@mui/material'
 
 import Modal from 'components/modal/Modal'
+import ProductManagement from './productManagement/ProductManagement'
 import ProductRow from './ProductRow'
 
 import { labelDisplayedRows } from '../helpers/functions'
@@ -25,11 +26,16 @@ interface Props {
 }
 
 const ProductsTable = ({
-  products, currentPage, rowsPerPage, showProductModal,
+  products, currentPage, rowsPerPage, showProductModal, currentProduct,
   setShowProductModal,
   handleChangePage, handleChangeRowsPerPage, onEditProduct,
   onDeleteProduct
 }: Props) => {
+  /* Component's Props */
+  const productManagementProps = {
+    actionType: 'edit', product: currentProduct
+  }
+
   return (
     <>
       <Paper>
@@ -71,9 +77,9 @@ const ProductsTable = ({
       <Modal
         open={showProductModal}
         setOpen={setShowProductModal}
-        title='Agregar producto'
+        title='Editar producto'
       >
-        <div>Modal content</div>
+        <ProductManagement {...productManagementProps}/>
       </Modal>
     </>
   )

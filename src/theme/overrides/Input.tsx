@@ -50,7 +50,7 @@ export default function Input (theme: any) {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          height: '40px',
+          height: '36px',
           fontSize: '14px',
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: alpha(theme.palette.grey[500], 0.32)

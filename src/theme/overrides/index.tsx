@@ -1,6 +1,7 @@
 import Autocomplete from './Autocomplete'
 import Backdrop from './Backdrop'
 import Button from './Button'
+import ButtonGroup from './ButtonGroup'
 import Card from './Card'
 import Chip from './Chip'
 import Input from './Input'
@@ -14,6 +15,7 @@ export default function ComponentsOverrides (theme: any) {
     Autocomplete(theme),
     Backdrop(theme),
     Button(theme),
+    ButtonGroup(theme),
     Card(theme),
     Chip(theme),
     Input(theme),

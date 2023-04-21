@@ -31,7 +31,7 @@ export default function Button (theme: any) {
         },
 
         textPrimary: {
-          fontSize: '14px',
+          fontSize: '13px',
           textTransform: 'none',
           fontWeight: '600'
         },
@@ -47,6 +47,7 @@ export default function Button (theme: any) {
           }
         },
         textInherit: {
+          fontSize: '13px',
           '&:hover': {
             backgroundColor: theme.palette.action.hover
           }

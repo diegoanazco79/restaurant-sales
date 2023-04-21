@@ -23,7 +23,7 @@ const ProductRow = ({ product, onEditProduct, onDeleteProduct }: Props) => {
       key={product.id} hover sx={{ cursor: 'pointer' }}
       onClick={() => { onEditProduct(product) }} >
       <TableCell>{product.name}</TableCell>
-      <TableCell>{getProductPrice(product)}</TableCell>
+      <TableCell>S/ {getProductPrice(product)}</TableCell>
       <TableCell>
         {product.types.length > 0
           ? (
@@ -35,9 +35,8 @@ const ProductRow = ({ product, onEditProduct, onDeleteProduct }: Props) => {
               ))}
             </ul>
           )
-          : (
-            'N/A'
-          )}
+          : '-'
+        }
       </TableCell>
       <TableCell>{product.category?.name ?? '-'}</TableCell>
       <TableCell>{product.stockQuantity ?? '-'}</TableCell>

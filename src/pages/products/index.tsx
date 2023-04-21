@@ -1,5 +1,6 @@
 import { Container } from '@mui/material'
 
+import Filters from './components/Filters'
 import ProductsTable from './components/ProductsTable'
 import TitlePage from 'components/titlePage'
 
@@ -31,6 +32,7 @@ const ProductsPage = () => {
   return (
     <Container maxWidth='xl' sx={{ height: '100%' }}>
       <TitlePage title='Gestión de Productos'/>
+      <Filters />
       <ProductsTable {...productsTableProps} />
     </Container>
   )
