@@ -72,11 +72,13 @@ const ProductManagement = ({
       name: values.productName,
       types: hasTypes ? product?.types ?? [] : [],
       ...(!hasTypes && { price: Number(values.price) }),
-      ...(currentCategory && { category: currentCategory ?? values.category }),
+      ...(currentCategory && {
+        category: formatCategory(currentCategory) ?? formatCategory(values.category)
+      }),
       ...(!hasTypes && { isInfinite: !hasStock }),
       ...(hasStock && { stockQuantity: values.stockQuantity })
     }
-    onEditProduct({ ...editedProduct, category: formatCategory(currentCategory) }, setShowProductModal)
+    onEditProduct(editedProduct, setShowProductModal)
   }
 
   /* Component's Props */
