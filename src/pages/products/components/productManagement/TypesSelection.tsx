@@ -20,7 +20,7 @@ const TypesSelection = ({ hasTypes, setHasTypes }: Props) => {
       >
         ¿Este producto tiene tipos?
       </Typography>
-      <ButtonGroup variant="contained">
+      <ButtonGroup variant="contained" sx={{ mb: 2, mr: 2 }}>
         <Button
           onClick={() => { setHasTypes(false) }}
           sx={buttonGroupStyles(theme, hasTypes)}

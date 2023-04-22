@@ -11,8 +11,9 @@ const ProductsPage = () => {
     productsList, currentPage, rowsPerPage, currentProduct,
     showProductModal,
     setShowProductModal,
-    handleChangePage, handleChangeRowsPerPage, onEditProduct,
-    onDeleteProduct
+    handleChangePage, handleChangeRowsPerPage, onSelectProduct,
+    onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
+    onDeleteProductType
   } = useProducts()
 
   /* Components props */
@@ -25,7 +26,11 @@ const ProductsPage = () => {
     setShowProductModal,
     handleChangePage,
     handleChangeRowsPerPage,
+    onSelectProduct,
     onEditProduct,
+    onEditProductType,
+    onAddProductType,
+    onDeleteProductType,
     onDeleteProduct
   }
 

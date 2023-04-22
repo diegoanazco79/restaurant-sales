@@ -11,8 +11,8 @@ const productsMock = [
     id: '001',
     name: 'Ceviche',
     types: [
-      { id: 'ceviche_001', name: 'Porción', price: 20.0, stockQuantity: 15 },
-      { id: 'ceviche_002', name: 'Familiar', price: 35.0, stockQuantity: 10 }
+      { id: 'ceviche_001', name: 'Porción', price: 20.0, isInfinite: false, stockQuantity: 15 },
+      { id: 'ceviche_002', name: 'Familiar', price: 35.0, isInfinite: true }
     ],
     isInfinite: true
   },
@@ -20,8 +20,8 @@ const productsMock = [
     id: '002',
     name: 'Lomo Saltado',
     types: [
-      { id: 'lomo_001', name: 'Individual', price: 18.0, stockQuantity: 20 },
-      { id: 'lomo_002', name: 'Doble', price: 30.0, stockQuantity: 12 }
+      { id: 'lomo_001', name: 'Individual', price: 18.0, isInfinite: false, stockQuantity: 20 },
+      { id: 'lomo_002', name: 'Doble', price: 30.0, isInfinite: false, stockQuantity: 12 }
     ],
     isInfinite: true,
     category: { id: 'especial_id', name: 'Especiales' }

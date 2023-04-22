@@ -20,7 +20,7 @@ const StockSelection = ({ hasStock, setHasStock }: Props) => {
       >
         ¿Este producto tiene stock?
       </Typography>
-      <ButtonGroup variant="contained">
+      <ButtonGroup variant="contained" sx={{ mb: 2 }}>
         <Button
           onClick={() => { setHasStock(false) }}
           sx={buttonGroupStyles(theme, hasStock)}

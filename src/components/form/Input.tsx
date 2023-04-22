@@ -8,7 +8,7 @@ interface Props {
   name: string
   className?: SxProps<Theme>
   inputLabelAdorment?: string
-  type?: 'text' | 'email' | 'password'
+  type?: 'text' | 'email' | 'password' | 'number'
   placeholder?: string
   [x: string]: any
 }

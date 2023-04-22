@@ -16,7 +16,7 @@ export interface Product {
   name: string
   types: ProductType[] | []
   price?: number
-  category?: CategoryProductType
+  category?: CategoryProductType | null
   isInfinite?: boolean
   stockQuantity?: number
 }

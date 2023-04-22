@@ -8,11 +8,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 interface Props {
   product: Product
-  onEditProduct: (product: Product) => void
+  onSelectProduct: (product: Product) => void
   onDeleteProduct: (product: Product['id']) => void
 }
 
-const ProductRow = ({ product, onEditProduct, onDeleteProduct }: Props) => {
+const ProductRow = ({ product, onSelectProduct, onDeleteProduct }: Props) => {
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation()
     onDeleteProduct(product.id)
@@ -21,7 +21,7 @@ const ProductRow = ({ product, onEditProduct, onDeleteProduct }: Props) => {
   return (
     <TableRow
       key={product.id} hover sx={{ cursor: 'pointer' }}
-      onClick={() => { onEditProduct(product) }} >
+      onClick={() => { onSelectProduct(product) }} >
       <TableCell>{product.name}</TableCell>
       <TableCell>S/ {getProductPrice(product)}</TableCell>
       <TableCell>
@@ -35,11 +35,11 @@ const ProductRow = ({ product, onEditProduct, onDeleteProduct }: Props) => {
               ))}
             </ul>
           )
-          : '-'
+          : 'Sin tipos'
         }
       </TableCell>
-      <TableCell>{product.category?.name ?? '-'}</TableCell>
-      <TableCell>{product.stockQuantity ?? '-'}</TableCell>
+      <TableCell>{product.category?.name ?? 'Sin categoría'}</TableCell>
+      <TableCell>{product.stockQuantity ?? 'Sin stock'}</TableCell>
       <TableCell>
         <IconButton onClick={handleDelete}>
           <DeleteIcon color="error" />

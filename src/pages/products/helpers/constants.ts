@@ -2,7 +2,15 @@
 export const initialProduct = {
   id: '',
   name: '',
-  types: []
+  types: [],
+  isInfinite: true
+}
+/* Initial product type state */
+export const initialProductType = {
+  id: '',
+  name: '',
+  price: 0,
+  isInfinite: true
 }
 
 /* Products table rows */

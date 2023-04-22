@@ -12,13 +12,14 @@ interface Props {
   name: string
   price: number | undefined
   types: ProductType[]
+  isInfinite: boolean
   setSelectedProduct: (product: Product) => void
   setShowTypesModal: (value: boolean) => void
   onAddOrder: (order: Order) => void
 }
 
 const ProductItem = ({
-  id, name, price, types,
+  id, name, price, types, isInfinite,
   setSelectedProduct, setShowTypesModal,
   onAddOrder
 }: Props) => {
@@ -32,7 +33,7 @@ const ProductItem = ({
   const handleSelectProduct = () => {
     if (types.length > 0) {
       setShowTypesModal(true)
-      setSelectedProduct({ id, name, price, types })
+      setSelectedProduct({ id, name, price, types, isInfinite })
     } else {
       onAddOrder({ id, name, price: price ?? 0, amount: 1 })
     }

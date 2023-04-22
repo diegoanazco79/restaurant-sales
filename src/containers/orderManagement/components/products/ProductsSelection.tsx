@@ -54,6 +54,7 @@ const ProductSelection = ({ onAddOrder }: Props) => {
             name={product.name}
             price={product.price}
             types={product.types}
+            isInfinite={product.isInfinite}
             {...productItemProps}
           />
         ))}

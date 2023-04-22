@@ -10,7 +10,7 @@ import ProductRow from './ProductRow'
 import { labelDisplayedRows } from '../helpers/functions'
 
 import { producTableRows } from '../helpers/constants'
-import { type Product } from '../interfaces/Products'
+import { type ProductType, type Product } from '../interfaces/Products'
 
 interface Props {
   products: Product[]
@@ -21,19 +21,30 @@ interface Props {
   setShowProductModal: React.Dispatch<React.SetStateAction<boolean>>
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
-  onEditProduct: (product: Product) => void
+  onSelectProduct: (product: Product) => void
+  onEditProduct: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
+  onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
+  onAddProductType: (type: ProductType) => void
+  onDeleteProductType: (iProduct: number) => void
   onDeleteProduct: (product: Product['id']) => void
 }
 
 const ProductsTable = ({
   products, currentPage, rowsPerPage, showProductModal, currentProduct,
   setShowProductModal,
-  handleChangePage, handleChangeRowsPerPage, onEditProduct,
-  onDeleteProduct
+  handleChangePage, handleChangeRowsPerPage, onSelectProduct,
+  onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
+  onDeleteProductType
 }: Props) => {
   /* Component's Props */
   const productManagementProps = {
-    actionType: 'edit', product: currentProduct
+    actionType: 'edit',
+    product: currentProduct,
+    setShowProductModal,
+    onEditProduct,
+    onEditProductType,
+    onAddProductType,
+    onDeleteProductType
   }
 
   return (
@@ -55,7 +66,7 @@ const ProductsTable = ({
                   <ProductRow
                     key={idx}
                     product={product}
-                    onEditProduct={onEditProduct}
+                    onSelectProduct={onSelectProduct}
                     onDeleteProduct={onDeleteProduct}
                   />
                 ))}

@@ -1,6 +1,6 @@
 import { type Theme, type LabelDisplayedRowsArgs, alpha } from '@mui/material'
 
-import { type Product } from '../interfaces/Products'
+import { type Product, type CategoryProductType } from '../interfaces/Products'
 
 /**
  * Return a label for price column in products table.
@@ -31,3 +31,17 @@ export const buttonGroupStyles = (theme: Theme, hasTypes: boolean) => ({
     !hasTypes ? `${alpha(theme.palette.primary.light, 0.4)} !important` : ''
   }`
 })
+
+/**
+ * Format a category item for the Select component.
+ * @param {CategoryProductType | null} category - Category item.
+ */
+export const formatCategoryToSelect = (category: CategoryProductType | null) => {
+  if (!category) return null
+  else return { id: category?.id, label: category?.name }
+}
+
+export const formatCategory = (category: { id: string, label: string } | null) => {
+  if (!category) return null
+  else return { id: category?.id, name: category?.label }
+}

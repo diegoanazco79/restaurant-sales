@@ -9,6 +9,7 @@ export const initialOrder = {
 export const initialProduct = {
   id: '',
   name: '',
+  isInfinite: false,
   types: [],
   price: 0
 }

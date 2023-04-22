@@ -1,53 +1,78 @@
-import {
-  Button, Grid, IconButton, InputAdornment, TextField, Typography
-} from '@mui/material'
+import { useState } from 'react'
+import { Button, Typography } from '@mui/material'
+
+import Modal from 'components/modal/Modal'
+import TypeItem from './TypeItem'
+import TypeManagement from './TypeManagement'
+import TypesHeader from './TypesHeader'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-import { type Product } from 'pages/products/interfaces/Products'
-import CloseIcon from '@mui/icons-material/Close'
+import { type ProductType, type Product } from 'pages/products/interfaces/Products'
+
+import { initialProductType } from 'pages/products/helpers/constants'
 
 interface Props {
   product?: Product
+  setFieldValue: (field: string, value: any) => void
+  onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
+  onAddProductType: (type: ProductType) => void
+  onDeleteProductType: (iProduct: number) => void
 }
 
-const TypesList = ({ product }: Props) => {
+const TypesList = ({
+  product,
+  setFieldValue,
+  onDeleteProductType, onEditProductType, onAddProductType
+}: Props) => {
+  const [showTypeModal, setShowTypeModal] = useState(false)
+  const [currentType, setCurrentType] = useState<ProductType>(initialProductType)
+
+  const onEditType = (type: ProductType) => {
+    setCurrentType(type)
+    setShowTypeModal(true)
+  }
+
+  /* Component's Props */
+  const typeManagementProps = {
+    product,
+    currentType,
+    actionType: currentType === initialProductType ? 'create' : 'edit',
+    setShowTypeModal,
+    setFieldValue,
+    onEditProductType,
+    onAddProductType
+  }
+
   return (
     <>
       <Typography
-        variant="body2"
-        fontWeight={600}
-        mb={`${pxToRem(4)} !important`}
-      >
+        variant="body2" fontWeight={600} mb={`${pxToRem(4)} !important`} >
         Tipos
       </Typography>
+      {product && product?.types.length > 0 && <TypesHeader/>}
       {product?.types.map((type, idx) => (
-        <Grid container key={idx} mt="0 !important">
-          <Grid item xs={9}>
-            <TextField value={type.name} fullWidth />
-          </Grid>
-          <Grid item xs={2}>
-            <TextField
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">S/</InputAdornment>
-                )
-              }}
-              type="number"
-              value={type.price.toFixed(2)}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+        <TypeItem
+          key={idx}
+          idx={idx}
+          type={type}
+          onDeleteProductType={onDeleteProductType}
+          onEditType={onEditType}
+        />
       ))}
-      <Button variant="text" sx={{ width: 'fit-content', mt: '0 !important' }}>
+      <Button
+        variant="text" sx={{ width: 'fit-content', mt: '0 !important', mb: 2 }}
+        onClick={() => { setShowTypeModal(true) }}
+      >
         + Añadir tipo
       </Button>
+      <Modal
+        open={showTypeModal}
+        setOpen={setShowTypeModal}
+        title={currentType === initialProductType ? 'Añadir tipo' : 'Editar tipo'}
+      >
+        <TypeManagement {...typeManagementProps} />
+      </Modal>
     </>
   )
 }

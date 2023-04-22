@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 
-import { type Product } from '../interfaces/Products'
+import { type ProductType, type Product } from '../interfaces/Products'
 
 import productsMock from '../mock/productsMock'
 import { initialProduct } from '../helpers/constants'
@@ -38,9 +38,114 @@ const useProducts = () => {
  * Handles the editing of a product.
  * @param {Product} product - Product to edit
  */
-  const onEditProduct = (product: Product) => {
+  const onSelectProduct = (product: Product) => {
     setShowProductModal(true)
     setCurrentProduct(product)
+  }
+
+  /**
+ * Handles a edition of a product.
+ * @param {Product} product - Product to edit
+ * @param {Function} setShow - Function to close modal
+ */
+  const onEditProduct = (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+    void Swal.fire({
+      title: '¿Estas seguro de editar este producto?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, editar',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      preConfirm: () => {
+        try {
+          console.log(product)
+          setShow(false)
+          return { isConfirmed: true }
+          // eslint-disable-next-line no-unreachable
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if ((result.value?.isConfirmed) ?? false) {
+        void Swal.fire({
+          title: '¡Editado!',
+          text: 'Su producto ha sido editado correctamente',
+          icon: 'success'
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+  /**
+ * This function updates a product type in the current product selected.
+ * @param {ProductType['id']} typeId
+ * @param {ProductType} newType
+ */
+  const onEditProductType = (typeId: ProductType['id'], newType: ProductType) => {
+    const newTypes = currentProduct?.types?.map((type) => {
+      if (type.id === typeId) {
+        return newType
+      }
+      return type
+    })
+    setCurrentProduct({ ...currentProduct, types: newTypes })
+  }
+
+  /**
+ * The function adds a new product type to the current product selected.
+ * @param {ProductType} newType
+ */
+  const onAddProductType = (newType: ProductType) => {
+    setCurrentProduct({ ...currentProduct, types: [...currentProduct?.types, newType] })
+  }
+
+  /**
+   * This function displays a confirmation dialog and deletes a product type from the current product
+   * if confirmed.
+   * @param {number} iType - Index of the type to delete
+   */
+  const onDeleteProductType = (iType: number) => {
+    void Swal.fire({
+      title: '¿Estas seguro de eliminar este tipo del producto?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      preConfirm: () => {
+        try {
+          const newTypes = currentProduct?.types?.filter((type, idxType) => idxType !== iType)
+          setCurrentProduct({ ...currentProduct, types: newTypes })
+          return { isConfirmed: true }
+          // eslint-disable-next-line no-unreachable
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if ((result.value?.isConfirmed) ?? false) {
+        void Swal.fire({
+          title: '¡Eliminado!',
+          text: 'Su tipo del producto ha sido eliminado correctamente',
+          icon: 'success'
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
   }
 
   /**
@@ -96,8 +201,12 @@ const useProducts = () => {
     /* Functions */
     handleChangePage,
     handleChangeRowsPerPage,
+    onSelectProduct,
+    onDeleteProduct,
     onEditProduct,
-    onDeleteProduct
+    onEditProductType,
+    onAddProductType,
+    onDeleteProductType
   }
 }
 

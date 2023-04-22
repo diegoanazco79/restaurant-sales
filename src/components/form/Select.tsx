@@ -14,14 +14,15 @@ interface Props {
   name: string
   placeholder: string
   options: Option[]
-  initValue?: Option | undefined
+  value?: Option | null
+  defaultValue?: Option | null
   className?: SxProps<Theme>
   onChange: (ev: SyntheticEvent<Element, Event>, value: Option | null) => void
   [x: string]: any
 }
 
 const Select = ({
-  label, options, className, initValue, placeholder,
+  label, options, className, value, defaultValue, placeholder,
   onChange, ...props
 }: Props) => {
   const theme = useTheme()
@@ -40,7 +41,7 @@ const Select = ({
         autoComplete
         includeInputInList
         noOptionsText='Sin opciones'
-        defaultValue={initValue}
+        value={value === null ? defaultValue : value}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         options={options}
         onChange={onChange}
