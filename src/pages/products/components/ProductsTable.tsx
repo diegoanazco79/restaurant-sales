@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TablePagination, TableRow
@@ -17,8 +18,6 @@ interface Props {
   currentPage: number
   rowsPerPage: number
   currentProduct: Product
-  showProductModal: boolean
-  setShowProductModal: React.Dispatch<React.SetStateAction<boolean>>
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSelectProduct: (product: Product) => void
@@ -30,18 +29,19 @@ interface Props {
 }
 
 const ProductsTable = ({
-  products, currentPage, rowsPerPage, showProductModal, currentProduct,
-  setShowProductModal,
+  products, currentPage, rowsPerPage, currentProduct,
   handleChangePage, handleChangeRowsPerPage, onSelectProduct,
   onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
   onDeleteProductType
 }: Props) => {
+  const [showProductModal, setShowProductModal] = useState(false)
+
   /* Component's Props */
   const productManagementProps = {
     actionType: 'edit',
     product: currentProduct,
     setShowProductModal,
-    onEditProduct,
+    onFinishModal: onEditProduct,
     onEditProductType,
     onAddProductType,
     onDeleteProductType

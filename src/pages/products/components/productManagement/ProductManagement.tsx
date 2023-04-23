@@ -28,7 +28,7 @@ interface Props {
   actionType: string
   product?: Product
   setShowProductModal: React.Dispatch<React.SetStateAction<boolean>>
-  onEditProduct: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
+  onFinishModal: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
   onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
   onAddProductType: (type: ProductType) => void
   onDeleteProductType: (iProduct: number) => void
@@ -37,7 +37,7 @@ interface Props {
 const ProductManagement = ({
   actionType, product,
   setShowProductModal,
-  onEditProduct, onEditProductType, onAddProductType,
+  onFinishModal, onEditProductType, onAddProductType,
   onDeleteProductType
 }: Props) => {
   const [hasTypes, setHasTypes] = useState(product ? product.types.length > 0 : false)
@@ -67,7 +67,7 @@ const ProductManagement = ({
   }
 
   const handleSubmit = (values: FormValues) => {
-    const editedProduct = {
+    const newProduct = {
       id: product?.id ?? '',
       name: values.productName,
       types: hasTypes ? product?.types ?? [] : [],
@@ -78,7 +78,7 @@ const ProductManagement = ({
       ...(!hasTypes && { isInfinite: !hasStock }),
       ...(hasStock && { stockQuantity: values.stockQuantity })
     }
-    onEditProduct(editedProduct, setShowProductModal)
+    onFinishModal(newProduct, setShowProductModal)
   }
 
   /* Component's Props */

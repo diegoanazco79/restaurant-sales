@@ -11,7 +11,6 @@ const useProducts = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const [showProductModal, setShowProductModal] = useState(false)
   const [currentProduct, setCurrentProduct] = useState<Product>(initialProduct)
 
   /**
@@ -39,8 +38,30 @@ const useProducts = () => {
  * @param {Product} product - Product to edit
  */
   const onSelectProduct = (product: Product) => {
-    setShowProductModal(true)
     setCurrentProduct(product)
+  }
+
+  /**
+ * Handles a creation of a product.
+ * @param {Product} product - Product to create
+ * @param {Function} setShow - Function to close modal
+ */
+  const onAddProduct = (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+    try {
+      void Swal.fire({
+        title: '¡Creado!',
+        text: 'Su producto ha sido creado correctamente',
+        icon: 'success'
+      })
+      console.log(product)
+      setShow(false)
+    } catch (error) {
+      void Swal.fire({
+        title: 'Oops...',
+        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+        icon: 'error'
+      })
+    }
   }
 
   /**
@@ -192,11 +213,9 @@ const useProducts = () => {
     productsList,
     currentPage,
     rowsPerPage,
-    showProductModal,
     currentProduct,
 
     /* States Functions */
-    setShowProductModal,
 
     /* Functions */
     handleChangePage,
@@ -206,7 +225,8 @@ const useProducts = () => {
     onEditProduct,
     onEditProductType,
     onAddProductType,
-    onDeleteProductType
+    onDeleteProductType,
+    onAddProduct
   }
 }
 

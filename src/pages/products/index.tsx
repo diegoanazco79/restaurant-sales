@@ -9,11 +9,9 @@ import useProducts from './hooks/useProducts'
 const ProductsPage = () => {
   const {
     productsList, currentPage, rowsPerPage, currentProduct,
-    showProductModal,
-    setShowProductModal,
     handleChangePage, handleChangeRowsPerPage, onSelectProduct,
     onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
-    onDeleteProductType
+    onDeleteProductType, onAddProduct
   } = useProducts()
 
   /* Components props */
@@ -22,8 +20,6 @@ const ProductsPage = () => {
     currentPage,
     rowsPerPage,
     currentProduct,
-    showProductModal,
-    setShowProductModal,
     handleChangePage,
     handleChangeRowsPerPage,
     onSelectProduct,
@@ -34,10 +30,14 @@ const ProductsPage = () => {
     onDeleteProduct
   }
 
+  const filtersProps = {
+    onAddProduct, onEditProductType, onAddProductType, onDeleteProductType
+  }
+
   return (
     <Container maxWidth='xl' sx={{ height: '100%' }}>
       <TitlePage title='Gestión de Productos'/>
-      <Filters />
+      <Filters {...filtersProps} />
       <ProductsTable {...productsTableProps} />
     </Container>
   )
