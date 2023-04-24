@@ -98,11 +98,9 @@ const ProductManagement = ({
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        handleSubmit(values)
-      }}
+      onSubmit={(values) => { handleSubmit(values) }}
     >
-      {({ values, handleSubmit, setFieldValue }) => (
+      {({ handleSubmit, setFieldValue }) => (
         <Form onSubmit={handleSubmit}>
           <Input
             className={{ mb: 2 }}

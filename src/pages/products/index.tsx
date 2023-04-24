@@ -39,6 +39,13 @@ const ProductsPage = () => {
 
   const productListProps = {
     products: productsList,
+    currentProduct,
+    onSelectProduct,
+    onAddProduct,
+    onEditProduct,
+    onEditProductType,
+    onAddProductType,
+    onDeleteProductType,
     onDeleteProduct
   }
 

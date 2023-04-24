@@ -25,17 +25,17 @@ const TypeItem = ({
       container ml={pxToRem(2)} spacing={1} mt={0}
       sx={{ border: `${pxToRem(1)} solid ${theme.palette.grey[400]}`, borderTopColor: 'transparent' }}
     >
-      <Grid item xs={5} pl={pxToRem(8)} py={1}>
+      <Grid item xs={4} sm={4} md={5} pl={pxToRem(8)} py={1}>
         <Typography variant='body2'>
           {type.name}
         </Typography>
       </Grid>
-      <Grid item xs={2} pl={pxToRem(8)} py={1}>
+      <Grid item xs={2} sm={2} md={2} pl={pxToRem(8)} py={1}>
         <Typography variant='body2'>
         S/ {type.price}
         </Typography>
       </Grid>
-      <Grid item xs={2} pl={pxToRem(8)} py={1}>
+      <Grid item xs={2} sm={2} md={2} pl={pxToRem(8)} py={1}>
         {type?.stockQuantity
           ? (
             <Typography variant='body2'>
@@ -44,7 +44,7 @@ const TypeItem = ({
           )
           : <Typography variant='body2'> Sin stock</Typography>}
       </Grid>
-      <Grid item xs={3} textAlign='center' py={1}>
+      <Grid item xs={4} sm={4} md={3} textAlign='center' py={1}>
         <IconButton
           sx={{ p: 0, mr: 3 }} color='success'
           onClick={() => { onEditType(type) }}
