@@ -34,6 +34,15 @@ const useProducts = () => {
   }
 
   /**
+ * Handles a filters in mobile view.
+ * @param categoryID
+ */
+  const onApplyMobileFilters = (categoryId: CategoryProductType['id']) => {
+    setFilters({ ...filters, category: categoryId })
+    setAppliedFilters({ ...appliedFilters, category: categoryId !== '' })
+  }
+
+  /**
  * Handles a change in page and updates the current page number in products table.
  * @param {unknown} event
  * @param {number} newPage
@@ -250,7 +259,8 @@ const useProducts = () => {
     onDeleteProductType,
     onAddProduct,
     onFilterByCategory,
-    onDeleteCategoryFilter
+    onDeleteCategoryFilter,
+    onApplyMobileFilters
   }
 }
 

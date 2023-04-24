@@ -1,6 +1,6 @@
 import { IconButton, TableCell, TableRow } from '@mui/material'
 
-import { getProductPrice } from '../helpers/functions'
+import { getProductPriceLabel } from '../helpers/functions'
 
 import { type Product, type ProductType } from '../interfaces/Products'
 
@@ -28,7 +28,7 @@ const ProductRow = ({
       key={product.id} hover sx={{ cursor: 'pointer' }}
       onClick={() => { onSelectProduct(product); setShowProductModal(true) }} >
       <TableCell>{product.name}</TableCell>
-      <TableCell>S/ {getProductPrice(product)}</TableCell>
+      <TableCell>{getProductPriceLabel(product)}</TableCell>
       <TableCell>
         {product.types.length > 0
           ? (

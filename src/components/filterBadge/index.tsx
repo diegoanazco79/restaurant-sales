@@ -3,7 +3,7 @@ import { Badge, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-export const StyledFilterBadge = styled(Badge)(() => {
+const FilterBadge = styled(Badge)(() => {
   const theme = useTheme()
 
   return {
@@ -24,3 +24,5 @@ export const StyledFilterBadge = styled(Badge)(() => {
     }
   }
 })
+
+export default FilterBadge

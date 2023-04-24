@@ -74,8 +74,10 @@ const RestaurantPage = () => {
         ? (
           <Container maxWidth='xl' sx={{ height: '100%' }}>
             <TitlePage title='Restaurante' />
-            {!isMobileOrTablet && <Filters {...filtersProps} /> }
-            {isMobileOrTablet && <Navigation {...navigationProps} />}
+            {isMobileOrTablet
+              ? <Navigation {...navigationProps} />
+              : <Filters {...filtersProps} />
+            }
             <Grid container spacing={3} pb={10}>
               <Grid item xs={12} sm={6} md={3}>
                 <AddTable onAddTable={onAddTable}/>

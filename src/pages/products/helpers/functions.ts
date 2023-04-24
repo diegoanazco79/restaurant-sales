@@ -3,7 +3,7 @@ import { type Theme, type LabelDisplayedRowsArgs, alpha } from '@mui/material'
 import { type Product, type CategoryProductType } from '../interfaces/Products'
 
 /**
- * Return a label for price column in products table.
+ * Return a price for specific product
  * @param {Product} product
  */
 export const getProductPrice = (product: Product) => {
@@ -14,6 +14,21 @@ export const getProductPrice = (product: Product) => {
     return minPrice.toFixed(2)
   } else {
     return 0
+  }
+}
+
+/**
+ * Return a label for price in product
+ * @param {Product} product
+ */
+export const getProductPriceLabel = (product: Product) => {
+  if (product.price) {
+    return `S/ ${product.price.toFixed(2)}`
+  } else if (product.types.length > 0) {
+    const minPrice = Math.min(...product.types.map((type) => type.price))
+    return `Desde S/ ${minPrice.toFixed(2)}`
+  } else {
+    return ''
   }
 }
 

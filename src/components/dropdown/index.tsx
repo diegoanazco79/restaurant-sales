@@ -14,12 +14,16 @@ export interface Option {
 interface Props {
   buttonLabel: string
   selected: boolean
+  fullWidth?: boolean
   sx?: SxProps<Theme> | undefined
   options: Option[]
   handleOptionClick: (option: Option) => void
 }
 
-const Dropdown = ({ buttonLabel, selected, handleOptionClick, sx, options }: Props) => {
+const Dropdown = ({
+  buttonLabel, selected, sx, options, fullWidth,
+  handleOptionClick
+}: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedOption, setSelectedOption] = useState<Option | null>(null)
   const theme = useTheme()
@@ -53,6 +57,7 @@ const Dropdown = ({ buttonLabel, selected, handleOptionClick, sx, options }: Pro
             background: alpha(theme.palette.primary.lighter, 0.8)
           }
         }}
+        fullWidth={fullWidth}
         id="dropdown-component"
         aria-controls={open ? 'custom-dropdown' : undefined}
         aria-haspopup="true"

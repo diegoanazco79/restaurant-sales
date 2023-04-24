@@ -1,7 +1,7 @@
 import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material'
 
 import FiltersMobile from './modals/FiltersMobile'
-import { StyledFilterBadge } from './styled/StyledFilterBadge'
+import FilterBadge from 'components/filterBadge'
 
 import TuneIcon from '@mui/icons-material/Tune'
 import { type AppliedFiltersType, type FiltersType } from '../interfaces/Tables'
@@ -50,12 +50,12 @@ const Navigation = ({
             onClick={() => { setShowFiltersModal(true) }}
             label="Filtros"
             icon={
-              <StyledFilterBadge
+              <FilterBadge
                 color="secondary"
                 badgeContent={filtersLength}
               >
                 <TuneIcon />
-              </StyledFilterBadge>
+              </FilterBadge>
             }
           />
         </BottomNavigation>
