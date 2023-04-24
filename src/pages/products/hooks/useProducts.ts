@@ -17,6 +17,14 @@ const useProducts = () => {
   const [appliedFilters, setAppliedFilters] = useState<AppliedFiltersType>(initialAppliedFilters)
 
   /**
+ * Handles a search input box in products list.
+ * @param {string} search
+ */
+  const onSearchProduct = (search: string) => {
+    setFilters({ ...filters, search })
+  }
+
+  /**
  * Handles a category filter in products list.
  * @param categoryID
  */
@@ -260,7 +268,8 @@ const useProducts = () => {
     onAddProduct,
     onFilterByCategory,
     onDeleteCategoryFilter,
-    onApplyMobileFilters
+    onApplyMobileFilters,
+    onSearchProduct
   }
 }
 

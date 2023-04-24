@@ -71,7 +71,7 @@ const ProductList = ({
             onClick={() => { setShowAddModal(true) }}
           >
             <AddIcon sx={{ height: '115px', width: '115px', opacity: '0.3' }} />
-            <Typography variant="body1"> Añadir nueva producto </Typography>
+            <Typography variant="body1"> Añadir nuevo producto </Typography>
           </ProductCard>
         </Grid>
         {products.map((product, idx) => (

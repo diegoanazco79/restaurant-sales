@@ -17,7 +17,8 @@ const ProductActions = ({ product, setOpen, onDeleteProduct }: Props) => {
     <Stack sx={{ p: 1 }}>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={() => {
+        onClick={(ev) => {
+          ev.stopPropagation()
           onDeleteProduct(product?.id)
           setOpen(null)
         }}

@@ -13,7 +13,7 @@ const ProductsPage = () => {
   const {
     productsList, currentPage, rowsPerPage, currentProduct,
     filters, appliedFilters,
-    handleChangePage, handleChangeRowsPerPage, onSelectProduct,
+    handleChangePage, handleChangeRowsPerPage, onSelectProduct, onSearchProduct,
     onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
     onDeleteProductType, onAddProduct, onFilterByCategory, onDeleteCategoryFilter,
     onApplyMobileFilters
@@ -52,6 +52,7 @@ const ProductsPage = () => {
   const filtersProps = {
     filters,
     appliedFilters,
+    onSearchProduct,
     onFilterByCategory,
     onDeleteCategoryFilter,
     onAddProduct,

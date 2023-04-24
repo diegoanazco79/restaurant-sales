@@ -25,7 +25,7 @@ const OrderManagement = ({ roomType, deliveryOrder, tableOrder, onBackAction }: 
     orders, totalOrder, showSummaryModal, currentOrder,
     setShowSummaryModal, setCurrentOrder,
     onAddOrder, onDeleteOrder, handleIncrement, handleDecrement,
-    onAddNote
+    onAddNote, onSearchProduct
   } = useOrders()
   const { isMobileOrTablet } = useResponsive()
 
@@ -46,7 +46,7 @@ const OrderManagement = ({ roomType, deliveryOrder, tableOrder, onBackAction }: 
   }
 
   const productSelectionProps = {
-    onAddOrder
+    onAddOrder, onSearchProduct
   }
 
   const navigationProps = {

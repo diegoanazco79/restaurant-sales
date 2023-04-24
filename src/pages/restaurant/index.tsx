@@ -20,7 +20,8 @@ const RestaurantPage = () => {
     showFiltersModal, tableOrder,
     setShowEditModal, setCurrentTableEdit, setShowFiltersModal, setTableOrder,
     onAddTable, onDeleteTable, onEditTable, onBlockTable, onUnlockTable,
-    onFilterByStatus, onFilterByAmbient, onDeleteStatusFilter, onDeleteAmbientFilter
+    onFilterByStatus, onFilterByAmbient, onDeleteStatusFilter, onDeleteAmbientFilter,
+    onSearchTable
   } = useRestaurant()
 
   const { isMobileOrTablet } = useResponsive()
@@ -29,6 +30,7 @@ const RestaurantPage = () => {
   const filtersProps = {
     filters,
     appliedFilters,
+    onSearchTable,
     onFilterByStatus,
     onFilterByAmbient,
     onDeleteStatusFilter,

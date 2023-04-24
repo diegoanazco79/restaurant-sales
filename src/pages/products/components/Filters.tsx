@@ -12,6 +12,7 @@ import { categoriesMock } from '../mock/categoriesMock'
 interface Props {
   filters: FiltersType
   appliedFilters: AppliedFiltersType
+  onSearchProduct: (search: string) => void
   onFilterByCategory: (categoryId: CategoryProductType['id']) => void
   onDeleteCategoryFilter: () => void
   onAddProduct: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
@@ -22,7 +23,7 @@ interface Props {
 
 const Filters = ({
   appliedFilters, filters,
-  onFilterByCategory, onDeleteCategoryFilter,
+  onFilterByCategory, onDeleteCategoryFilter, onSearchProduct,
   onAddProduct, onAddProductType, onEditProductType, onDeleteProductType
 }: Props) => {
   const [showProductModal, setShowProductModal] = useState(false)
@@ -53,7 +54,10 @@ const Filters = ({
     <Box mb={2}>
       <Grid container spacing={2}>
         <Grid item md={3}>
-          <SearchInput placeholder='Escribe para buscar un producto'/>
+          <SearchInput
+            placeholder='Escribe para buscar un producto'
+            onChange={onSearchProduct}
+          />
         </Grid>
         <Grid item md={3} textAlign='start'>
           <Dropdown

@@ -14,9 +14,10 @@ import productsMock from 'pages/products/mock/productsMock'
 
 interface Props {
   onAddOrder: (order: Order) => void
+  onSearchProduct: (name: string) => void
 }
 
-const ProductSelection = ({ onAddOrder }: Props) => {
+const ProductSelection = ({ onAddOrder, onSearchProduct }: Props) => {
   const [selectedProduct, setSelectedProduct] = useState<Product>(initialProduct)
   const [showTypesModal, setShowTypesModal] = useState(false)
 
@@ -37,6 +38,7 @@ const ProductSelection = ({ onAddOrder }: Props) => {
     <>
       <SearchInput
         placeholder="Escribe para buscar un producto"
+        onChange={onSearchProduct}
         sx={{ marginTop: 1 }}
       />
       <Box

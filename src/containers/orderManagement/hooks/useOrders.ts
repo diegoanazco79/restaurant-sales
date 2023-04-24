@@ -94,6 +94,14 @@ const useOrders = () => {
     setOrders(newOrders)
   }
 
+  /**
+ * Handles a search input box in products list.
+ * @param {string} search
+ */
+  const onSearchProduct = (search: string) => {
+    console.log(search)
+  }
+
   return {
     /* States */
     orders,
@@ -108,6 +116,7 @@ const useOrders = () => {
     /* Functions */
     onAddOrder,
     onDeleteOrder,
+    onSearchProduct,
     handleIncrement,
     handleDecrement,
     onAddNote

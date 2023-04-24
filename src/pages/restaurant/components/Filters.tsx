@@ -11,6 +11,7 @@ import { type AppliedFiltersType, type FiltersType } from '../interfaces/Tables'
 interface Props {
   filters: FiltersType
   appliedFilters: AppliedFiltersType
+  onSearchTable: (search: string) => void
   onFilterByStatus: (status: string) => void
   onFilterByAmbient: (status: string) => void
   onDeleteStatusFilter: () => void
@@ -20,7 +21,7 @@ interface Props {
 const Filters = ({
   filters, appliedFilters,
   onFilterByStatus, onFilterByAmbient, onDeleteStatusFilter,
-  onDeleteAmbientFilter
+  onDeleteAmbientFilter, onSearchTable
 }: Props) => {
   const hasFilters = Object.values(appliedFilters).some(val => val === true)
   const hasStatusFilter = appliedFilters?.status
@@ -40,7 +41,10 @@ const Filters = ({
     <Box marginBottom={2}>
       <Grid container>
         <Grid item sm={6} md={3}>
-          <SearchInput placeholder='Escribe para buscar una mesa' />
+          <SearchInput
+            onChange={onSearchTable}
+            placeholder='Escribe para buscar una mesa'
+          />
         </Grid>
         <Grid item sm={6} md={9} paddingLeft={2} display='flex'>
           <Dropdown

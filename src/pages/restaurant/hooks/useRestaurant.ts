@@ -18,6 +18,14 @@ const useRestaurant = () => {
   const [tableOrder, setTableOrder] = useState<TableType>(initialTable)
 
   /**
+ * Handles a search input box in tables list.
+ * @param {string} search
+ */
+  const onSearchTable = (search: string) => {
+    setFilters({ ...filters, search })
+  }
+
+  /**
  * Handles when user filter tables by status
  * @param {string} status - string - this is the status that is passed in from the filter component
  */
@@ -243,6 +251,7 @@ const useRestaurant = () => {
     setTableOrder,
 
     /* Functions */
+    onSearchTable,
     onDeleteTable,
     onEditTable,
     onAddTable,
