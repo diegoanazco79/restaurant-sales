@@ -44,6 +44,11 @@ const ProductManagement = ({
   const [hasStock, setHasStock] = useState(product ? !product.isInfinite : false)
   const [currentCategory, setCurrentCategory] = useState(product ? formatCategoryToSelect(product.category ?? null) : null)
 
+  const formatCategories = categoriesMock.map((category) => ({
+    id: category.id,
+    label: category.name
+  }))
+
   const validationSchema = Yup.object({
     productName: Yup.string().required('* Este campo es obligatorio'),
     price: Yup.number().test('stock-quantity', '* El stock debe ser mayor a 0', (value) => {
@@ -127,7 +132,7 @@ const ProductManagement = ({
             label="Categoría"
             placeholder='Busque o seleccione una categoría'
             name="category"
-            options={[{ id: 'none', label: 'Ninguna' }, ...categoriesMock]}
+            options={[{ id: 'none', label: 'Ninguna' }, ...formatCategories]}
             onChange={(
               event: React.SyntheticEvent<Element, Event>,
               value: Option | null
@@ -155,7 +160,10 @@ const ProductManagement = ({
           )}
 
           <Box display="flex" justifyContent="space-between" pt={4}>
-            <Button variant="contained" color="inherit">
+            <Button
+              variant="contained" color="inherit"
+              onClick={() => { setShowProductModal(false) }}
+            >
                 Cancelar
             </Button>
             <Button type="submit" variant="contained" color="primary">

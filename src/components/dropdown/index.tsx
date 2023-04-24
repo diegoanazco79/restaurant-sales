@@ -5,9 +5,10 @@ import StyledMenu from './StyledMenu'
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
-interface Option {
+export interface Option {
+  id: string
+  filterLabel?: string
   label: string
-  onClick: () => void
 }
 
 interface Props {
@@ -15,9 +16,10 @@ interface Props {
   selected: boolean
   sx?: SxProps<Theme> | undefined
   options: Option[]
+  handleOptionClick: (option: Option) => void
 }
 
-const Dropdown = ({ buttonLabel, selected, sx, options }: Props) => {
+const Dropdown = ({ buttonLabel, selected, handleOptionClick, sx, options }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedOption, setSelectedOption] = useState<Option | null>(null)
   const theme = useTheme()
@@ -29,12 +31,6 @@ const Dropdown = ({ buttonLabel, selected, sx, options }: Props) => {
 
   const handleClose = () => {
     setAnchorEl(null)
-  }
-
-  const handleOptionClick = (option: Option) => {
-    setSelectedOption(option)
-    option.onClick()
-    handleClose()
   }
 
   return (
@@ -78,8 +74,12 @@ const Dropdown = ({ buttonLabel, selected, sx, options }: Props) => {
         {options.map((option) => (
           <MenuItem
             key={option.label}
-            onClick={() => { handleOptionClick(option) }}
-            selected={option.label === selectedOption?.label}
+            selected={selectedOption ? selectedOption.id === option.id : false}
+            onClick={() => {
+              setSelectedOption(option)
+              handleOptionClick(option)
+              handleClose()
+            }}
           >
             {option.label}
           </MenuItem>

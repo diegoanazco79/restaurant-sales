@@ -47,6 +47,12 @@ const ProductsTable = ({
     onDeleteProductType
   }
 
+  const productRowProps = {
+    setShowProductModal,
+    onSelectProduct,
+    onDeleteProduct
+  }
+
   return (
     <>
       <Paper>
@@ -66,8 +72,7 @@ const ProductsTable = ({
                   <ProductRow
                     key={idx}
                     product={product}
-                    onSelectProduct={onSelectProduct}
-                    onDeleteProduct={onDeleteProduct}
+                    {...productRowProps}
                   />
                 ))}
             </TableBody>

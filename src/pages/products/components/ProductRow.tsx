@@ -8,11 +8,16 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 interface Props {
   product: Product
+  setShowProductModal: React.Dispatch<React.SetStateAction<boolean>>
   onSelectProduct: (product: Product) => void
   onDeleteProduct: (product: Product['id']) => void
 }
 
-const ProductRow = ({ product, onSelectProduct, onDeleteProduct }: Props) => {
+const ProductRow = ({
+  product,
+  setShowProductModal,
+  onSelectProduct, onDeleteProduct
+}: Props) => {
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation()
     onDeleteProduct(product.id)
@@ -21,7 +26,7 @@ const ProductRow = ({ product, onSelectProduct, onDeleteProduct }: Props) => {
   return (
     <TableRow
       key={product.id} hover sx={{ cursor: 'pointer' }}
-      onClick={() => { onSelectProduct(product) }} >
+      onClick={() => { onSelectProduct(product); setShowProductModal(true) }} >
       <TableCell>{product.name}</TableCell>
       <TableCell>S/ {getProductPrice(product)}</TableCell>
       <TableCell>

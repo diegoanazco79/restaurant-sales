@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 
-import { type ProductType, type Product } from '../interfaces/Products'
+import { type ProductType, type Product, type FiltersType, type AppliedFiltersType, type CategoryProductType } from '../interfaces/Products'
 
 import productsMock from '../mock/productsMock'
-import { initialProduct } from '../helpers/constants'
+import { initialAppliedFilters, initialFilters, initialProduct } from '../helpers/constants'
 
 const useProducts = () => {
   const [productsList] = useState<Product[]>(productsMock)
@@ -12,6 +12,26 @@ const useProducts = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
   const [currentProduct, setCurrentProduct] = useState<Product>(initialProduct)
+
+  const [filters, setFilters] = useState<FiltersType>(initialFilters)
+  const [appliedFilters, setAppliedFilters] = useState<AppliedFiltersType>(initialAppliedFilters)
+
+  /**
+ * Handles a category filter in products list.
+ * @param categoryID
+ */
+  const onFilterByCategory = (categoryID: CategoryProductType['id']) => {
+    setFilters({ ...filters, category: categoryID })
+    setAppliedFilters({ ...appliedFilters, category: true })
+  }
+
+  /**
+ * The function deletes the category filter in products list
+ */
+  const onDeleteCategoryFilter = () => {
+    setFilters({ ...filters, category: '' })
+    setAppliedFilters({ ...appliedFilters, category: false })
+  }
 
   /**
  * Handles a change in page and updates the current page number in products table.
@@ -214,6 +234,8 @@ const useProducts = () => {
     currentPage,
     rowsPerPage,
     currentProduct,
+    filters,
+    appliedFilters,
 
     /* States Functions */
 
@@ -226,7 +248,9 @@ const useProducts = () => {
     onEditProductType,
     onAddProductType,
     onDeleteProductType,
-    onAddProduct
+    onAddProduct,
+    onFilterByCategory,
+    onDeleteCategoryFilter
   }
 }
 

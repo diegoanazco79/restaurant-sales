@@ -20,3 +20,12 @@ export interface Product {
   isInfinite?: boolean
   stockQuantity?: number
 }
+
+export interface FiltersType {
+  search: string
+  category: string
+}
+
+export interface AppliedFiltersType {
+  category: boolean
+}

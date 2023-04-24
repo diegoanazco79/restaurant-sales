@@ -1,14 +1,19 @@
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Chip, Grid, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 
-import Dropdown from 'components/dropdown'
+import Dropdown, { type Option } from 'components/dropdown'
 import Modal from 'components/modal/Modal'
 import ProductManagement from './productManagement/ProductManagement'
 import SearchInput from 'components/searchInput'
 
-import { type Product, type ProductType } from '../interfaces/Products'
+import { type FiltersType, type CategoryProductType, type Product, type ProductType, type AppliedFiltersType } from '../interfaces/Products'
+import { categoriesMock } from '../mock/categoriesMock'
 
 interface Props {
+  filters: FiltersType
+  appliedFilters: AppliedFiltersType
+  onFilterByCategory: (categoryId: CategoryProductType['id']) => void
+  onDeleteCategoryFilter: () => void
   onAddProduct: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
   onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
   onAddProductType: (type: ProductType) => void
@@ -16,9 +21,23 @@ interface Props {
 }
 
 const Filters = ({
+  appliedFilters, filters,
+  onFilterByCategory, onDeleteCategoryFilter,
   onAddProduct, onAddProductType, onEditProductType, onDeleteProductType
 }: Props) => {
   const [showProductModal, setShowProductModal] = useState(false)
+
+  const hasFilters = Object.values(appliedFilters).some(val => val === true)
+  const hasCategoryFilter = appliedFilters?.category
+
+  const formatCategories = categoriesMock.map((category) => ({
+    id: category.id,
+    label: category.name
+  }))
+
+  const handleOptionClick = (option: Option) => {
+    onFilterByCategory(option?.id)
+  }
 
   /* Component's Props */
   const productManagementProps = {
@@ -40,13 +59,9 @@ const Filters = ({
           <Dropdown
             buttonLabel='Filtrar por categoría'
             sx={{ marginRight: 2 }}
-            selected={false}
-            options={[
-              { label: 'Picantería', onClick: () => { console.log('Filtro') } },
-              { label: 'Especiales', onClick: () => { console.log('Filtro') } },
-              { label: 'Bebidas', onClick: () => { console.log('Filtro') } },
-              { label: 'Postres', onClick: () => { console.log('Filtro') } }
-            ]}
+            selected={hasCategoryFilter}
+            options={formatCategories}
+            handleOptionClick={handleOptionClick}
           />
         </Grid>
         <Grid item md={6} textAlign='end'>
@@ -58,6 +73,23 @@ const Filters = ({
           </Button>
         </Grid>
       </Grid>
+      {hasFilters && (
+        <Grid container marginTop={2}>
+          <Grid item md={12} display='flex'>
+            <Typography variant='body2' fontWeight={600} marginRight={1}>
+              Filtros aplicados:
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              {hasCategoryFilter && (
+                <Chip
+                  label={`Estado: ${filters.category.toString()}`}
+                  onDelete={onDeleteCategoryFilter}
+                />
+              )}
+            </Stack>
+          </Grid>
+        </Grid>
+      )}
       <Modal
         open={showProductModal}
         setOpen={setShowProductModal}

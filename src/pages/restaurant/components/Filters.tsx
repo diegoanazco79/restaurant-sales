@@ -1,6 +1,6 @@
 import { Box, Chip, Grid, Stack, Typography } from '@mui/material'
 
-import Dropdown from 'components/dropdown'
+import Dropdown, { type Option } from 'components/dropdown'
 import SearchInput from 'components/searchInput'
 
 import { getOrderStatusLabel } from '../helpers/functions'
@@ -26,6 +26,16 @@ const Filters = ({
   const hasStatusFilter = appliedFilters?.status
   const hasAmbientFilter = appliedFilters?.ambient
 
+  const handleOptionStatus = (option: Option) => {
+    if (option?.filterLabel === 'empty') onFilterByStatus(EMPTY)
+    if (option?.filterLabel === 'in_progress') onFilterByStatus(IN_PROGRESS)
+    if (option?.filterLabel === 'bloqued') onFilterByStatus(BLOCKED)
+  }
+
+  const handleOptionAmbient = (option: Option) => {
+    onFilterByAmbient(option?.id)
+  }
+
   return (
     <Box marginBottom={2}>
       <Grid container>
@@ -38,19 +48,21 @@ const Filters = ({
             sx={{ marginRight: 2 }}
             selected={hasStatusFilter}
             options={[
-              { label: 'Vacía', onClick: () => { onFilterByStatus(EMPTY) } },
-              { label: 'En progreso', onClick: () => { onFilterByStatus(IN_PROGRESS) } },
-              { label: 'Bloqueada', onClick: () => { onFilterByStatus(BLOCKED) } }
+              { id: '001', filterLabel: 'empty', label: 'Vacía' },
+              { id: '002', filterLabel: 'in_progress', label: 'En progreso' },
+              { id: '003', filterLabel: 'bloqued', label: 'Bloqueada' }
             ]}
+            handleOptionClick={handleOptionStatus}
           />
           <Dropdown
             buttonLabel='Filtrar por Ambiente'
             selected={hasAmbientFilter}
             options={[
-              { label: 'Ambiente 01', onClick: () => { onFilterByAmbient('ambiente_01') } },
-              { label: 'Ambiente 02', onClick: () => { onFilterByAmbient('ambiente_02') } },
-              { label: 'Ambiente 03', onClick: () => { onFilterByAmbient('ambiente_03') } }
+              { id: '004', label: 'Ambiente 01' },
+              { id: '005', label: 'Ambiente 02' },
+              { id: '006', label: 'Ambiente 03' }
             ]}
+            handleOptionClick={handleOptionAmbient}
           />
         </Grid>
       </Grid>

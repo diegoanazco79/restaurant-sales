@@ -9,9 +9,10 @@ import useProducts from './hooks/useProducts'
 const ProductsPage = () => {
   const {
     productsList, currentPage, rowsPerPage, currentProduct,
+    filters, appliedFilters,
     handleChangePage, handleChangeRowsPerPage, onSelectProduct,
     onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
-    onDeleteProductType, onAddProduct
+    onDeleteProductType, onAddProduct, onFilterByCategory, onDeleteCategoryFilter
   } = useProducts()
 
   /* Components props */
@@ -31,7 +32,14 @@ const ProductsPage = () => {
   }
 
   const filtersProps = {
-    onAddProduct, onEditProductType, onAddProductType, onDeleteProductType
+    filters,
+    appliedFilters,
+    onFilterByCategory,
+    onDeleteCategoryFilter,
+    onAddProduct,
+    onEditProductType,
+    onAddProductType,
+    onDeleteProductType
   }
 
   return (

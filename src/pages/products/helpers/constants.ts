@@ -22,3 +22,12 @@ export const producTableRows = [
   { id: 'stockQuantity', label: 'Stock' },
   { id: 'actions', label: 'Acciones' }
 ]
+
+export const initialFilters = {
+  search: '',
+  category: ''
+}
+
+export const initialAppliedFilters = {
+  category: false
+}
