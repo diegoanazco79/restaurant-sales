@@ -4,7 +4,7 @@ import { Box, Button, Chip, Grid, Typography } from '@mui/material'
 import Dropdown, { type Option } from 'components/dropdown'
 
 import { type FiltersType, type CategoryProductType } from 'pages/products/interfaces/Products'
-import { categoriesMock } from 'pages/products/mock/categoriesMock'
+import { categoriesMock } from 'pages/categories/mock/categoriesMock'
 
 interface Props {
   filters: FiltersType

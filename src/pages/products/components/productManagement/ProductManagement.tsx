@@ -3,7 +3,9 @@ import { ErrorMessage, Form, Formik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
 
+import CategoryManagement from 'containers/categoryManagement'
 import Input from 'components/form/Input'
+import Modal from 'components/modal/Modal'
 import Select, { type Option } from 'components/form/Select'
 import StockSelection from './StockSelection'
 import TypesList from './TypesList'
@@ -12,7 +14,7 @@ import TypesSelection from './TypesSelection'
 import { formatCategoryToSelect, formatCategory, getProductPrice } from '../../helpers/functions'
 
 import { initialProduct } from '../../helpers/constants'
-import { categoriesMock } from 'pages/products/mock/categoriesMock'
+import { categoriesMock } from 'pages/categories/mock/categoriesMock'
 
 import { type ProductType, type Product } from '../../interfaces/Products'
 
@@ -43,6 +45,7 @@ const ProductManagement = ({
   const [hasTypes, setHasTypes] = useState(product ? product.types.length > 0 : false)
   const [hasStock, setHasStock] = useState(product ? !product.isInfinite : false)
   const [currentCategory, setCurrentCategory] = useState(product ? formatCategoryToSelect(product.category ?? null) : null)
+  const [showCategoryModal, setShowCategoryModal] = useState(false)
 
   const formatCategories = categoriesMock.map((category) => ({
     id: category.id,
@@ -95,82 +98,99 @@ const ProductManagement = ({
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(values) => { handleSubmit(values) }}
-    >
-      {({ handleSubmit, setFieldValue }) => (
-        <Form onSubmit={handleSubmit}>
-          <Input
-            className={{ mb: 2 }}
-            label="Nombre"
-            name="productName"
-            placeholder="Escribe aquí el nombre de tu producto"
-          />
-
-          <TypesSelection hasTypes={hasTypes} setHasTypes={setHasTypes} />
-          <>
-            <br/>
-            <ErrorMessage name="types" className='formik-error' component='span'/>
-          </>
-          {!hasTypes && (
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values) => { handleSubmit(values) }}
+      >
+        {({ handleSubmit, setFieldValue }) => (
+          <Form onSubmit={handleSubmit}>
             <Input
               className={{ mb: 2 }}
-              label="Precio"
-              name="price"
-              inputLabelAdorment='S/ '
-              placeholder="Escribe aquí el precio de tu producto"
+              label="Nombre"
+              name="productName"
+              placeholder="Escribe aquí el nombre de tu producto"
             />
-          )}
 
-          {hasTypes && <TypesList {...typesListProps} setFieldValue={setFieldValue} /> }
+            <TypesSelection hasTypes={hasTypes} setHasTypes={setHasTypes} />
+            <>
+              <br/>
+              <ErrorMessage name="types" className='formik-error' component='span'/>
+            </>
+            {!hasTypes && (
+              <Input
+                className={{ mb: 2 }}
+                label="Precio"
+                name="price"
+                inputLabelAdorment='S/ '
+                placeholder="Escribe aquí el precio de tu producto"
+              />
+            )}
 
-          <Select
-            label="Categoría"
-            placeholder='Busque o seleccione una categoría'
-            name="category"
-            options={[{ id: 'none', label: 'Ninguna' }, ...formatCategories]}
-            onChange={(
-              event: React.SyntheticEvent<Element, Event>,
-              value: Option | null
-            ) => {
-              setFieldValue('category', value)
-              setCurrentCategory(value)
-            }}
-            value={currentCategory}
-            defaultValue={{ id: 'none', label: 'Ninguna' }}
-          />
+            {hasTypes && <TypesList {...typesListProps} setFieldValue={setFieldValue} /> }
 
-          <Box display='flex' alignItems='center' mt='1px !important' mb={2}>
-            <Typography variant='caption'>¿No encuentras una categoría en el listado?</Typography>
-            <Button variant='text' sx={{ width: 'fit-content', mt: '0 !important' }}> + Añadir categoría</Button>
-          </Box>
-
-          {!hasTypes && <StockSelection hasStock={hasStock} setHasStock={setHasStock} /> }
-
-          {hasStock && (
-            <Input
-              label="Stock"
-              name="stockQuantity"
-              placeholder="Escribe aquí el stock de tu producto"
+            <Select
+              label="Categoría"
+              placeholder='Busque o seleccione una categoría'
+              name="category"
+              options={[{ id: 'none', label: 'Ninguna' }, ...formatCategories]}
+              onChange={(
+                event: React.SyntheticEvent<Element, Event>,
+                value: Option | null
+              ) => {
+                setFieldValue('category', value)
+                setCurrentCategory(value)
+              }}
+              value={currentCategory}
+              defaultValue={{ id: 'none', label: 'Ninguna' }}
             />
-          )}
 
-          <Box display="flex" justifyContent="space-between" pt={4}>
-            <Button
-              variant="contained" color="inherit"
-              onClick={() => { setShowProductModal(false) }}
-            >
+            <Box display='flex' alignItems='center' mt='1px !important' mb={2}>
+              <Typography variant='caption'>¿No encuentras una categoría en el listado?</Typography>
+              <Button
+                variant='text' sx={{ width: 'fit-content', mt: '0 !important' }}
+                onClick={() => { setShowCategoryModal(true) }}
+              >
+              + Añadir categoría
+              </Button>
+            </Box>
+
+            {!hasTypes && <StockSelection hasStock={hasStock} setHasStock={setHasStock} /> }
+
+            {hasStock && (
+              <Input
+                label="Stock"
+                name="stockQuantity"
+                placeholder="Escribe aquí el stock de tu producto"
+              />
+            )}
+
+            <Box display="flex" justifyContent="space-between" pt={4}>
+              <Button
+                variant="contained" color="inherit"
+                onClick={() => { setShowProductModal(false) }}
+              >
                 Cancelar
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
-              {actionType === 'create' ? 'Añadir' : 'Editar'}
-            </Button>
-          </Box>
-        </Form>
-      )}
-    </Formik>
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
+                {actionType === 'create' ? 'Añadir' : 'Editar'}
+              </Button>
+            </Box>
+          </Form>
+        )}
+      </Formik>
+      <Modal
+        open={showCategoryModal}
+        setOpen={setShowCategoryModal}
+        title= 'Añadir categoría'
+      >
+        <CategoryManagement
+          actionType='create'
+          setShow={setShowCategoryModal}
+        />
+      </Modal>
+    </>
   )
 }
 

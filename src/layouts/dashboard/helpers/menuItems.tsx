@@ -1,5 +1,6 @@
 import { adminRole } from 'helpers/constants'
 
+import BentoIcon from '@mui/icons-material/Bento'
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
 import QueryStatsIcon from '@mui/icons-material/QueryStats'
 import StorefrontIcon from '@mui/icons-material/Storefront'
@@ -29,6 +30,14 @@ export const menuItems = [
     to: '/products',
     roles: [],
     icon: <TapasIcon />
+  },
+  {
+    id: 'categories',
+    main: true,
+    name: 'Categorías',
+    to: '/categories',
+    roles: [],
+    icon: <BentoIcon />
   },
   {
     id: 'analytics-reports',

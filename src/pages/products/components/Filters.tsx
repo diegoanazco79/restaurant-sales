@@ -7,7 +7,7 @@ import ProductManagement from './productManagement/ProductManagement'
 import SearchInput from 'components/searchInput'
 
 import { type FiltersType, type CategoryProductType, type Product, type ProductType, type AppliedFiltersType } from '../interfaces/Products'
-import { categoriesMock } from '../mock/categoriesMock'
+import { categoriesMock } from '../../categories/mock/categoriesMock'
 
 interface Props {
   filters: FiltersType
