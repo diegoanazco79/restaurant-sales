@@ -5,12 +5,15 @@ import Filters from './components/Filters'
 import TitlePage from 'components/titlePage'
 
 import useCategories from './hooks/useCategories'
+import useResponsive from 'helpers/hooks/useResponsive'
 
 const CategoriesPage = () => {
   const {
     categoriesList, currentCategory,
     onSearchCategory, onSelectCategory, onDeleteCategory
   } = useCategories()
+
+  const { isMobileOrTablet } = useResponsive()
 
   /* Component's Props */
   const filtersProps = {
@@ -26,8 +29,8 @@ const CategoriesPage = () => {
 
   return (
     <Container maxWidth='xl' sx={{ height: '100%' }}>
-      <TitlePage title='Gestion de Categorías'/>
-      <Filters {...filtersProps} />
+      <TitlePage title='Gestión de Categorías'/>
+      {!isMobileOrTablet && <Filters {...filtersProps} />}
       <CategoriesList {...categoriesListProps}/>
     </Container>
   )

@@ -5,4 +5,5 @@ export interface MenuElements {
   icon?: JSX.Element
   roles?: string[]
   to?: string
+  section: string
 }

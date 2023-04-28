@@ -61,7 +61,7 @@ const TableCard = ({
   return (
     <>
       <StyledTableBox
-        onClick={() => { setTableOrder(table) }}
+        onClick={() => { table?.status !== 'blocked' && setTableOrder(table) }}
         status={table?.status}
       >
         <TableHeader {...tableHeaderProps} />
