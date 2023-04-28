@@ -32,7 +32,7 @@ const UsersPage = () => {
 
   return (
     <Container maxWidth='xl' sx={{ height: '100%' }}>
-      <TitlePage title='Gestión de usuarios'/>
+      <TitlePage title='Gestión de Usuarios'/>
       <Filters {...filtersProps} />
       <UsersTable {...usersTableProps} />
     </Container>

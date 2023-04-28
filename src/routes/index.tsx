@@ -13,6 +13,7 @@ const LoginPage = Loadable(lazy(async () => await import('pages/login')))
 const ProductsPage = Loadable(lazy(async () => await import('pages/products')))
 const RestaurantPage = Loadable(lazy(async () => await import('pages/restaurant')))
 const UsersPage = Loadable(lazy(async () => await import('pages/users')))
+const ClientsPage = Loadable(lazy(async () => await import('pages/clients')))
 
 const AppRoutes = () => {
   const isAuth = useAuthStore((state) => state.isAuth)
@@ -23,6 +24,7 @@ const AppRoutes = () => {
       <Route path='/login' element={<LoginPage />} />
       <Route element={<ProtectedRoutes isAuth={isAuth} />} >
         <Route path='/categories' element={<CategoriesPage />} />
+        <Route path='/clients' element={<ClientsPage />} />
         <Route path='/delivery' element={<DeliveryPage />} />
         <Route path='/products' element={<ProductsPage />} />
         <Route path='/reports' element={<DashboardPage />} />

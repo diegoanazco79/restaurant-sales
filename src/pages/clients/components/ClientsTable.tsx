@@ -4,38 +4,36 @@ import {
   TableContainer, TableHead, TablePagination, TableRow
 } from '@mui/material'
 
+import ClientRow from './ClientRow'
 import Modal from 'components/modal/Modal'
-import UserManagement from './userManagement/UserManagement'
-import UserRow from './UserRow'
 
 import { labelDisplayedRows } from '../helpers/functions'
 
-import { usersRows } from '../helpers/constants'
-import { type User } from '../interfaces/User'
+import { clientsRows } from '../helpers/constants'
+import { type Client } from '../interfaces/Clients'
 
 interface Props {
-  users: User[]
-  currentUser: User
+  clients: Client[]
+  currentClient: Client
   currentPage: number
   rowsPerPage: number
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
-  onSelectUser: (user: User) => void
-  onEditUser: (user: User, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
-  onDeleteUser: (user: User['id']) => void
+  onSelectClient: (client: Client) => void
+  onDeleteClient: (clientId: Client['id']) => void
 }
 
-const UsersTable = ({
-  users, currentPage, rowsPerPage, currentUser,
+const ClientsTable = ({
+  clients, currentPage, rowsPerPage, currentClient,
   handleChangePage, handleChangeRowsPerPage,
-  onSelectUser, onDeleteUser, onEditUser
+  onSelectClient, onDeleteClient
 }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false)
 
-  const userRowProps = {
+  const clientRowProps = {
     setShowEditModal,
-    onSelectUser,
-    onDeleteUser
+    onSelectClient,
+    onDeleteClient
   }
 
   return (
@@ -45,19 +43,19 @@ const UsersTable = ({
           <Table stickyHeader>
             <TableHead>
               <TableRow>
-                {usersRows.map((row, idx) => (
+                {clientsRows.map((row, idx) => (
                   <TableCell key={idx}>{row.label}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {users
+              {clients
                 .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                .map((user, idx) => (
-                  <UserRow
+                .map((client, idx) => (
+                  <ClientRow
                     key={idx}
-                    user={user}
-                    {...userRowProps}
+                    client={client}
+                    {...clientRowProps}
                   />
                 ))}
             </TableBody>
@@ -66,10 +64,10 @@ const UsersTable = ({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={users.length}
+          count={clients.length}
           rowsPerPage={rowsPerPage}
           page={currentPage}
-          labelRowsPerPage="Usuarios por página"
+          labelRowsPerPage="Clientes por página"
           labelDisplayedRows={labelDisplayedRows}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -80,15 +78,10 @@ const UsersTable = ({
         setOpen={setShowEditModal}
         title='Editar usuario'
       >
-        <UserManagement
-          actionType='edit'
-          currentUser={currentUser}
-          setShow={setShowEditModal}
-          onFinishModal={onEditUser}
-        />
+        <span>Hola</span>
       </Modal>
     </>
   )
 }
 
-export default UsersTable
+export default ClientsTable

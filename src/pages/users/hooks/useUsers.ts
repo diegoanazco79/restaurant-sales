@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 
 import { initialFilters, initialUser } from '../helpers/constants'
 import { usersMock } from '../mock/usersMock'
-import { type User } from '../interfaces/User'
+import { type Filters, type User } from '../interfaces/User'
 
 const useUsers = () => {
   const [usersList] = useState<User[]>(usersMock)
@@ -12,7 +12,7 @@ const useUsers = () => {
 
   const [currentUser, setCurrentUser] = useState<User>(initialUser)
 
-  const [filters, setFilters] = useState(initialFilters)
+  const [filters, setFilters] = useState<Filters>(initialFilters)
 
   /**
  * Handles a search input box in users list.
@@ -31,7 +31,7 @@ const useUsers = () => {
   }
 
   /**
- * Handles a change in page and updates the current page number in products table.
+ * Handles a change in page and updates the current page number in users table.
  * @param {unknown} event
  * @param {number} newPage
  */
@@ -40,7 +40,7 @@ const useUsers = () => {
   }
 
   /**
- * Handles when user change a rows per page in products table.
+ * Handles when user change a rows per page in users table.
  * @param event
  */
   const handleChangeRowsPerPage = (

@@ -3,16 +3,12 @@ import { Box, Grid, Button } from '@mui/material'
 
 import Modal from 'components/modal/Modal'
 import SearchInput from 'components/searchInput'
-import UserManagement from './userManagement/UserManagement'
-
-import { type User } from '../interfaces/User'
 
 interface Props {
-  onSearchUser: (search: string) => void
-  onInviteUser: (user: User, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
+  onSearchClient: (search: string) => void
 }
 
-const Filters = ({ onSearchUser, onInviteUser }: Props) => {
+const Filters = ({ onSearchClient }: Props) => {
   const [showAddModal, setShowAddModal] = useState(false)
 
   return (
@@ -20,8 +16,8 @@ const Filters = ({ onSearchUser, onInviteUser }: Props) => {
       <Grid container spacing={2}>
         <Grid item xs={6} sm={6} md={4} lg={4}>
           <SearchInput
-            placeholder='Escribe para buscar un usuario'
-            onChange={onSearchUser}
+            placeholder='Escribe para buscar un cliente'
+            onChange={onSearchClient}
           />
         </Grid>
         <Grid item xs={6} sm={6} md={8} lg={8} textAlign='end'>
@@ -29,7 +25,7 @@ const Filters = ({ onSearchUser, onInviteUser }: Props) => {
             variant='contained' color='primary'
             onClick={() => { setShowAddModal(true) }}
           >
-            Invitar Usuario
+            Añadir cliente
           </Button>
         </Grid>
       </Grid>
@@ -38,11 +34,7 @@ const Filters = ({ onSearchUser, onInviteUser }: Props) => {
         setOpen={setShowAddModal}
         title='Invitar usuario'
       >
-        <UserManagement
-          actionType='create'
-          setShow={setShowAddModal}
-          onFinishModal={onInviteUser}
-        />
+        <span>Client Management</span>
       </Modal>
     </Box>
   )
