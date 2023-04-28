@@ -23,7 +23,7 @@ const ClientRow = ({ client, setShowEditModal, onSelectClient, onDeleteClient }:
       onClick={() => { onSelectClient(client); setShowEditModal(true) }} >
 
       <TableCell>{client.name}</TableCell>
-      <TableCell><b>{client.typeDocument}</b> {client.document}</TableCell>
+      <TableCell><b>{(client.typeDocument).toUpperCase()}</b> {client.document}</TableCell>
       <TableCell>{prettyPhoneNumber(client.phone)}</TableCell>
       <TableCell>
         <IconButton onClick={handleDelete}>

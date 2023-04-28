@@ -38,7 +38,6 @@ const UserManagement = ({
     firstName: Yup.string().required('* Este campo es obligatorio'),
     lastName: Yup.string().required('* Este campo es obligatorio'),
     role: Yup.string().required('Este campo es requerido')
-
   })
 
   const initialValues = {
@@ -74,7 +73,7 @@ const UserManagement = ({
       validationSchema={validationSchema}
       onSubmit={(values) => { handleSubmit(values) }}
     >
-      {({ handleSubmit, setFieldValue }) => (
+      {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <Input
             className={{ mb: 2 }}

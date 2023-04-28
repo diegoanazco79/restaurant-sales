@@ -4,6 +4,7 @@ import {
   TableContainer, TableHead, TablePagination, TableRow
 } from '@mui/material'
 
+import ClientManagement from './ClientManagement'
 import ClientRow from './ClientRow'
 import Modal from 'components/modal/Modal'
 
@@ -20,13 +21,14 @@ interface Props {
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSelectClient: (client: Client) => void
+  onEditClient: (client: Client, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
   onDeleteClient: (clientId: Client['id']) => void
 }
 
 const ClientsTable = ({
   clients, currentPage, rowsPerPage, currentClient,
   handleChangePage, handleChangeRowsPerPage,
-  onSelectClient, onDeleteClient
+  onSelectClient, onDeleteClient, onEditClient
 }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false)
 
@@ -76,9 +78,14 @@ const ClientsTable = ({
       <Modal
         open={showEditModal}
         setOpen={setShowEditModal}
-        title='Editar usuario'
+        title='Editar Cliente'
       >
-        <span>Hola</span>
+        <ClientManagement
+          actionType='edit'
+          currentClient={currentClient}
+          setShow={setShowEditModal}
+          onFinishModal={onEditClient}
+        />
       </Modal>
     </>
   )

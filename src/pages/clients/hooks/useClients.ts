@@ -50,6 +50,70 @@ const useClients = () => {
   }
 
   /**
+ * Handles a creation of a client.
+ * @param {Client} client - Client to create
+ * @param {Function} setShow - Function to close modal
+ */
+  const onAddClient = (client: Client, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+    try {
+      void Swal.fire({
+        title: '¡Creado!',
+        text: 'El cliente ha sido creado correctamente.',
+        icon: 'success'
+      })
+      console.log(client)
+      setShow(false)
+    } catch (error) {
+      void Swal.fire({
+        title: 'Oops...',
+        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+        icon: 'error'
+      })
+    }
+  }
+
+  /**
+* Handles a edition of a client.
+* @param {Client} client - Client to edit
+* @param {Function} setShow - Function to close modal
+*/
+  const onEditClient = (client: Client, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+    void Swal.fire({
+      title: '¿Estas seguro de editar este cliente?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, editar',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      preConfirm: () => {
+        try {
+          console.log(client)
+          setShow(false)
+          return { isConfirmed: true }
+        // eslint-disable-next-line no-unreachable
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if ((result.value?.isConfirmed) ?? false) {
+        void Swal.fire({
+          title: '¡Editado!',
+          text: 'El cliente ha sido editado correctamente',
+          icon: 'success'
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+  /**
    * Handles when you want to delete a client.
    * @param {Client['id']} clientId - Cliend id to delete
    */
@@ -101,6 +165,8 @@ const useClients = () => {
     onSearchClient,
     onSelectClient,
     onDeleteClient,
+    onAddClient,
+    onEditClient,
     handleChangePage,
     handleChangeRowsPerPage
   }

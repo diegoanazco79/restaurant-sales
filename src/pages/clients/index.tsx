@@ -10,12 +10,12 @@ const ClientsPage = () => {
   const {
     clientList, currentPage, rowsPerPage, currentClient,
     onSearchClient, handleChangePage, handleChangeRowsPerPage,
-    onSelectClient, onDeleteClient
+    onSelectClient, onDeleteClient, onEditClient, onAddClient
   } = useClients()
 
   /* Component's Props */
   const filtersProps = {
-    onSearchClient
+    onSearchClient, onAddClient
   }
 
   const clientsTableProps = {
@@ -26,6 +26,7 @@ const ClientsPage = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     onSelectClient,
+    onEditClient,
     onDeleteClient
   }
 

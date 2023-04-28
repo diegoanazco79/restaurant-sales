@@ -13,7 +13,6 @@ export const labelDisplayedRows = ({ from, to, count }: LabelDisplayedRowsArgs) 
  * @param {string} phoneNumber
  */
 export const prettyPhoneNumber = (phoneNumber: string) => {
-  const cleanedNumber = phoneNumber.replace('+51 ', '')
-  const formattedNumber = cleanedNumber.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3')
+  const formattedNumber = phoneNumber.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3')
   return formattedNumber
 }

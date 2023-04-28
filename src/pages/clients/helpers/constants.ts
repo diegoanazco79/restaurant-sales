@@ -16,3 +16,8 @@ export const clientsRows = [
   { id: 'phone', label: 'Teléfono' },
   { id: 'actions', label: 'Acciones' }
 ]
+
+export const typeDocumentOptions = [
+  { value: 'dni', label: 'DNI' },
+  { value: 'ruc', label: 'RUC' }
+]
