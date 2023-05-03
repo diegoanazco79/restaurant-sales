@@ -13,7 +13,7 @@ export interface Option {
 
 interface Props {
   buttonLabel: string
-  selected: boolean
+  selected?: boolean
   fullWidth?: boolean
   sx?: SxProps<Theme> | undefined
   options: Option[]
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const Dropdown = ({
-  buttonLabel, selected, sx, options, fullWidth,
+  buttonLabel, selected = false, sx, options, fullWidth,
   handleOptionClick
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)

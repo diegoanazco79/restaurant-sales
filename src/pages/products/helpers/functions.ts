@@ -1,4 +1,4 @@
-import { type Theme, type LabelDisplayedRowsArgs, alpha } from '@mui/material'
+import { type LabelDisplayedRowsArgs } from '@mui/material'
 
 import { type Product, type CategoryProductType } from '../interfaces/Products'
 
@@ -39,13 +39,6 @@ export const getProductPriceLabel = (product: Product) => {
 export const labelDisplayedRows = ({ from, to, count }: LabelDisplayedRowsArgs) => {
   return `${from}-${to} de ${count} productos`
 }
-
-/* Return a buttonGroupsStyles in product management modal */
-export const buttonGroupStyles = (theme: Theme, hasTypes: boolean) => ({
-  backgroundColor: `${
-    !hasTypes ? `${alpha(theme.palette.primary.light, 0.4)} !important` : ''
-  }`
-})
 
 /**
  * Format a category item for the Select component.

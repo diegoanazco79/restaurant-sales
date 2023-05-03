@@ -7,13 +7,15 @@ import ProtectedRoutes from './helpers/ProtectedRoutes'
 import { useAuthStore } from 'store/auth'
 
 const CategoriesPage = Loadable(lazy(async () => await import('pages/categories')))
+const ClientsPage = Loadable(lazy(async () => await import('pages/clients')))
 const DashboardPage = Loadable(lazy(async () => await import('pages/dashboard')))
 const DeliveryPage = Loadable(lazy(async () => await import('pages/delivery')))
+const InvoicesPage = Loadable(lazy(async () => await import('pages/invoices')))
 const LoginPage = Loadable(lazy(async () => await import('pages/login')))
 const ProductsPage = Loadable(lazy(async () => await import('pages/products')))
 const RestaurantPage = Loadable(lazy(async () => await import('pages/restaurant')))
+const SalesPage = Loadable(lazy(async () => await import('pages/sales')))
 const UsersPage = Loadable(lazy(async () => await import('pages/users')))
-const ClientsPage = Loadable(lazy(async () => await import('pages/clients')))
 
 const AppRoutes = () => {
   const isAuth = useAuthStore((state) => state.isAuth)
@@ -26,9 +28,11 @@ const AppRoutes = () => {
         <Route path='/categories' element={<CategoriesPage />} />
         <Route path='/clients' element={<ClientsPage />} />
         <Route path='/delivery' element={<DeliveryPage />} />
+        <Route path='/invoices' element={<InvoicesPage />} />
         <Route path='/products' element={<ProductsPage />} />
         <Route path='/reports' element={<DashboardPage />} />
         <Route path='/restaurant' element={<RestaurantPage />} />
+        <Route path='/sales' element={<SalesPage />} />
         <Route path='/users' element={<UsersPage />} />
       </Route>
     </Routes>

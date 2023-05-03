@@ -1,7 +1,6 @@
 import { Button, ButtonGroup, Typography, useTheme } from '@mui/material'
 
-import { buttonGroupStyles } from 'pages/products/helpers/functions'
-import { pxToRem } from 'theme/helpers/functions'
+import { buttonGroupStyles, pxToRem } from 'theme/helpers/functions'
 
 interface Props {
   hasTypes: boolean
@@ -23,13 +22,13 @@ const TypesSelection = ({ hasTypes, setHasTypes }: Props) => {
       <ButtonGroup variant="contained" sx={{ mb: 2, mr: 2 }}>
         <Button
           onClick={() => { setHasTypes(false) }}
-          sx={buttonGroupStyles(theme, hasTypes)}
+          sx={buttonGroupStyles(theme, !hasTypes)}
         >
           No
         </Button>
         <Button
           onClick={() => { setHasTypes(true) }}
-          sx={buttonGroupStyles(theme, !hasTypes)}
+          sx={buttonGroupStyles(theme, hasTypes)}
         >
           Si
         </Button>

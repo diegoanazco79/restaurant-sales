@@ -1,4 +1,4 @@
-import { alpha } from '@mui/material/styles'
+import { alpha, type Theme } from '@mui/material'
 
 import palette from './palette'
 
@@ -63,3 +63,10 @@ export const customShadows = () => {
     dropdown: `0 0 2px 0 ${alpha(color, 0.24)}, -20px 20px 40px -4px ${alpha(color, 0.24)}`
   }
 }
+
+/* Return a buttonGroupsStyles for selected option */
+export const buttonGroupStyles = (theme: Theme, selected: boolean) => ({
+  backgroundColor: `${
+    selected ? `${alpha(theme.palette.primary.light, 0.4)} !important` : ''
+  }`
+})

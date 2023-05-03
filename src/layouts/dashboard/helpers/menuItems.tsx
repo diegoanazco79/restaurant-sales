@@ -1,9 +1,11 @@
-import BentoIcon from '@mui/icons-material/Bento'
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
-import StorefrontIcon from '@mui/icons-material/Storefront'
-import TapasIcon from '@mui/icons-material/Tapas'
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd'
 import BadgeIcon from '@mui/icons-material/Badge'
+import BentoIcon from '@mui/icons-material/Bento'
+import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
+import StorefrontIcon from '@mui/icons-material/Storefront'
+import TapasIcon from '@mui/icons-material/Tapas'
 
 export const menuItems = [
   {
@@ -59,5 +61,24 @@ export const menuItems = [
     roles: [],
     section: 'people',
     icon: <AssignmentIndIcon />
+  },
+  {
+    id: 'sales',
+    main: true,
+    name: 'Ventas',
+    to: '/sales',
+    roles: [],
+    section: 'reports',
+    icon: <PointOfSaleIcon />
+  },
+  {
+    id: 'invoices',
+    main: true,
+    name: 'Facturación',
+    to: '/invoices',
+    roles: [],
+    section: 'reports',
+    icon: <ReceiptOutlinedIcon />
   }
+
 ]

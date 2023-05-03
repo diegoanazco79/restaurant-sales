@@ -1,7 +1,6 @@
 import { Button, ButtonGroup, Typography, useTheme } from '@mui/material'
 
-import { buttonGroupStyles } from 'pages/products/helpers/functions'
-import { pxToRem } from 'theme/helpers/functions'
+import { buttonGroupStyles, pxToRem } from 'theme/helpers/functions'
 
 interface Props {
   hasStock: boolean
@@ -23,13 +22,13 @@ const StockSelection = ({ hasStock, setHasStock }: Props) => {
       <ButtonGroup variant="contained" sx={{ mb: 2 }}>
         <Button
           onClick={() => { setHasStock(false) }}
-          sx={buttonGroupStyles(theme, hasStock)}
+          sx={buttonGroupStyles(theme, !hasStock)}
         >
           No
         </Button>
         <Button
           onClick={() => { setHasStock(true) }}
-          sx={buttonGroupStyles(theme, !hasStock)}
+          sx={buttonGroupStyles(theme, hasStock)}
         >
           Si
         </Button>
