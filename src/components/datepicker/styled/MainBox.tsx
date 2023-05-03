@@ -8,11 +8,12 @@ const MainBox = styled(Paper)(() => {
 
   return {
     position: 'absolute',
+    zIndex: 10,
     padding: pxToRem(10),
-    width: pxToRem(325),
+    width: pxToRem(282),
     border: `${pxToRem(1)} solid ${palette.grey[300]}`,
     '& .react-datepicker': {
-      marginLeft: pxToRem(31),
+      marginLeft: pxToRem(9),
       marginTop: pxToRem(8)
     },
     '& .react-datepicker__header': {

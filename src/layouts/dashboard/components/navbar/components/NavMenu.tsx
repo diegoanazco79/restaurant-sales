@@ -77,8 +77,9 @@ const NavMenu = () => {
         ))}
       </List>
       <List sx={{
-        marginTop: 'auto',
-        paddingBottom: '1.5rem',
+        mt: 'auto',
+        pt: '5rem',
+        pb: '1.5rem',
         '&& .Mui-selected, && .Mui-selected:hover': {
           backgroundColor: 'rgba(145, 158, 171, 0.16)',
           '&, & .MuiTypography-root': {

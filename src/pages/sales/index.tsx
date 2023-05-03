@@ -1,6 +1,7 @@
 import { Container } from '@mui/material'
 
 import Filters from './components/Filters'
+import SalesTable from './components/SalesTable'
 import TitlePage from 'components/titlePage'
 
 import useSales from './hooks/useSales'
@@ -8,9 +9,11 @@ import useSales from './hooks/useSales'
 const SalesPages = () => {
   const {
     filters, appliedFilters, filterDateLabel, startDate, endDate,
+    salesList, currentSale, currentPage, rowsPerPage,
     setFilterDateLabel, setEndDate, setStartDate,
     onSearchClient, onSearchUser, onFilterByTypeSale, onDeleteTypeSaleFilter,
-    onApplyDefaultDate, onApplyRangeDate, onDeleteDateFilter
+    onApplyDefaultDate, onApplyRangeDate, onDeleteDateFilter, onDeleteSale,
+    handleChangePage, handleChangeRowsPerPage, onSelectSale
   } = useSales()
 
   /* Component's Props */
@@ -32,12 +35,22 @@ const SalesPages = () => {
     onDeleteDateFilter
   }
 
+  const salesTableProps = {
+    sales: salesList,
+    currentSale,
+    currentPage,
+    rowsPerPage,
+    onSelectSale,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    onDeleteSale
+  }
+
   return (
     <Container maxWidth='xl' sx={{ height: '100%' }}>
       <TitlePage title='Historial de Ventas' />
       <Filters {...filtersProps} />
-      {/* Venta - Cliente - Total - Fecha - Boleta - Usuario - Tipo -  Acciones ( Imprimir - Descargar) */}
-      {/* Click y ve toda la info: Cliente, productos, total, tipo de pago, tipo (resturante-delivery) */}
+      <SalesTable {...salesTableProps} />
     </Container>
   )
 }

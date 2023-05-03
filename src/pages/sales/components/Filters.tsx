@@ -105,7 +105,7 @@ const Filters = ({
         </Grid>
       </Box>
       {hasFilters && (
-        <Grid container marginTop={2}>
+        <Grid container my={2}>
           <Grid item md={12} display='flex'>
             <Typography variant='body2' fontWeight={600} marginRight={1}>
               Filtros aplicados:
