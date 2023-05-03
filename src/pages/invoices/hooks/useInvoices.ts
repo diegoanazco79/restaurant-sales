@@ -3,13 +3,13 @@ import Swal from 'sweetalert2'
 
 import useFilters from './useFilters'
 
-import { initialSale } from '../helpers/constants'
-import { type Sale } from '../interfaces/Sales'
-import { salesMockList } from '../mock/salesMock'
+import { initialInvoice } from '../helpers/constants'
+import { invocesMockList } from '../mock/invoicesMock'
+import { type Invoice } from '../interfaces/Invoices'
 
-const useSales = () => {
-  const [salesList] = useState(salesMockList)
-  const [currentSale, setCurrentSale] = useState<Sale>(initialSale)
+const useInvoices = () => {
+  const [invoicesList] = useState(invocesMockList)
+  const [currentInvoice, setCurrentInvoice] = useState<Invoice>(initialInvoice)
 
   const [currentPage, setCurrentPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -17,20 +17,20 @@ const useSales = () => {
   const {
     filters, appliedFilters, filterDateLabel, startDate, endDate,
     setFilterDateLabel, setStartDate, setEndDate,
-    onSearchUser, onSearchClient, onFilterByTypeSale, onDeleteTypeSaleFilter,
+    onSearchUser, onSearchInvoice, onFilterByInvoiceType, onDeleteInvoiceTypeFilter,
     onApplyDefaultDate, onApplyRangeDate, onDeleteDateFilter
   } = useFilters()
 
   /**
- * Handles the info of a sale.
- * @param {Sale} sale - Sale to edit
+ * Handles the info of a invoice.
+ * @param {Invoice} invoice - Invoice to edit
  */
-  const onSelectSale = (sale: Sale) => {
-    setCurrentSale(sale)
+  const onSelectInvoice = (invoice: Invoice) => {
+    setCurrentInvoice(invoice)
   }
 
   /**
- * Handles a change in page and updates the current page number in sales table.
+ * Handles a change in page and updates the current page number in invoices table.
  * @param {unknown} event
  * @param {number} newPage
  */
@@ -39,7 +39,7 @@ const useSales = () => {
   }
 
   /**
-   * Handles when user change a rows per page in sales table.
+   * Handles when user change a rows per page in invoices table.
    * @param event
    */
   const handleChangeRowsPerPage = (
@@ -50,12 +50,12 @@ const useSales = () => {
   }
 
   /**
-   * Handles when you want to delete a sale.
-   * @param {Sale['id']} saleId - Sale id to delete
+   * Handles when you want to cancel a invoice.
+   * @param {Invoice['id']} invoiceId - Invoice id to delete
    */
-  const onDeleteSale = (saleId: Sale['id']) => {
+  const onCancelInvoice = (invoiceId: Invoice['id']) => {
     void Swal.fire({
-      title: '¿Estas seguro de eliminar esta venta?',
+      title: '¿Estas seguro de cancelar esta boleta / factura?',
       text: 'Esta acción no se puede deshacer',
       icon: 'warning',
       showConfirmButton: true,
@@ -74,8 +74,8 @@ const useSales = () => {
     }).then((result) => {
       if ((result.value?.isConfirmed) ?? false) {
         void Swal.fire({
-          title: '¡Eliminada!',
-          text: 'Su venta ha sido eliminada correctamente',
+          title: '¡Cancelada!',
+          text: 'Su boleta / factura ha sido cancelada correctamente',
           icon: 'success'
         })
       } else if (!result?.isDismissed) {
@@ -95,29 +95,29 @@ const useSales = () => {
     filterDateLabel,
     startDate,
     endDate,
-    salesList,
-    currentSale,
+    invoicesList,
+    currentInvoice,
     currentPage,
     rowsPerPage,
 
-    /* State Functions */
+    /* Function States */
     setFilterDateLabel,
     setStartDate,
     setEndDate,
 
     /* Functions */
     onSearchUser,
-    onSearchClient,
-    onFilterByTypeSale,
-    onDeleteTypeSaleFilter,
+    onSearchInvoice,
+    onFilterByInvoiceType,
+    onDeleteInvoiceTypeFilter,
     onApplyDefaultDate,
     onApplyRangeDate,
     onDeleteDateFilter,
-    onSelectSale,
+    onSelectInvoice,
     handleChangePage,
     handleChangeRowsPerPage,
-    onDeleteSale
+    onCancelInvoice
   }
 }
 
-export default useSales
+export default useInvoices

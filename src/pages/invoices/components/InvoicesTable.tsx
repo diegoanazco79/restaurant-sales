@@ -4,37 +4,37 @@ import {
   TableContainer, TableHead, TablePagination, TableRow
 } from '@mui/material'
 
+import InvoiceInfo from './InvoiceInfo'
+import InvoiceRow from './InvoiceRow'
 import Modal from 'components/modal/Modal'
-import SaleInfo from './SaleInfo'
-import SalesRow from './SalesRow'
 
 import { labelDisplayedRows } from '../helpers/functions'
 
-import { salesRows } from '../helpers/constants'
-import { type Sale } from '../interfaces/Sales'
+import { invoceTableRows } from '../helpers/constants'
+import { type Invoice } from '../interfaces/Invoices'
 
 interface Props {
-  sales: Sale[]
-  currentSale: Sale
+  invoices: Invoice[]
+  currentInvoice: Invoice
   currentPage: number
   rowsPerPage: number
   handleChangePage: (event: unknown, newPage: number) => void
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
-  onSelectSale: (sale: Sale) => void
-  onDeleteSale: (saleId: Sale['id']) => void
+  onSelectInvoice: (invoice: Invoice) => void
+  onCancelInvoice: (invoiceId: Invoice['id']) => void
 }
 
-const SalesTable = ({
-  sales, currentPage, rowsPerPage, currentSale,
+const InvoicesTable = ({
+  invoices, currentPage, rowsPerPage, currentInvoice,
   handleChangePage, handleChangeRowsPerPage,
-  onSelectSale, onDeleteSale
+  onSelectInvoice, onCancelInvoice
 }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false)
 
-  const saleRowProps = {
+  const invoiceRowProps = {
     setShowEditModal,
-    onSelectSale,
-    onDeleteSale
+    onSelectInvoice,
+    onCancelInvoice
   }
 
   return (
@@ -44,19 +44,19 @@ const SalesTable = ({
           <Table stickyHeader>
             <TableHead>
               <TableRow>
-                {salesRows.map((row, idx) => (
+                {invoceTableRows.map((row, idx) => (
                   <TableCell key={idx}>{row.label}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {sales
+              {invoices
                 .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                .map((sale, idx) => (
-                  <SalesRow
+                .map((invoice, idx) => (
+                  <InvoiceRow
                     key={idx}
-                    sale={sale}
-                    {...saleRowProps}
+                    invoice={invoice}
+                    {...invoiceRowProps}
                   />
                 ))}
             </TableBody>
@@ -65,10 +65,10 @@ const SalesTable = ({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={sales.length}
+          count={invoices.length}
           rowsPerPage={rowsPerPage}
           page={currentPage}
-          labelRowsPerPage="Ventas por página"
+          labelRowsPerPage="Facturas / Boletas por página"
           labelDisplayedRows={labelDisplayedRows}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -77,12 +77,12 @@ const SalesTable = ({
       <Modal
         open={showEditModal}
         setOpen={setShowEditModal}
-        title='Información de venta'
+        title='Información de Factura / Boleta'
       >
-        <SaleInfo currentSale={ currentSale} />
+        <InvoiceInfo currentInvoice={currentInvoice} />
       </Modal>
     </>
   )
 }
 
-export default SalesTable
+export default InvoicesTable
