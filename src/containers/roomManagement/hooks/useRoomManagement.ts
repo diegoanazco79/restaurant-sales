@@ -1,22 +1,22 @@
 import type React from 'react'
 import Swal from 'sweetalert2'
 
-import { type Category } from 'pages/categories/interfaces/Category'
+import { type Room } from 'pages/rooms/interfaces/Room'
 
-const useCategoryManagement = () => {
+const useRoomManagement = () => {
   /**
- * Handles a creation of a category.
- * @param {Category} category - Category to create
+ * Handles a creation of a room.
+ * @param {Room} room - Room to create
  * @param {Function} setShow - Function to close modal
  */
-  const onAddCategory = (category: Category, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const onAddRoom = (room: Room, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
     try {
       void Swal.fire({
-        title: '¡Creada!',
-        text: 'Su categoría ha sido creada correctamente',
+        title: '¡Creado!',
+        text: 'Su ambiente ha sido creado correctamente',
         icon: 'success'
       })
-      console.log(category)
+      console.log(room)
       setShow(false)
     } catch (error) {
       void Swal.fire({
@@ -28,13 +28,13 @@ const useCategoryManagement = () => {
   }
 
   /**
-   * Handles a edition of a category.
-   * @param {Category} category - Category to edit
+   * Handles a edition of a room.
+   * @param {Room} room - Room to edit
    * @param {Function} setShow - Function to close modal
    */
-  const onEditCategory = (category: Category, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const onEditRoom = (room: Room, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
     void Swal.fire({
-      title: '¿Estas seguro de editar esta categoría?',
+      title: '¿Estas seguro de editar este ambiente?',
       icon: 'warning',
       showConfirmButton: true,
       confirmButtonText: 'Sí, editar',
@@ -42,7 +42,7 @@ const useCategoryManagement = () => {
       showCancelButton: true,
       preConfirm: () => {
         try {
-          console.log(category)
+          console.log(room)
           setShow(false)
           return { isConfirmed: true }
           // eslint-disable-next-line no-unreachable
@@ -54,8 +54,8 @@ const useCategoryManagement = () => {
     }).then((result) => {
       if ((result.value?.isConfirmed) ?? false) {
         void Swal.fire({
-          title: '¡Editada!',
-          text: 'Su categoría ha sido editada correctamente',
+          title: '¡Editado!',
+          text: 'Su ambiente ha sido editado correctamente',
           icon: 'success'
         })
       } else if (!result?.isDismissed) {
@@ -73,9 +73,9 @@ const useCategoryManagement = () => {
     /* State Functions */
 
     /* Functions */
-    onAddCategory,
-    onEditCategory
+    onAddRoom,
+    onEditRoom
   }
 }
 
-export default useCategoryManagement
+export default useRoomManagement

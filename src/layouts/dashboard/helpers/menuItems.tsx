@@ -4,6 +4,7 @@ import BentoIcon from '@mui/icons-material/Bento'
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import TapasIcon from '@mui/icons-material/Tapas'
 
@@ -25,6 +26,15 @@ export const menuItems = [
     roles: [],
     section: 'sales',
     icon: <DeliveryDiningIcon />
+  },
+  {
+    id: 'rooms',
+    main: true,
+    name: 'Ambientes',
+    to: '/rooms',
+    roles: [],
+    section: 'sales',
+    icon: <RoomOutlinedIcon />
   },
   {
     id: 'products',
