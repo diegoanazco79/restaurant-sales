@@ -1,4 +1,4 @@
-import { Container } from '@mui/material'
+import { Container, LinearProgress } from '@mui/material'
 
 import Filters from './components/Filters'
 import TitlePage from 'components/titlePage'
@@ -8,8 +8,8 @@ import useUsers from './hooks/useUsers'
 
 const UsersPage = () => {
   const {
-    usersList, currentPage, rowsPerPage, currentUser,
-    onSearchUser, handleChangePage, handleChangeRowsPerPage,
+    usersList, currentPage, currentUser, isLoading, totalPages,
+    onSearchUser, handleChangePage,
     onSelectUser, onDeleteUser, onEditUser, onInviteUser
   } = useUsers()
 
@@ -20,11 +20,10 @@ const UsersPage = () => {
 
   const usersTableProps = {
     users: usersList,
+    totalPages,
     currentUser,
     currentPage,
-    rowsPerPage,
     handleChangePage,
-    handleChangeRowsPerPage,
     onSelectUser,
     onDeleteUser,
     onEditUser
@@ -34,7 +33,13 @@ const UsersPage = () => {
     <Container maxWidth='xl' sx={{ height: '100%' }}>
       <TitlePage title='Gestión de Usuarios'/>
       <Filters {...filtersProps} />
-      <UsersTable {...usersTableProps} />
+      {isLoading
+        ? <LinearProgress />
+        : (
+          <>
+            <UsersTable {...usersTableProps} />
+          </>
+        )}
     </Container>
   )
 }

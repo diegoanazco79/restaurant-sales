@@ -1,9 +1,14 @@
-import { type LabelDisplayedRowsArgs } from '@mui/material'
-
 /**
- * Return a label for displayed rows in users table.
- * @param {LabelDisplayedRowsArgs}
+ * The function handles a role label in users table
+ * @param {string} role
  */
-export const labelDisplayedRows = ({ from, to, count }: LabelDisplayedRowsArgs) => {
-  return `${from}-${to} de ${count} usuarios`
+export const getLabelRole = (role: string) => {
+  switch (role) {
+    case 'admin':
+      return 'Admin'
+    case 'sales':
+      return 'Ventas'
+    default:
+      return ''
+  }
 }

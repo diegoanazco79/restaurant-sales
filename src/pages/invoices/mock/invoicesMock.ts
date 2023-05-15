@@ -19,7 +19,7 @@ export const invocesMockList = [
       lastName: 'Perez',
       status: 'Activo',
       role: {
-        id: '1',
+        _id: '1',
         name: 'Admin'
       }
     }
@@ -44,7 +44,7 @@ export const invocesMockList = [
       lastName: 'Rodriguez',
       status: 'Activo',
       role: {
-        id: '2',
+        _id: '2',
         name: 'Usuario'
       }
     }

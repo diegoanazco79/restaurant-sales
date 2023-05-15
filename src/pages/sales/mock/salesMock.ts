@@ -20,7 +20,7 @@ export const salesMockList = [
       lastName: 'Pérez',
       status: 'active',
       role: {
-        id: '1',
+        _id: '1',
         name: 'Administrator'
       }
     }
@@ -46,7 +46,7 @@ export const salesMockList = [
       lastName: 'Gómez',
       status: 'active',
       role: {
-        id: '2',
+        _id: '2',
         name: 'Salesperson'
       }
     }
@@ -72,7 +72,7 @@ export const salesMockList = [
       lastName: 'Rodríguez',
       status: 'active',
       role: {
-        id: '2',
+        _id: '2',
         name: 'Salesperson'
       }
     }
@@ -98,7 +98,7 @@ export const salesMockList = [
       lastName: 'Pérez',
       status: 'active',
       role: {
-        id: '1',
+        _id: '1',
         name: 'Administrator'
       }
     }
@@ -124,7 +124,7 @@ export const salesMockList = [
       lastName: 'López',
       status: 'active',
       role: {
-        id: '3',
+        _id: '3',
         name: 'Customer Support'
       }
     }

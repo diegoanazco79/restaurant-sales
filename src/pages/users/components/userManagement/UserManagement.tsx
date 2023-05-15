@@ -1,11 +1,9 @@
 import { Box, Button } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { useState } from 'react'
 import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 import RadioGroupField from 'components/form/RadioGroup'
-import SwitchField from 'components/form/Switch'
 
 import { type User } from 'pages/users/interfaces/User'
 import { roleOptions } from 'pages/users/helpers/constants'
@@ -30,8 +28,6 @@ const UserManagement = ({
   setShow,
   onFinishModal
 }: Props) => {
-  const [currentStatus, setCurrentStatus] = useState(currentUser?.status === 'active')
-
   const validationSchema = Yup.object({
     username: Yup.string().required('* Este campo es obligatorio'),
     email: Yup.string().required('* Este campo es obligatorio').email('* Debe ser un correo electrónico válido'),
@@ -45,13 +41,13 @@ const UserManagement = ({
     email: currentUser?.email ?? '',
     firstName: currentUser?.firstName ?? '',
     lastName: currentUser?.lastName ?? '',
-    role: currentUser?.role?.id ?? ''
+    role: currentUser?.role?._id ?? ''
   }
 
   const handleSubmit = (values: FormValues) => {
     const findRole = roleOptions.find(role => role.value === values.role)
     const newRole = {
-      id: findRole?.value ?? '',
+      _id: findRole?.value ?? '',
       name: findRole?.label ?? ''
     }
 
@@ -61,8 +57,7 @@ const UserManagement = ({
       email: values.email,
       firstName: values.firstName,
       lastName: values.lastName,
-      role: newRole ?? roleOptions[0],
-      status: currentStatus ? 'active' : 'inactive'
+      role: newRole ?? roleOptions[0]
     }
     onFinishModal(newUser, setShow)
   }
@@ -108,17 +103,6 @@ const UserManagement = ({
             label="Rol"
             options={roleOptions}
           />
-
-          {actionType === 'edit' && (
-            <SwitchField
-              title='Estado'
-              label='Inactivo'
-              rightLabel='Activo'
-              name='status'
-              checked={currentStatus}
-              onChange={(ev) => { setCurrentStatus(ev.target.checked) } }
-            />
-          )}
 
           <Box display="flex" justifyContent="space-between" pt={4}>
             <Button

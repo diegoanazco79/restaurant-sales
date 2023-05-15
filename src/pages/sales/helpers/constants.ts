@@ -53,7 +53,7 @@ export const initialSale = {
     lastName: '',
     status: '',
     role: {
-      id: '',
+      _id: '',
       name: ''
 
     }

@@ -1,33 +1,29 @@
 import { useState } from 'react'
 import {
-  Paper, Table, TableBody, TableCell,
-  TableContainer, TableHead, TablePagination, TableRow
+  Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@mui/material'
 
 import Modal from 'components/modal/Modal'
 import UserManagement from './userManagement/UserManagement'
 import UserRow from './UserRow'
 
-import { labelDisplayedRows } from '../helpers/functions'
-
 import { usersRows } from '../helpers/constants'
 import { type User } from '../interfaces/User'
 
 interface Props {
   users: User[]
+  totalPages: number
   currentUser: User
   currentPage: number
-  rowsPerPage: number
   handleChangePage: (event: unknown, newPage: number) => void
-  handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
   onSelectUser: (user: User) => void
   onEditUser: (user: User, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
   onDeleteUser: (user: User['id']) => void
 }
 
 const UsersTable = ({
-  users, currentPage, rowsPerPage, currentUser,
-  handleChangePage, handleChangeRowsPerPage,
+  users, currentPage, currentUser, totalPages,
+  handleChangePage,
   onSelectUser, onDeleteUser, onEditUser
 }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false)
@@ -52,8 +48,7 @@ const UsersTable = ({
             </TableHead>
             <TableBody>
               {users
-                .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                .map((user, idx) => (
+                ?.map((user, idx) => (
                   <UserRow
                     key={idx}
                     user={user}
@@ -63,17 +58,16 @@ const UsersTable = ({
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={users.length}
-          rowsPerPage={rowsPerPage}
-          page={currentPage}
-          labelRowsPerPage="Usuarios por página"
-          labelDisplayedRows={labelDisplayedRows}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        {totalPages > 1 && (
+          <Pagination
+            sx={{ display: 'flex', justifyContent: 'center', py: '1rem' }}
+            onChange={handleChangePage}
+            page={currentPage}
+            count={totalPages}
+            variant="outlined"
+            color="primary"
+          />
+        )}
       </Paper>
       <Modal
         open={showEditModal}

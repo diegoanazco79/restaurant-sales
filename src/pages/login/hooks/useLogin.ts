@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 
 import { useAuthStore } from 'store/auth'
-import { authService } from 'api/auth'
+import useAuthApi from 'api/services/useAuthApi'
 
 import { type LoginFormValues } from '../interfaces/loginTypes'
 import { type Organization } from '../interfaces/organizationTypes'
@@ -22,11 +22,13 @@ const useLogin = () => {
 
   const navigate = useNavigate()
 
+  const { checkOrganizationStatus, loginApp } = useAuthApi()
+
   /**
  * Handles the validacy that there is an organization or not an organization
  */
   const { mutate: onCheckOrganization, isLoading: loadingOrganization } = useMutation({
-    mutationFn: authService.checkOrganizationStatus,
+    mutationFn: checkOrganizationStatus,
     onSuccess: (data) => {
       setCurrentOrganization({
         id: data.organization._id,
@@ -45,7 +47,7 @@ const useLogin = () => {
  * Handles the login of the user in specific organization and subsidiary
  */
   const { mutate: onSubmitLogin, isLoading: loadingLogin } = useMutation({
-    mutationFn: async (loginForm: LoginFormValues) => await authService.loginApp(loginForm.username, loginForm.password, loginForm.subsidiary),
+    mutationFn: async (loginForm: LoginFormValues) => await loginApp(loginForm.username, loginForm.password, loginForm.subsidiary),
     onSuccess: (data) => {
       const { organization, token, email, username, firstName, lastName, role, subsidiary } = data
       const profileName = `${firstName as string} ${lastName as string}`

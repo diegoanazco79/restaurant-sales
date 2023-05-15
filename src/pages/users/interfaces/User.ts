@@ -1,9 +1,11 @@
 export interface Filters {
   search: string
+  page: number
+  limit: number
 }
 
 export interface UserRole {
-  id: string
+  _id: string
   name: string
 }
 
@@ -13,6 +15,5 @@ export interface User {
   email: string
   firstName: string
   lastName: string
-  status: string
   role: UserRole
 }

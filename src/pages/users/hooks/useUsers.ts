@@ -1,30 +1,41 @@
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 
+import useUsersApi from 'api/services/useUsersApi'
+import { useAuthStore } from 'store/auth'
+
 import { initialFilters, initialUser } from '../helpers/constants'
-import { usersMock } from '../mock/usersMock'
 import { type Filters, type User } from '../interfaces/User'
 
 const useUsers = () => {
-  const [usersList] = useState<User[]>(usersMock)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const [currentUser, setCurrentUser] = useState<User>(initialUser)
 
   const [filters, setFilters] = useState<Filters>(initialFilters)
+
+  const subsidiary = useAuthStore((state) => state.subsidiary)
+  const subsidiaryId = subsidiary?.id ?? ''
+
+  const { getAllUsers } = useUsersApi()
+
+  const { data: usersData, isLoading } = useQuery({
+    queryKey: ['users', filters],
+    queryFn: async () => await getAllUsers(subsidiaryId, filters)
+  })
 
   /**
  * Handles a search input box in users list.
  * @param {string} search
  */
   const onSearchUser = (search: string) => {
-    setFilters({ ...filters, search })
+    setFilters({ ...filters, search, page: 1, limit: 10 })
   }
 
   /**
  * Handles the editing of a user.
- * @param {User} user - User to edit
+ * @param {User} user - User to edit?
  */
   const onSelectUser = (user: User) => {
     setCurrentUser(user)
@@ -37,17 +48,7 @@ const useUsers = () => {
  */
   const handleChangePage = (event: unknown, newPage: number) => {
     setCurrentPage(newPage)
-  }
-
-  /**
- * Handles when user change a rows per page in users table.
- * @param event
- */
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setCurrentPage(0)
+    setFilters({ ...filters, page: newPage })
   }
 
   /**
@@ -155,17 +156,17 @@ const useUsers = () => {
 
   return {
     /* States */
-    usersList,
+    usersList: usersData?.data ?? [],
+    totalPages: usersData?.totalPages ?? 0,
     currentPage,
-    rowsPerPage,
     currentUser,
+    isLoading,
 
     /* Function States */
 
     /* Functions */
     onSearchUser,
     handleChangePage,
-    handleChangeRowsPerPage,
     onSelectUser,
     onInviteUser,
     onEditUser,

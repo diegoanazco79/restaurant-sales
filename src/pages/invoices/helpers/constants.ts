@@ -45,7 +45,7 @@ export const initialInvoice = {
     lastName: '',
     status: '',
     role: {
-      id: '',
+      _id: '',
       name: ''
 
     }
