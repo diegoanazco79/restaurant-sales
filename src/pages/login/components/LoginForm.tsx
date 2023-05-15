@@ -1,10 +1,11 @@
 import React from 'react'
 import * as Yup from 'yup'
 import { Form, Formik } from 'formik'
-import { Box, Button, IconButton, InputAdornment, Stack, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, IconButton, InputAdornment, Stack, Typography } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 import Input from 'components/form/Input'
+import Select, { type Option } from 'components/form/Select'
 
 import { type LoginFormValues } from '../interfaces/loginTypes'
 import { type Organization } from '../interfaces/organizationTypes'
@@ -12,6 +13,8 @@ import { type Organization } from '../interfaces/organizationTypes'
 interface Props {
   organization: Organization | null
   showPassword: boolean
+  loadingLogin: boolean
+  isValidLogin: boolean
   handleClickShowPassword: () => void
   handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void
   onSubmitLogin: (values: LoginFormValues) => void
@@ -19,19 +22,26 @@ interface Props {
 }
 
 const LoginForm = ({
-  showPassword, organization,
+  showPassword, organization, loadingLogin, isValidLogin,
   handleClickShowPassword, handleMouseDownPassword, onSubmitLogin,
   onBackToOrganization
 }: Props) => {
   const validationSchema = Yup.object({
     username: Yup.string().required('* Este campo es obligatorio'),
-    password: Yup.string().required('* Este campo es obligatorio')
+    password: Yup.string().required('* Este campo es obligatorio'),
+    subsidiary: Yup.object().nullable().required('* Este campo es obligatorio')
   })
 
   const initialValues = {
     username: '',
-    password: ''
+    password: '',
+    subsidiary: { id: '', label: '' }
   }
+
+  const formatedSubsidiaries = organization?.subsidiaries?.map((subsidiary) => ({
+    id: subsidiary._id,
+    label: subsidiary.name
+  })) ?? [{ id: '', label: '' }]
 
   return (
     <Box sx={{ mt: 3 }}>
@@ -41,7 +51,7 @@ const LoginForm = ({
       <Box display='flex' flexDirection='column' alignItems='center' sx={{ mb: 3 }} >
         <img width={150} src={organization?.logo} />
         <Typography variant='h4'>
-          {organization?.name}
+          {organization?.fullName}
         </Typography>
         <Typography variant='body1'>
           Inicia sesión para continuar
@@ -49,13 +59,27 @@ const LoginForm = ({
       </Box>
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => { onSubmitLogin(values) }}
+        onSubmit={(values) => { onSubmitLogin({ username: values.username, password: values.password, subsidiary: values?.subsidiary?.id }) }}
         validationSchema={validationSchema}
       >
-        {() => {
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <Stack spacing={2}>
+
+                <Select
+                  label='Sucursales'
+                  placeholder='Selecciona una sucursal'
+                  name='subsidiary'
+                  options={formatedSubsidiaries}
+                  onChange={(
+                    event: React.SyntheticEvent<Element, Event>,
+                    value: Option | null
+                  ) => {
+                    setFieldValue('subsidiary', value)
+                  }}
+                />
+
                 <Input
                   label="Usuario"
                   name="username"
@@ -86,8 +110,17 @@ const LoginForm = ({
                   }}
                 />
 
-                <Button fullWidth type='submit' variant='contained'>
-                  Ingresar
+                {!isValidLogin &&
+                  <Typography variant="body2" color="error" mt='0 !important'>
+                    * No pertenece a esta sucursal o su usuario/contraseña son incorrectos
+                  </Typography>
+                }
+
+                <Button
+                  disabled={loadingLogin} fullWidth type='submit' variant='contained'
+                  endIcon={loadingLogin ? <CircularProgress size={10} /> : null }
+                >
+                  {loadingLogin ? 'Ingresando...' : 'Ingresar'}
                 </Button>
               </Stack>
             </Form>

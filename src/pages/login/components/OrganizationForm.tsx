@@ -1,14 +1,19 @@
-import { Button, Stack, Typography } from '@mui/material'
+import { Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 
 interface Props {
+  isValidOrganization: boolean
+  loadingOrganization: boolean
   onCheckOrganization: (organizationName: string) => void
 }
 
-const OrganizationForm = ({ onCheckOrganization }: Props) => {
+const OrganizationForm = ({
+  isValidOrganization, loadingOrganization,
+  onCheckOrganization
+}: Props) => {
   const validationSchema = Yup.object({
     organization: Yup.string().required('* Este campo es obligatorio')
   })
@@ -36,8 +41,16 @@ const OrganizationForm = ({ onCheckOrganization }: Props) => {
                   name="organization"
                   placeholder="Ingresa tu organización"
                 />
-                <Button fullWidth type='submit' variant='contained'>
-                  Ingresar
+                {!isValidOrganization &&
+                  <Typography variant="body2" color="error" mt='0 !important'>
+                    * La organización no existe o se encuentra inactiva
+                  </Typography>
+                }
+                <Button
+                  disabled={loadingOrganization} fullWidth type='submit' variant='contained'
+                  endIcon={loadingOrganization ? <CircularProgress size={10} /> : null }
+                >
+                  {loadingOrganization ? 'Ingresando...' : 'Ingresar'}
                 </Button>
               </Stack>
             </Form>

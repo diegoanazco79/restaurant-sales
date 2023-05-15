@@ -1,10 +1,16 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+
+import { useAuthStore } from 'store/auth'
+import { authService } from 'api/auth'
+
 import { type LoginFormValues } from '../interfaces/loginTypes'
 import { type Organization } from '../interfaces/organizationTypes'
-import { useAuthStore } from 'store/auth'
-import { useNavigate } from 'react-router-dom'
 
 const useLogin = () => {
+  const [isValidOrganization, setIsValidOrganization] = useState(true)
+  const [isValidLogin, setIsValidLogin] = useState(true)
   const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -12,40 +18,59 @@ const useLogin = () => {
   const setToken = useAuthStore((state) => state.setToken)
   const setProfile = useAuthStore((state) => state.setProfile)
   const setRoles = useAuthStore((state) => state.setRoles)
+  const setSubsidiary = useAuthStore((state) => state.setSubsidiary)
 
   const navigate = useNavigate()
 
   /**
  * Handles the validacy that there is an organization or not an organization
- * @param {string} organizationName - string - the name of the organization
  */
-  const onCheckOrganization = (organizationName: string) => {
-    setCurrentOrganization({
-      id: `id_${organizationName}`,
-      name: organizationName,
-      logo: 'https://i.imgur.com/hwMF35t.png'
-    })
-  }
+  const { mutate: onCheckOrganization, isLoading: loadingOrganization } = useMutation({
+    mutationFn: authService.checkOrganizationStatus,
+    onSuccess: (data) => {
+      setCurrentOrganization({
+        id: data.organization._id,
+        name: data.organization.name,
+        fullName: data.organization.fullName,
+        subsidiaries: data.subsidiaries
+      })
+      setIsValidOrganization(true)
+    },
+    onError: () => {
+      setIsValidOrganization(false)
+    }
+  })
 
   /**
- * Handles a login form for specific organization
- * @param {LoginFormValues} values - The values of the form.
+ * Handles the login of the user in specific organization and subsidiary
  */
-  const onSubmitLogin = (values: LoginFormValues) => {
-    setOrganization({
-      id: currentOrganization?.id,
-      name: currentOrganization?.name,
-      logo: currentOrganization?.logo
-    })
-    setToken('token_123123123')
-    setProfile({
-      email: 'danazcob@gmail.com',
-      name: 'Diego Añazco',
-      username: 'danazcob'
-    })
-    setRoles([{ id: 'id_admin', name: 'Admin' }])
-    navigate('/restaurant')
-  }
+  const { mutate: onSubmitLogin, isLoading: loadingLogin } = useMutation({
+    mutationFn: async (loginForm: LoginFormValues) => await authService.loginApp(loginForm.username, loginForm.password, loginForm.subsidiary),
+    onSuccess: (data) => {
+      const { organization, token, email, username, firstName, lastName, role, subsidiary } = data
+      const profileName = `${firstName as string} ${lastName as string}`
+      setOrganization({
+        id: organization?._id,
+        name: organization?.name,
+        fullName: organization?.fullName
+      })
+      setSubsidiary({
+        id: subsidiary?._id,
+        name: subsidiary?.name
+      })
+      setToken(token)
+      setProfile({
+        email,
+        name: profileName,
+        username
+      })
+      setRoles([{ id: role._id, name: role.name }])
+      navigate('/restaurant')
+    },
+    onError: () => {
+      setIsValidLogin(false)
+    }
+  })
 
   /* Handles a hide/unhide password button */
   const handleClickShowPassword = () => {
@@ -68,10 +93,13 @@ const useLogin = () => {
   }
 
   return {
-    /* A comment. */
     /* States */
     currentOrganization,
     showPassword,
+    isValidOrganization,
+    loadingOrganization,
+    loadingLogin,
+    isValidLogin,
 
     /* Function States */
 

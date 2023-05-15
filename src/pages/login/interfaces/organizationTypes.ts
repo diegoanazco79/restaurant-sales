@@ -1,5 +1,12 @@
+export interface Subsidiary {
+  _id: string
+  name: string
+}
+
 export interface Organization {
-  id: string | undefined
-  name: string | undefined
-  logo: string | undefined
+  id: string
+  name: string
+  fullName?: string
+  logo?: string
+  subsidiaries?: Subsidiary[]
 }

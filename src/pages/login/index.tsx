@@ -13,7 +13,8 @@ const LoginPage = () => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
 
   const {
-    showPassword, currentOrganization: organization,
+    showPassword, currentOrganization: organization, isValidOrganization,
+    loadingOrganization, loadingLogin, isValidLogin,
     handleClickShowPassword, handleMouseDownPassword,
     onSubmitLogin, onCheckOrganization, onBackToOrganization
   } = useLogin()
@@ -22,10 +23,18 @@ const LoginPage = () => {
   const loginFormProps = {
     showPassword,
     organization,
+    loadingLogin,
+    isValidLogin,
     handleClickShowPassword,
     handleMouseDownPassword,
     onSubmitLogin,
     onBackToOrganization
+  }
+
+  const organizationFormProps = {
+    isValidOrganization,
+    loadingOrganization,
+    onCheckOrganization
   }
 
   return (
@@ -42,7 +51,7 @@ const LoginPage = () => {
       <Container maxWidth="sm">
         <StyledContent>
           <Card sx={{ p: 2 }}>
-            {(organization === null) && <OrganizationForm onCheckOrganization={onCheckOrganization} />}
+            {(organization === null) && <OrganizationForm {...organizationFormProps} />}
             {(organization !== null) && <LoginForm {...loginFormProps} />}
           </Card>
         </StyledContent>
