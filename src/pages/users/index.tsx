@@ -10,7 +10,7 @@ const UsersPage = () => {
   const {
     usersList, currentPage, currentUser, isLoading, totalPages,
     onSearchUser, handleChangePage,
-    onSelectUser, onDeleteUser, onEditUser, onInviteUser
+    onSelectUser, onEditUser, onInviteUser
   } = useUsers()
 
   /* Component's Props */
@@ -25,7 +25,6 @@ const UsersPage = () => {
     currentPage,
     handleChangePage,
     onSelectUser,
-    onDeleteUser,
     onEditUser
   }
 

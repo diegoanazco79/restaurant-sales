@@ -9,15 +9,16 @@ export const usersRows = [
   { id: 'email', label: 'Correo' },
   { id: 'name', label: 'Nombres y Apellidos' },
   { id: 'role', label: 'Rol' },
-  { id: 'actions', label: 'Acciones' }
+  { id: 'status', label: 'Estado' }
 ]
 
 export const initialUser = {
-  id: '',
+  _id: '',
   username: '',
   email: '',
   firstName: '',
   lastName: '',
+  status: '',
   role: { _id: '', name: '' }
 }
 

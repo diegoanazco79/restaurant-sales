@@ -1,28 +1,19 @@
-import { IconButton, TableCell, TableRow } from '@mui/material'
+import { TableCell, TableRow } from '@mui/material'
 
 import { getLabelRole } from '../helpers/functions'
 
 import { type User } from '../interfaces/User'
 
-import DeleteIcon from '@mui/icons-material/Delete'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 
 interface Props {
   user: User
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>
   onSelectUser: (user: User) => void
-  onDeleteUser: (user: User['id']) => void
 }
 
-const UserRow = ({
-  user,
-  setShowEditModal,
-  onSelectUser, onDeleteUser
-}: Props) => {
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation()
-    onDeleteUser(user.id)
-  }
-
+const UserRow = ({ user, setShowEditModal, onSelectUser }: Props) => {
   return (
     <TableRow hover sx={{ cursor: 'pointer' }}
       onClick={() => { onSelectUser(user); setShowEditModal(true) }} >
@@ -32,9 +23,10 @@ const UserRow = ({
       <TableCell>{user.firstName} {user.lastName}</TableCell>
       <TableCell>{ getLabelRole(user.role.name) }</TableCell>
       <TableCell>
-        <IconButton onClick={handleDelete}>
-          <DeleteIcon color="error" />
-        </IconButton>
+        {user.status === 'active'
+          ? <CheckCircleOutlineIcon color="success" />
+          : <CancelOutlinedIcon color="error" />
+        }
       </TableCell>
     </TableRow>
   )

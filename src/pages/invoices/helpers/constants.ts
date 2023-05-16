@@ -38,7 +38,7 @@ export const initialInvoice = {
   },
   totalAmount: 0,
   user: {
-    id: '',
+    _id: '',
     username: '',
     email: '',
     firstName: '',

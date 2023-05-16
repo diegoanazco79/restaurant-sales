@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 
@@ -7,6 +7,7 @@ import { useAuthStore } from 'store/auth'
 
 import { initialFilters, initialUser } from '../helpers/constants'
 import { type Filters, type User } from '../interfaces/User'
+import { type UpdateUser } from 'api/interfaces/UsersApi'
 
 const useUsers = () => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -18,10 +19,30 @@ const useUsers = () => {
   const subsidiary = useAuthStore((state) => state.subsidiary)
   const subsidiaryId = subsidiary?.id ?? ''
 
-  const { getAllUsers } = useUsersApi()
+  const { updateUser, getAllUsers } = useUsersApi()
 
+  /* Handles a edit user mutation */
+  const editUserMutation = useMutation({
+    mutationFn: async (user: UpdateUser) => await updateUser(user),
+    onSuccess: () => {
+      void Swal.fire({
+        title: '¡Editado!',
+        text: 'El usuario ha sido editado correctamente',
+        icon: 'success'
+      })
+    },
+    onError: () => {
+      void Swal.fire({
+        title: 'Oops...',
+        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+        icon: 'error'
+      })
+    }
+  })
+
+  /* Get all users with filters */
   const { data: usersData, isLoading } = useQuery({
-    queryKey: ['users', filters],
+    queryKey: ['users', filters, editUserMutation],
     queryFn: async () => await getAllUsers(subsidiaryId, filters)
   })
 
@@ -88,69 +109,17 @@ const useUsers = () => {
       cancelButtonText: 'No, cancelar',
       showCancelButton: true,
       preConfirm: () => {
-        try {
-          console.log(user)
-          setShow(false)
-          return { isConfirmed: true }
-          // eslint-disable-next-line no-unreachable
-        } catch (error) {
-          return { isConfirmed: false }
-        }
+        editUserMutation.mutate({
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          status: user.status,
+          role: user.role._id
+        })
+        setShow(false)
       },
       allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if ((result.value?.isConfirmed) ?? false) {
-        void Swal.fire({
-          title: '¡Editado!',
-          text: 'El usuario ha sido editado correctamente',
-          icon: 'success'
-        })
-      } else if (!result?.isDismissed) {
-        void Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
-          icon: 'error'
-        })
-      }
-    })
-  }
-
-  /**
-   * Handles when user want to delete a user.
-   * @param {User['id']} userId - User id to delete
-   */
-  const onDeleteUser = (userId: User['id']) => {
-    void Swal.fire({
-      title: '¿Estas seguro de eliminar este usuario?',
-      text: 'Esta acción no se puede deshacer',
-      icon: 'warning',
-      showConfirmButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'No, cancelar',
-      showCancelButton: true,
-      preConfirm: () => {
-        try {
-          return { isConfirmed: true }
-          // eslint-disable-next-line no-unreachable
-        } catch (error) {
-          return { isConfirmed: false }
-        }
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if ((result.value?.isConfirmed) ?? false) {
-        void Swal.fire({
-          title: '¡Eliminado!',
-          text: 'Su usuario ha sido eliminado correctamente',
-          icon: 'success'
-        })
-      } else if (!result?.isDismissed) {
-        void Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
-          icon: 'error'
-        })
-      }
     })
   }
 
@@ -169,8 +138,7 @@ const useUsers = () => {
     handleChangePage,
     onSelectUser,
     onInviteUser,
-    onEditUser,
-    onDeleteUser
+    onEditUser
   }
 }
 

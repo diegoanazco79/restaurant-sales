@@ -13,7 +13,7 @@ export const salesMockList = [
     date: '2023-05-01',
     invoice: 'ABC123',
     user: {
-      id: '1',
+      _id: '1',
       username: 'j_perez',
       email: 'juanperez@example.com',
       firstName: 'Juan',
@@ -39,7 +39,7 @@ export const salesMockList = [
     date: '2023-05-02',
     invoice: 'DEF456',
     user: {
-      id: '2',
+      _id: '2',
       username: 'a_gomez',
       email: 'anagomez@example.com',
       firstName: 'Ana',
@@ -65,7 +65,7 @@ export const salesMockList = [
     date: '2023-05-03',
     invoice: 'GHI789',
     user: {
-      id: '3',
+      _id: '3',
       username: 'c_rodriguez',
       email: 'carlosrodriguez@example.com',
       firstName: 'Carlos',
@@ -91,7 +91,7 @@ export const salesMockList = [
     date: '2023-05-03',
     invoice: 'JKL012',
     user: {
-      id: '1',
+      _id: '1',
       username: 'j_perez',
       email: 'juanperez@example.com',
       firstName: 'Juan',
@@ -117,7 +117,7 @@ export const salesMockList = [
     date: '2023-05-03',
     invoice: 'MNO345',
     user: {
-      id: '4',
+      _id: '4',
       username: 'm_lopez',
       email: 'marialopez@example.com',
       firstName: 'María',

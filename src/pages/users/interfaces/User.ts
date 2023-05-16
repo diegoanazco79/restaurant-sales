@@ -10,10 +10,11 @@ export interface UserRole {
 }
 
 export interface User {
-  id: string
+  _id: string
   username: string
   email: string
   firstName: string
   lastName: string
+  status: string
   role: UserRole
 }

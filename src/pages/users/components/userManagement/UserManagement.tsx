@@ -1,15 +1,16 @@
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
+import { useState } from 'react'
 import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 import RadioGroupField from 'components/form/RadioGroup'
+import SwitchField from 'components/form/Switch'
 
 import { type User } from 'pages/users/interfaces/User'
 import { roleOptions } from 'pages/users/helpers/constants'
 
 interface FormValues {
-  username: string
   email: string
   firstName: string
   lastName: string
@@ -28,8 +29,9 @@ const UserManagement = ({
   setShow,
   onFinishModal
 }: Props) => {
+  const [currentStatus, setCurrentStatus] = useState(currentUser?.status === 'active')
+
   const validationSchema = Yup.object({
-    username: Yup.string().required('* Este campo es obligatorio'),
     email: Yup.string().required('* Este campo es obligatorio').email('* Debe ser un correo electrónico válido'),
     firstName: Yup.string().required('* Este campo es obligatorio'),
     lastName: Yup.string().required('* Este campo es obligatorio'),
@@ -37,7 +39,6 @@ const UserManagement = ({
   })
 
   const initialValues = {
-    username: currentUser?.username ?? '',
     email: currentUser?.email ?? '',
     firstName: currentUser?.firstName ?? '',
     lastName: currentUser?.lastName ?? '',
@@ -52,11 +53,12 @@ const UserManagement = ({
     }
 
     const newUser = {
-      id: currentUser?.id ?? '',
-      username: values.username,
+      _id: currentUser?._id ?? '',
+      username: currentUser?.username ?? '',
       email: values.email,
       firstName: values.firstName,
       lastName: values.lastName,
+      status: currentStatus ? 'active' : 'inactive',
       role: newRole ?? roleOptions[0]
     }
     onFinishModal(newUser, setShow)
@@ -70,12 +72,8 @@ const UserManagement = ({
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Input
-            className={{ mb: 2 }}
-            label="Username"
-            name="username"
-            placeholder="Escribe aquí el username"
-          />
+          <Typography variant='body2' fontWeight={600}>Username</Typography>
+          <Typography variant='body2' mb={2}>{currentUser?.username}</Typography>
 
           <Input
             className={{ mb: 2 }}
@@ -103,6 +101,17 @@ const UserManagement = ({
             label="Rol"
             options={roleOptions}
           />
+
+          {actionType === 'edit' && (
+            <SwitchField
+              title='Estado'
+              label='Inactivo'
+              rightLabel='Activo'
+              name='status'
+              checked={currentStatus}
+              onChange={(ev) => { setCurrentStatus(ev.target.checked) } }
+            />
+          )}
 
           <Box display="flex" justifyContent="space-between" pt={4}>
             <Button

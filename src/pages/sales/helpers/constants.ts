@@ -46,7 +46,7 @@ export const initialSale = {
   date: '',
   invoice: '',
   user: {
-    id: '',
+    _id: '',
     username: '',
     email: '',
     firstName: '',

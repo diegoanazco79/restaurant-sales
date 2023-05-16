@@ -12,7 +12,7 @@ export const invocesMockList = [
     },
     totalAmount: 100.50,
     user: {
-      id: '100',
+      _id: '100',
       username: 'jper',
       email: 'juan.perez@example.com',
       firstName: 'Juan',
@@ -37,7 +37,7 @@ export const invocesMockList = [
     },
     totalAmount: 50.25,
     user: {
-      id: '101',
+      _id: '101',
       username: 'arod',
       email: 'ana.rodriguez@example.com',
       firstName: 'Ana',

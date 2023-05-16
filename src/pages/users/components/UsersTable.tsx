@@ -18,21 +18,16 @@ interface Props {
   handleChangePage: (event: unknown, newPage: number) => void
   onSelectUser: (user: User) => void
   onEditUser: (user: User, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
-  onDeleteUser: (user: User['id']) => void
 }
 
 const UsersTable = ({
   users, currentPage, currentUser, totalPages,
   handleChangePage,
-  onSelectUser, onDeleteUser, onEditUser
+  onSelectUser, onEditUser
 }: Props) => {
   const [showEditModal, setShowEditModal] = useState(false)
 
-  const userRowProps = {
-    setShowEditModal,
-    onSelectUser,
-    onDeleteUser
-  }
+  const userRowProps = { setShowEditModal, onSelectUser }
 
   return (
     <>
@@ -47,14 +42,13 @@ const UsersTable = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {users
-                ?.map((user, idx) => (
-                  <UserRow
-                    key={idx}
-                    user={user}
-                    {...userRowProps}
-                  />
-                ))}
+              {users?.map((user, idx) => (
+                <UserRow
+                  key={idx}
+                  user={user}
+                  {...userRowProps}
+                />
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
