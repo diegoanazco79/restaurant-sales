@@ -1,12 +1,25 @@
 import axios from 'axios'
 import { useAuthStore } from 'store/auth'
 
-import { type Filters } from 'pages/users/interfaces/User'
-import { type UpdateUser } from 'api/interfaces/UsersApi'
 import { API_URL } from 'api/helpers/constants'
+import { type Filters } from 'pages/users/interfaces/User'
+import { type RegisterUser, type UpdateUser } from 'api/interfaces/UsersApi'
 
 const useUsersApi = () => {
   const currentToken = useAuthStore((state) => state.token)
+
+  /**
+  * Handles when user confirm the email and password
+  * @param {RegisterUser} newUser
+  */
+  const registerUser = async (newUser: RegisterUser) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/register`, newUser)
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   /**
  * Get all users from the API with filters
@@ -44,7 +57,8 @@ const useUsersApi = () => {
 
   return {
     getAllUsers,
-    updateUser
+    updateUser,
+    registerUser
   }
 }
 

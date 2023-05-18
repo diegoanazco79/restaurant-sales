@@ -6,3 +6,9 @@ export interface UpdateUser {
   status: string
   role: string
 }
+
+export interface RegisterUser {
+  token: string
+  password: string
+  status: string
+}
