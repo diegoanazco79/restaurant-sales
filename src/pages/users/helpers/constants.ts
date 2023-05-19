@@ -9,7 +9,8 @@ export const usersRows = [
   { id: 'email', label: 'Correo' },
   { id: 'name', label: 'Nombres y Apellidos' },
   { id: 'role', label: 'Rol' },
-  { id: 'status', label: 'Estado' }
+  { id: 'status', label: 'Estado' },
+  { id: 'actions', label: 'Acciones' }
 ]
 
 export const initialUser = {

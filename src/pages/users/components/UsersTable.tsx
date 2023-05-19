@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from '@mui/material'
@@ -15,19 +14,23 @@ interface Props {
   totalPages: number
   currentUser: User
   currentPage: number
+  showEditModal: boolean
+  setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>
   handleChangePage: (event: unknown, newPage: number) => void
   onSelectUser: (user: User) => void
   onEditUser: (user: User, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
+  onActiveUser: (user: User) => void
+  onDeactiveUser: (user: User) => void
 }
 
 const UsersTable = ({
-  users, currentPage, currentUser, totalPages,
-  handleChangePage,
-  onSelectUser, onEditUser
+  users, currentPage, currentUser, totalPages, showEditModal,
+  setShowEditModal,
+  handleChangePage, onSelectUser, onEditUser, onActiveUser, onDeactiveUser
 }: Props) => {
-  const [showEditModal, setShowEditModal] = useState(false)
-
-  const userRowProps = { setShowEditModal, onSelectUser }
+  const userRowProps = {
+    setShowEditModal, onSelectUser, onActiveUser, onDeactiveUser
+  }
 
   return (
     <>
@@ -71,6 +74,7 @@ const UsersTable = ({
         <UserManagement
           actionType='edit'
           currentUser={currentUser}
+          loadingRequest={false}
           setShow={setShowEditModal}
           onFinishModal={onEditUser}
         />

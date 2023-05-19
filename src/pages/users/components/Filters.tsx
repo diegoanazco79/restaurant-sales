@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Box, Grid, Button } from '@mui/material'
 
 import Modal from 'components/modal/Modal'
@@ -8,13 +7,18 @@ import UserManagement from './userManagement/UserManagement'
 import { type User } from '../interfaces/User'
 
 interface Props {
+  showAddModal: boolean
+  loadingInvitation: boolean
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>
   onSearchUser: (search: string) => void
   onInviteUser: (user: User, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
 }
 
-const Filters = ({ onSearchUser, onInviteUser }: Props) => {
-  const [showAddModal, setShowAddModal] = useState(false)
-
+const Filters = ({
+  showAddModal, loadingInvitation,
+  setShowAddModal,
+  onSearchUser, onInviteUser
+}: Props) => {
   return (
     <Box mb={2}>
       <Grid container spacing={2}>
@@ -40,6 +44,7 @@ const Filters = ({ onSearchUser, onInviteUser }: Props) => {
       >
         <UserManagement
           actionType='create'
+          loadingRequest={loadingInvitation}
           setShow={setShowAddModal}
           onFinishModal={onInviteUser}
         />

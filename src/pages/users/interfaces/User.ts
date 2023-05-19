@@ -15,6 +15,6 @@ export interface User {
   email: string
   firstName: string
   lastName: string
-  status: string
+  status?: string
   role: UserRole
 }

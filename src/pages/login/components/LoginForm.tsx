@@ -120,7 +120,7 @@ const LoginForm = ({
                   disabled={loadingLogin} fullWidth type='submit' variant='contained'
                   endIcon={loadingLogin ? <CircularProgress size={10} /> : null }
                 >
-                  {loadingLogin ? 'Ingresando...' : 'Ingresar'}
+                  {loadingLogin ? 'Ingresando' : 'Ingresar'}
                 </Button>
               </Stack>
             </Form>

@@ -3,10 +3,25 @@ import { useAuthStore } from 'store/auth'
 
 import { API_URL } from 'api/helpers/constants'
 import { type Filters } from 'pages/users/interfaces/User'
-import { type RegisterUser, type UpdateUser } from 'api/interfaces/UsersApi'
+import { type InvitationUser, type RegisterUser, type UpdateUser } from 'api/interfaces/UsersApi'
 
 const useUsersApi = () => {
   const currentToken = useAuthStore((state) => state.token)
+
+  /**
+  * Handles when admin invite a new user
+  * @param {InvitationUser} newUser
+  */
+  const inviteUser = async (newUser: InvitationUser) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/invite`, newUser, {
+        headers: { Authorization: `Bearer ${currentToken}` }
+      })
+      return response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   /**
   * Handles when user confirm the email and password
@@ -57,8 +72,9 @@ const useUsersApi = () => {
 
   return {
     getAllUsers,
-    updateUser,
-    registerUser
+    inviteUser,
+    registerUser,
+    updateUser
   }
 }
 

@@ -9,13 +9,19 @@ import useUsers from './hooks/useUsers'
 const UsersPage = () => {
   const {
     usersList, currentPage, currentUser, isLoading, totalPages,
+    showAddModal, showEditModal, loadingInvitation,
+    setShowAddModal, setShowEditModal,
     onSearchUser, handleChangePage,
-    onSelectUser, onEditUser, onInviteUser
+    onSelectUser, onEditUser, onInviteUser, onActiveUser, onDeactiveUser
   } = useUsers()
 
   /* Component's Props */
   const filtersProps = {
-    onSearchUser, onInviteUser
+    showAddModal,
+    loadingInvitation,
+    setShowAddModal,
+    onSearchUser,
+    onInviteUser
   }
 
   const usersTableProps = {
@@ -23,9 +29,13 @@ const UsersPage = () => {
     totalPages,
     currentUser,
     currentPage,
+    showEditModal,
+    setShowEditModal,
     handleChangePage,
     onSelectUser,
-    onEditUser
+    onEditUser,
+    onActiveUser,
+    onDeactiveUser
   }
 
   return (
@@ -34,11 +44,8 @@ const UsersPage = () => {
       <Filters {...filtersProps} />
       {isLoading
         ? <LinearProgress />
-        : (
-          <>
-            <UsersTable {...usersTableProps} />
-          </>
-        )}
+        : <UsersTable {...usersTableProps} />
+      }
     </Container>
   )
 }

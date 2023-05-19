@@ -1,16 +1,15 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { useState } from 'react'
 import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 import RadioGroupField from 'components/form/RadioGroup'
-import SwitchField from 'components/form/Switch'
 
 import { type User } from 'pages/users/interfaces/User'
 import { roleOptions } from 'pages/users/helpers/constants'
 
 interface FormValues {
+  username: string
   email: string
   firstName: string
   lastName: string
@@ -20,18 +19,18 @@ interface FormValues {
 interface Props {
   actionType: string
   currentUser?: User
+  loadingRequest: boolean
   setShow: React.Dispatch<React.SetStateAction<boolean>>
   onFinishModal: (user: User, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
 }
 
 const UserManagement = ({
-  actionType, currentUser,
+  actionType, currentUser, loadingRequest,
   setShow,
   onFinishModal
 }: Props) => {
-  const [currentStatus, setCurrentStatus] = useState(currentUser?.status === 'active')
-
   const validationSchema = Yup.object({
+    username: Yup.string().required('* Este campo es obligatorio'),
     email: Yup.string().required('* Este campo es obligatorio').email('* Debe ser un correo electrónico válido'),
     firstName: Yup.string().required('* Este campo es obligatorio'),
     lastName: Yup.string().required('* Este campo es obligatorio'),
@@ -39,6 +38,7 @@ const UserManagement = ({
   })
 
   const initialValues = {
+    username: currentUser?.username ?? '',
     email: currentUser?.email ?? '',
     firstName: currentUser?.firstName ?? '',
     lastName: currentUser?.lastName ?? '',
@@ -54,11 +54,11 @@ const UserManagement = ({
 
     const newUser = {
       _id: currentUser?._id ?? '',
-      username: currentUser?.username ?? '',
+      username: actionType === 'create' ? values.username : currentUser?.username ?? '',
       email: values.email,
       firstName: values.firstName,
       lastName: values.lastName,
-      status: currentStatus ? 'active' : 'inactive',
+      status: currentUser?.status,
       role: newRole ?? roleOptions[0]
     }
     onFinishModal(newUser, setShow)
@@ -72,8 +72,21 @@ const UserManagement = ({
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Typography variant='body2' fontWeight={600}>Username</Typography>
-          <Typography variant='body2' mb={2}>{currentUser?.username}</Typography>
+          {actionType === 'create'
+            ? (
+              <Input
+                className={{ mb: 2 }}
+                label="Username"
+                name="username"
+                placeholder="Escribe aquí el username"
+              />
+            )
+            : (
+              <>
+                <Typography variant='body2' fontWeight={600}>Username</Typography>
+                <Typography variant='body2' mb={2}>{currentUser?.username}</Typography>
+              </>
+            )}
 
           <Input
             className={{ mb: 2 }}
@@ -102,26 +115,23 @@ const UserManagement = ({
             options={roleOptions}
           />
 
-          {actionType === 'edit' && (
-            <SwitchField
-              title='Estado'
-              label='Inactivo'
-              rightLabel='Activo'
-              name='status'
-              checked={currentStatus}
-              onChange={(ev) => { setCurrentStatus(ev.target.checked) } }
-            />
-          )}
-
           <Box display="flex" justifyContent="space-between" pt={4}>
             <Button
               variant="contained" color="inherit"
+              disabled={loadingRequest}
               onClick={() => { setShow(false) }}
             >
               Cancelar
             </Button>
-            <Button type="submit" variant="contained" color="primary">
-              {actionType === 'create' ? 'Invitar' : 'Editar'}
+            <Button
+              type="submit" variant="contained" color="primary"
+              disabled={loadingRequest}
+              endIcon={loadingRequest ? <CircularProgress size={10} /> : null }
+            >
+              {actionType === 'create'
+                ? loadingRequest ? 'Enviando invitación' : 'Invitar'
+                : loadingRequest ? 'Editando' : 'Editar'
+              }
             </Button>
           </Box>
         </Form>
