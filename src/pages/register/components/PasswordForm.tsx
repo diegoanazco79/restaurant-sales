@@ -114,7 +114,7 @@ const PasswordForm = ({ loadingRegister, onRegisterUser }: Props) => {
                   disabled={loadingRegister} fullWidth type='submit' variant='contained'
                   endIcon={loadingRegister ? <CircularProgress size={10} /> : null }
                 >
-                  {loadingRegister ? 'Completando registro...' : 'Completar registro'}
+                  {loadingRegister ? 'Completando registro' : 'Completar registro'}
                 </Button>
               </Stack>
             </Form>

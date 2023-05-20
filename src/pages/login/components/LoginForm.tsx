@@ -1,14 +1,16 @@
 import React from 'react'
 import * as Yup from 'yup'
 import { Form, Formik } from 'formik'
+import { useNavigate } from 'react-router-dom'
 import { Box, Button, CircularProgress, IconButton, InputAdornment, Stack, Typography } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 import Input from 'components/form/Input'
 import Select, { type Option } from 'components/form/Select'
 
 import { type LoginFormValues } from '../interfaces/loginTypes'
 import { type Organization } from '../interfaces/organizationTypes'
+
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 interface Props {
   organization: Organization | null
@@ -26,6 +28,8 @@ const LoginForm = ({
   handleClickShowPassword, handleMouseDownPassword, onSubmitLogin,
   onBackToOrganization
 }: Props) => {
+  const navigate = useNavigate()
+
   const validationSchema = Yup.object({
     username: Yup.string().required('* Este campo es obligatorio'),
     password: Yup.string().required('* Este campo es obligatorio'),
@@ -109,6 +113,13 @@ const LoginForm = ({
                     )
                   }}
                 />
+
+                <Button
+                  variant='text' sx={{ width: 'fit-content', ml: 'auto !important' }}
+                  onClick={() => { navigate('/forgot-password') }}
+                >
+                  ¿Olvidaste tu contraseña?
+                </Button>
 
                 {!isValidLogin &&
                   <Typography variant="body2" color="error" mt='0 !important'>

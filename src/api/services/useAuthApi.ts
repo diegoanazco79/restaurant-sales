@@ -8,8 +8,12 @@ const useAuthApi = () => {
  * @param {string} name
  */
   const checkOrganizationStatus = async (name: string) => {
-    const response = await axios.get(`${API_URL}/organization/${name}/check`)
-    return response.data
+    try {
+      const response = await axios.get(`${API_URL}/organization/${name}/check`)
+      return response.data
+    } catch (error) {
+      throw new Error(`Error: ${error as string}`)
+    }
   }
 
   /**
@@ -19,8 +23,12 @@ const useAuthApi = () => {
  * @param {string} subsidiary
  */
   const loginApp = async (username: string, password: string, subsidiary: string) => {
-    const response = await axios.post(`${API_URL}/auth/login`, { username, password, subsidiary })
-    return response.data
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, { username, password, subsidiary })
+      return response.data
+    } catch (error) {
+      throw new Error(`Error: ${error as string}`)
+    }
   }
 
   return {

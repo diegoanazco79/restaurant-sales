@@ -7,9 +7,11 @@ import ProtectedRoutes from './helpers/ProtectedRoutes'
 import { useAuthStore } from 'store/auth'
 
 const CategoriesPage = Loadable(lazy(async () => await import('pages/categories')))
+const ChangePasswordPage = Loadable(lazy(async () => await import('pages/password/changePassword')))
 const ClientsPage = Loadable(lazy(async () => await import('pages/clients')))
 const DashboardPage = Loadable(lazy(async () => await import('pages/dashboard')))
 const DeliveryPage = Loadable(lazy(async () => await import('pages/delivery')))
+const ForgotPasswordPage = Loadable(lazy(async () => await import('pages/password/forgotForm')))
 const InvoicesPage = Loadable(lazy(async () => await import('pages/invoices')))
 const LoginPage = Loadable(lazy(async () => await import('pages/login')))
 const ProductsPage = Loadable(lazy(async () => await import('pages/products')))
@@ -25,6 +27,8 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route index path='/' element={<LoginPage />} />
+      <Route path='/change-password/:token' element={<ChangePasswordPage />} />
+      <Route path='/forgot-password' element={<ForgotPasswordPage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register/:token' element={<RegisterPage />} />
       <Route element={<ProtectedRoutes isAuth={isAuth} />} >

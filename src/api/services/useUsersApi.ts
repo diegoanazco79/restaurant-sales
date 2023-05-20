@@ -19,7 +19,7 @@ const useUsersApi = () => {
       })
       return response.data
     } catch (error) {
-      console.error(error)
+      throw new Error(`Error: ${error as string}`)
     }
   }
 
@@ -32,7 +32,7 @@ const useUsersApi = () => {
       const response = await axios.post(`${API_URL}/auth/register`, newUser)
       return response.data
     } catch (error) {
-      console.error(error)
+      throw new Error(`Error: ${error as string}`)
     }
   }
 
@@ -50,7 +50,7 @@ const useUsersApi = () => {
       })
       return response.data
     } catch (error) {
-      console.error(error)
+      throw new Error(`Error: ${error as string}`)
     }
   }
 
@@ -66,11 +66,25 @@ const useUsersApi = () => {
       })
       return response.data
     } catch (error) {
-      console.error(error)
+      throw new Error(`Error: ${error as string}`)
+    }
+  }
+
+  /**
+ * Send a email for reset password
+ * @param {String} email
+ */
+  const forgotPassword = async (email: string) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/forgot-password`, { email })
+      return response.data
+    } catch (error) {
+      throw new Error(`Error: ${error as string}`)
     }
   }
 
   return {
+    forgotPassword,
     getAllUsers,
     inviteUser,
     registerUser,
