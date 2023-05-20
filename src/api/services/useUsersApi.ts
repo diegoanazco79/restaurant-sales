@@ -83,7 +83,21 @@ const useUsersApi = () => {
     }
   }
 
+  /**
+ * Change password for user
+ * @param {String} email
+ */
+  const changePassword = async (password: string, token: string) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/reset-password`, { password, token })
+      return response.data
+    } catch (error) {
+      throw new Error(`Error: ${error as string}`)
+    }
+  }
+
   return {
+    changePassword,
     forgotPassword,
     getAllUsers,
     inviteUser,

@@ -22,3 +22,8 @@ export interface InvitationUser {
   subsidiary: string
   organization: string
 }
+
+export interface ChangePassword {
+  password: string
+  token: string
+}
