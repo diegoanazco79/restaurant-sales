@@ -3,7 +3,7 @@ import { ErrorMessage, Form, Formik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
 
-import CategoryManagement from 'containers/categoryManagement'
+// import CategoryManagement from 'containers/categoryManagement'
 import Input from 'components/form/Input'
 import Modal from 'components/modal/Modal'
 import Select, { type Option } from 'components/form/Select'
@@ -185,10 +185,11 @@ const ProductManagement = ({
         setOpen={setShowCategoryModal}
         title= 'Añadir categoría'
       >
-        <CategoryManagement
+        <></>
+        {/* <CategoryManagement
           actionType='create'
           setShow={setShowCategoryModal}
-        />
+        /> */}
       </Modal>
     </>
   )

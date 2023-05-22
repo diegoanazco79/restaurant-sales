@@ -5,6 +5,10 @@ export const initialFilters = {
 
 /* Initial category */
 export const initialCategory = {
-  id: '',
-  name: ''
+  _id: '',
+  name: '',
+  subsidiary: '',
+  organization: '',
+  createdAt: '',
+  updatedAt: ''
 }

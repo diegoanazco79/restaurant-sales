@@ -107,7 +107,8 @@ const useUsers = () => {
   /* Get all users with filters */
   const { data: usersData, isLoading } = useQuery({
     queryKey: ['users', filters, editUserMutation, activeUserMutation, deactiveUserMutation],
-    queryFn: async () => await getAllUsers(subsidiaryId, filters)
+    queryFn: async () => await getAllUsers(subsidiaryId, filters),
+    retry: 1
   })
 
   /**

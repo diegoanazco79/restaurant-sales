@@ -4,8 +4,6 @@ import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 
-import useCategoryManagement from './hooks/useCategoryManagement'
-
 import { type Category } from 'pages/categories/interfaces/Category'
 
 interface FormValues {
@@ -16,11 +14,10 @@ interface Props {
   actionType: string
   category?: Category
   setShow: React.Dispatch<React.SetStateAction<boolean>>
+  onFinishModal: (newCategory: Category) => Promise<void>
 }
 
-const CategoryManagement = ({ actionType, category, setShow }: Props) => {
-  const { onAddCategory, onEditCategory } = useCategoryManagement()
-
+const CategoryManagement = ({ actionType, category, setShow, onFinishModal }: Props) => {
   const validationSchema = Yup.object({
     categoryName: Yup.string().required('* Este campo es obligatorio')
   })
@@ -29,20 +26,23 @@ const CategoryManagement = ({ actionType, category, setShow }: Props) => {
     categoryName: category?.name ?? ''
   }
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = async (values: FormValues) => {
     const newCategory = {
-      id: category?.id ?? '',
-      name: values.categoryName
+      _id: category?._id ?? '',
+      name: values.categoryName ?? '',
+      subsidiary: category?.subsidiary ?? '',
+      organization: category?.organization ?? '',
+      createdAt: category?.createdAt ?? '',
+      updatedAt: category?.updatedAt ?? ''
     }
-    if (actionType === 'create') onAddCategory(newCategory, setShow)
-    else onEditCategory(newCategory, setShow)
+    await onFinishModal(newCategory)
   }
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => { handleSubmit(values) }}
+      onSubmit={async (values) => { await handleSubmit(values) }}
     >
       {({ handleSubmit, setFieldValue }) => (
         <Form onSubmit={handleSubmit}>
