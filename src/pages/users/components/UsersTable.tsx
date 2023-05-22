@@ -1,5 +1,6 @@
 import {
-  Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+  Box,
+  Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
 } from '@mui/material'
 
 import Modal from 'components/modal/Modal'
@@ -34,38 +35,49 @@ const UsersTable = ({
 
   return (
     <>
-      <Paper>
-        <TableContainer sx={{ maxHeight: '65vh' }}>
-          <Table stickyHeader>
-            <TableHead>
-              <TableRow>
-                {usersRows.map((row, idx) => (
-                  <TableCell key={idx}>{row.label}</TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users?.map((user, idx) => (
-                <UserRow
-                  key={idx}
-                  user={user}
-                  {...userRowProps}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        {totalPages > 1 && (
-          <Pagination
-            sx={{ display: 'flex', justifyContent: 'center', py: '1rem' }}
-            onChange={handleChangePage}
-            page={currentPage}
-            count={totalPages}
-            variant="outlined"
-            color="primary"
-          />
+      {users?.length > 0
+        ? (
+          <Paper>
+            <TableContainer sx={{ maxHeight: '65vh' }}>
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    {usersRows.map((row, idx) => (
+                      <TableCell key={idx}>{row.label}</TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {users?.map((user, idx) => (
+                    <UserRow
+                      key={idx}
+                      user={user}
+                      {...userRowProps}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {totalPages > 1 && (
+              <Pagination
+                sx={{ display: 'flex', justifyContent: 'center', py: '1rem' }}
+                onChange={handleChangePage}
+                page={currentPage}
+                count={totalPages}
+                variant="outlined"
+                color="primary"
+              />
+            )}
+          </Paper>
+
+        )
+        : (
+          <Box display='flex' mt={5} justifyContent='center' width='100%'>
+            <Typography variant="h5" align="center">
+              No hay usuarios que coincidan con tu búsqueda
+            </Typography>
+          </Box>
         )}
-      </Paper>
       <Modal
         open={showEditModal}
         setOpen={setShowEditModal}
