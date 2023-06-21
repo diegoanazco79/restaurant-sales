@@ -68,16 +68,21 @@ const ProductsPage = () => {
   }
 
   return (
-    <Container maxWidth='xl' sx={{ height: '100%' }}>
-      <TitlePage title='Gestión de Productos'/>
+    <Container maxWidth="xl" sx={{ height: '100%' }}>
+      <TitlePage title="Gestión de Productos" />
       {isMobileOrTablet
-        ? <Navigation {...navigationProps} />
-        : <Filters {...filtersProps} />
-      }
-      {isMobileOrTablet
-        ? <ProductList {...productListProps}/>
-        : <ProductsTable {...productsTableProps} />
-      }
+        ? (
+          <>
+            <Navigation {...navigationProps} />
+            <ProductList {...productListProps} />
+          </>
+        )
+        : (
+          <>
+            <Filters {...filtersProps} />
+            <ProductsTable {...productsTableProps} />
+          </>
+        )}
     </Container>
   )
 }
