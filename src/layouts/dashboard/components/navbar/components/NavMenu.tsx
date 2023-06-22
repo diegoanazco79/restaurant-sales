@@ -1,8 +1,7 @@
 import { Divider, List, Typography } from '@mui/material'
 
-import LogoutItem from './LogoutItem'
 import NavItem from './NavItem'
-import UserProfile from './UserProfile'
+// import UserProfile from './UserProfile'
 
 import useMenuNavigation from 'layouts/dashboard/hooks/useNavigation'
 import { pxToRem } from 'theme/helpers/functions'
@@ -17,8 +16,9 @@ const NavMenu = () => {
 
   return (
     <>
-      <UserProfile />
+      {/* <UserProfile /> */}
       <List sx={{
+        py: 4,
         '&& .Mui-selected, && .Mui-selected:hover': {
           backgroundColor: 'rgba(145, 158, 171, 0.16)',
           '&, & .MuiTypography-root': {
@@ -64,7 +64,7 @@ const NavMenu = () => {
         ))}
 
         <Divider sx={{ mt: 1, mb: 2, mx: pxToRem(24) }}/>
-        {/* Rerpots section */}
+        {/* Reports section */}
         <Typography variant='caption' pl={3} fontWeight={600}>Reportes</Typography>
         {reportsElements?.map((item, idx) => (
           <NavItem
@@ -75,20 +75,6 @@ const NavMenu = () => {
             icon={item?.icon}
           />
         ))}
-      </List>
-      <List sx={{
-        mt: 'auto',
-        pt: '5rem',
-        pb: '1.5rem',
-        '&& .Mui-selected, && .Mui-selected:hover': {
-          backgroundColor: 'rgba(145, 158, 171, 0.16)',
-          '&, & .MuiTypography-root': {
-            color: 'rgb(33, 43, 54)',
-            fontWeight: 600
-          }
-        }
-      }}>
-        <LogoutItem />
       </List>
     </>
   )

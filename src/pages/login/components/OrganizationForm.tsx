@@ -50,7 +50,7 @@ const OrganizationForm = ({
                   disabled={loadingOrganization} fullWidth type='submit' variant='contained'
                   endIcon={loadingOrganization ? <CircularProgress size={10} /> : null }
                 >
-                  {loadingOrganization ? 'Ingresando...' : 'Ingresar'}
+                  {loadingOrganization ? 'Ingresando' : 'Ingresar'}
                 </Button>
               </Stack>
             </Form>

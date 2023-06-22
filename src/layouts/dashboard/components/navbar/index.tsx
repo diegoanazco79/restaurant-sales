@@ -36,7 +36,11 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
             sx: {
               width: NAV_WIDTH,
               bgcolor: 'background.default',
-              borderRightStyle: 'dashed'
+              borderRightStyle: 'dashed',
+              overflow: 'hidden',
+              ':hover': {
+                overflow: 'auto'
+              }
             }
           }}
         >
@@ -49,7 +53,13 @@ const Navbar = ({ openNavbar, onCloseNavbar }: Props) => {
             keepMounted: true
           }}
           PaperProps={{
-            sx: { width: NAV_WIDTH }
+            sx: {
+              width: NAV_WIDTH,
+              overflow: 'hidden',
+              ':hover': {
+                overflow: 'auto'
+              }
+            }
           }}
         >
           <NavMenu />
