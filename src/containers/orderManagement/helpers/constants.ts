@@ -7,9 +7,13 @@ export const initialOrder = {
 }
 
 export const initialProduct = {
-  id: '',
+  _id: '',
   name: '',
   isInfinite: false,
   types: [],
-  price: 0
+  price: 0,
+  updatedAt: '',
+  createdAt: '',
+  subsidiary: '',
+  organization: ''
 }

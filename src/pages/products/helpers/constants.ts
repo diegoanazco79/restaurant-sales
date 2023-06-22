@@ -1,13 +1,17 @@
 /* Initial product state */
 export const initialProduct = {
-  id: '',
+  _id: '',
   name: '',
   types: [],
-  isInfinite: true
+  isInfinite: true,
+  updatedAt: '',
+  createdAt: '',
+  subsidiary: '',
+  organization: ''
 }
 /* Initial product type state */
 export const initialProductType = {
-  id: '',
+  _id: '',
   name: '',
   price: 0,
   isInfinite: true
@@ -25,7 +29,9 @@ export const producTableRows = [
 
 export const initialFilters = {
   search: '',
-  category: ''
+  category: '',
+  page: 1,
+  limit: 10
 }
 
 export const initialAppliedFilters = {

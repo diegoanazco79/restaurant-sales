@@ -15,7 +15,7 @@ import { initialProductType } from 'pages/products/helpers/constants'
 interface Props {
   product?: Product
   setFieldValue: (field: string, value: any) => void
-  onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
+  onEditProductType: (typeId: ProductType['_id'], newType: ProductType) => void
   onAddProductType: (type: ProductType) => void
   onDeleteProductType: (iProduct: number) => void
 }

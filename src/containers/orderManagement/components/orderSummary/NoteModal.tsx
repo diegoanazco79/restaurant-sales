@@ -10,12 +10,12 @@ import { type ProductType } from 'pages/products/interfaces/Products'
 interface Props {
   currentOrder: Order | undefined
   setShowNoteModal: (show: boolean) => void
-  onAddNote: (note: string, type: ProductType['id']) => void
+  onAddNote: (note: string, type: ProductType['_id']) => void
 }
 
 const NoteModal = ({ currentOrder, setShowNoteModal, onAddNote }: Props) => {
   const currentNote = currentOrder?.note ?? ''
-  const currentType = currentOrder?.type ?? { id: '', name: '', price: 0 }
+  const currentType = currentOrder?.type ?? { _id: '', name: '', price: 0 }
 
   const validationSchema = Yup.object({
     note: Yup.string().required('* Este campo es obligatorio')
@@ -26,14 +26,14 @@ const NoteModal = ({ currentOrder, setShowNoteModal, onAddNote }: Props) => {
   }
 
   const handleDeleteOrder = () => {
-    onAddNote('', currentType?.id)
+    onAddNote('', currentType?._id)
     setShowNoteModal(false)
   }
 
   const handleAddOrderNote = (
     values: { note: string }
   ) => {
-    onAddNote(values?.note, currentType?.id)
+    onAddNote(values?.note, currentType?._id)
     setShowNoteModal(false)
   }
 

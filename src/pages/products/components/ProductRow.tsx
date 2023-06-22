@@ -10,7 +10,7 @@ interface Props {
   product: Product
   setShowProductModal: React.Dispatch<React.SetStateAction<boolean>>
   onSelectProduct: (product: Product) => void
-  onDeleteProduct: (product: Product['id']) => void
+  onDeleteProduct: (product: string) => void
 }
 
 const ProductRow = ({
@@ -18,14 +18,16 @@ const ProductRow = ({
   setShowProductModal,
   onSelectProduct, onDeleteProduct
 }: Props) => {
+  const productId = product?._id ?? ''
+
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation()
-    onDeleteProduct(product.id)
+    onDeleteProduct(productId)
   }
 
   return (
     <TableRow
-      key={product.id} hover sx={{ cursor: 'pointer' }}
+      key={product._id} hover sx={{ cursor: 'pointer' }}
       onClick={() => { onSelectProduct(product); setShowProductModal(true) }} >
       <TableCell>{product.name}</TableCell>
       <TableCell>{getProductPriceLabel(product)}</TableCell>
@@ -34,7 +36,7 @@ const ProductRow = ({
           ? (
             <ul>
               {product.types.map((type: ProductType) => (
-                <li key={type.id}>
+                <li key={type._id}>
                   {type.name} - S/. {type.price.toFixed(2)}
                 </li>
               ))}

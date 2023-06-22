@@ -1,3 +1,4 @@
+/*eslint-disable */
 import { useState } from 'react'
 import { Box } from '@mui/material'
 
@@ -49,17 +50,13 @@ const ProductSelection = ({ onAddOrder, onSearchProduct }: Props) => {
         display="flex"
         flexDirection="column"
       >
-        {productsMock.map((product, idx) => (
+        {/* {productsMock.map((product, idx) => (
           <ProductItem
             key={idx}
-            id={product.id}
-            name={product.name}
-            price={product.price}
-            types={product.types}
-            isInfinite={product.isInfinite}
+            product={product}
             {...productItemProps}
           />
-        ))}
+        ))} */}
       </Box>
       <Modal
         open={showTypesModal}

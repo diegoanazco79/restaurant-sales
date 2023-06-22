@@ -20,7 +20,7 @@ interface Props {
   currentType: ProductType
   setShowTypeModal: React.Dispatch<React.SetStateAction<boolean>>
   setFieldValue: (field: string, value: any) => void
-  onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
+  onEditProductType: (typeId: ProductType['_id'], newType: ProductType) => void
   onAddProductType: (type: ProductType) => void
 }
 
@@ -48,7 +48,7 @@ const TypeManagement = ({
 
   const handleSubmitForm = (values: FormValues) => {
     const newType = {
-      id: currentType?.id ?? '',
+      _id: currentType?._id ?? '',
       name: values.typeName,
       price: values.typePrice,
       isInfinite: !hasStock,
@@ -58,7 +58,7 @@ const TypeManagement = ({
       onAddProductType(newType)
       setFieldValue('types', [...product?.types ?? [], newType])
     } else {
-      onEditProductType(currentType?.id, newType)
+      onEditProductType(currentType?._id, newType)
       setFieldValue('types', [...product?.types ?? [], newType])
     }
     setShowTypeModal(false)

@@ -8,18 +8,21 @@ import DeleteIcon from '@mui/icons-material/Delete'
 interface Props {
   product: Product
   setOpen: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>
-  onDeleteProduct: (product: Product['id']) => void
+  onDeleteProduct: (product: string) => void
 }
 
 const ProductActions = ({ product, setOpen, onDeleteProduct }: Props) => {
   const { palette } = useTheme()
+
+  const productId = product?._id ?? ''
+
   return (
     <Stack sx={{ p: 1 }}>
       <MenuItem
         sx={{ px: 1 }}
         onClick={(ev) => {
           ev.stopPropagation()
-          onDeleteProduct(product?.id)
+          onDeleteProduct(productId)
           setOpen(null)
         }}
       >

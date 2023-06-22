@@ -17,7 +17,7 @@ const TypesModal = ({ selectedProduct, setShowTypesModal, onAddOrder }: Props) =
 
   const handleAddProduct = () => {
     const newOrder = {
-      id: selectedProduct.id,
+      id: selectedProduct._id ?? '',
       name: selectedProduct.name,
       price: selectedType.price ?? 0,
       type: selectedType,
@@ -33,13 +33,13 @@ const TypesModal = ({ selectedProduct, setShowTypesModal, onAddOrder }: Props) =
         Seleccione el tipo del producto
       </Typography>
       <RadioGroup
-        defaultValue={selectedProduct?.types?.at(0)?.id}
+        defaultValue={selectedProduct?.types?.at(0)?._id}
         sx={{ mb: 2 }}
       >
         {selectedProduct.types.map((type, idx) => (
           <FormControlLabel
             key={idx}
-            value={type.id}
+            value={type._id}
             sx={{ width: 'fit-content', height: pxToRem(30) }}
             control={<Radio size='small' onChange={() => { setSelectedType(type) }} />}
             label={<Typography variant='body2'>{type.name}</Typography>}

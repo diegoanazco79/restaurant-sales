@@ -24,10 +24,10 @@ interface Props {
   deliveryOrder?: DeliveryOrder
   currentOrder?: Order
   setCurrentOrder: (order: Order) => void
-  onDeleteOrder: (id: string, type: ProductType['id']) => void
-  handleIncrement: (id: string, type: ProductType['id']) => void
-  handleDecrement: (id: string, type: ProductType['id']) => void
-  onAddNote: (note: string, type: ProductType['id']) => void
+  onDeleteOrder: (id: string, type: ProductType['_id']) => void
+  handleIncrement: (id: string, type: ProductType['_id']) => void
+  handleDecrement: (id: string, type: ProductType['_id']) => void
+  onAddNote: (note: string, type: ProductType['_id']) => void
 }
 
 const OrderSummary = ({

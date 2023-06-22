@@ -76,7 +76,7 @@ const Dropdown = ({
         open={open}
         onClose={handleClose}
       >
-        {options.map((option) => (
+        {options?.map((option) => (
           <MenuItem
             key={option.label}
             selected={selectedOption ? selectedOption.id === option.id : false}

@@ -11,8 +11,8 @@ interface Props {
   id: string
   amount: number
   type: ProductType
-  handleIncrement: (id: string, type: ProductType['id']) => void
-  handleDecrement: (id: string, type: ProductType['id']) => void
+  handleIncrement: (id: string, type: ProductType['_id']) => void
+  handleDecrement: (id: string, type: ProductType['_id']) => void
 }
 
 const Counter = ({
@@ -32,7 +32,7 @@ const Counter = ({
             background: theme.palette.grey[400]
           }
         }}
-        onClick={() => { handleDecrement(id, type?.id) }}
+        onClick={() => { handleDecrement(id, type?._id) }}
       >
         <RemoveOutlinedIcon sx={{ fontSize: '18px' }}/>
       </IconButton>
@@ -51,7 +51,7 @@ const Counter = ({
             background: theme.palette.grey[400]
           }
         }}
-        onClick={() => { handleIncrement(id, type?.id) }}
+        onClick={() => { handleIncrement(id, type?._id) }}
       >
         <AddOutlinedIcon sx={{ fontSize: '18px' }}/>
       </IconButton>

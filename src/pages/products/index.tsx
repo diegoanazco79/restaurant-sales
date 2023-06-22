@@ -1,8 +1,10 @@
-import { Container } from '@mui/material'
+import { Container, LinearProgress } from '@mui/material'
 
 import Filters from './components/Filters'
+import Modal from 'components/modal/Modal'
 import Navigation from './components/responsive/Navigation'
 import ProductList from './components/responsive/ProductList'
+import ProductManagement from './components/productManagement/ProductManagement'
 import ProductsTable from './components/ProductsTable'
 import TitlePage from 'components/titlePage'
 
@@ -11,12 +13,14 @@ import useResponsive from 'helpers/hooks/useResponsive'
 
 const ProductsPage = () => {
   const {
-    productsList, currentPage, rowsPerPage, currentProduct,
-    filters, appliedFilters,
-    handleChangePage, handleChangeRowsPerPage, onSelectProduct, onSearchProduct,
-    onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
-    onDeleteProductType, onAddProduct, onFilterByCategory, onDeleteCategoryFilter,
-    onApplyMobileFilters
+    productsList, currentPage, currentProduct, showEditModal, showAddModal,
+    filters, appliedFilters, loadingProducts, totalPages, categoriesList,
+    loadingCategories,
+    setShowEditModal, setShowAddModal, setCurrentProduct,
+    onSelectProduct, onSearchProduct, onDeleteProduct, onEditProduct,
+    onEditProductType, onAddProductType, onDeleteProductType,
+    onAddProduct, onFilterByCategory, onDeleteCategoryFilter,
+    onApplyMobileFilters, handleChangePage
   } = useProducts()
 
   const { isMobileOrTablet } = useResponsive()
@@ -24,41 +28,31 @@ const ProductsPage = () => {
   /* Components props */
   const productsTableProps = {
     products: productsList,
+    totalPages,
     currentPage,
-    rowsPerPage,
-    currentProduct,
-    handleChangePage,
-    handleChangeRowsPerPage,
+    setShowProductModal: setShowEditModal,
     onSelectProduct,
-    onEditProduct,
-    onEditProductType,
-    onAddProductType,
-    onDeleteProductType,
-    onDeleteProduct
+    onDeleteProduct,
+    handleChangePage
   }
 
   const productListProps = {
     products: productsList,
-    currentProduct,
+    setShowAddModal,
+    setShowEditModal,
     onSelectProduct,
-    onAddProduct,
-    onEditProduct,
-    onEditProductType,
-    onAddProductType,
-    onDeleteProductType,
     onDeleteProduct
   }
 
   const filtersProps = {
     filters,
+    categoriesList,
     appliedFilters,
+    setShowAddModal,
+    setCurrentProduct,
     onSearchProduct,
     onFilterByCategory,
-    onDeleteCategoryFilter,
-    onAddProduct,
-    onEditProductType,
-    onAddProductType,
-    onDeleteProductType
+    onDeleteCategoryFilter
   }
 
   const navigationProps = {
@@ -67,17 +61,64 @@ const ProductsPage = () => {
     onApplyMobileFilters
   }
 
+  const commonModalProps = {
+    product: currentProduct,
+    onEditProductType,
+    onAddProductType,
+    onDeleteProductType
+  }
+
+  const editProductModalProps = {
+    actionType: 'edit',
+    setShowProductModal: setShowEditModal,
+    onFinishModal: onEditProduct,
+    ...commonModalProps
+  }
+
+  const addProductModalProps = {
+    actionType: 'create',
+    setShowProductModal: setShowAddModal,
+    onFinishModal: onAddProduct,
+    ...commonModalProps
+  }
+
   return (
     <Container maxWidth='xl' sx={{ height: '100%' }}>
       <TitlePage title='Gestión de Productos'/>
       {isMobileOrTablet
-        ? <Navigation {...navigationProps} />
-        : <Filters {...filtersProps} />
+        ? (
+          <>
+            <Navigation {...navigationProps} />
+            {loadingProducts || loadingCategories
+              ? <LinearProgress />
+              : <ProductList {...productListProps}/>
+            }
+          </>
+        )
+        : (
+          <>
+            <Filters {...filtersProps} />
+            {loadingProducts || loadingCategories
+              ? <LinearProgress />
+              : <ProductsTable {...productsTableProps} />
+            }
+          </>
+        )
       }
-      {isMobileOrTablet
-        ? <ProductList {...productListProps}/>
-        : <ProductsTable {...productsTableProps} />
-      }
+      <Modal
+        open={showEditModal}
+        setOpen={setShowEditModal}
+        title='Editar producto'
+      >
+        <ProductManagement {...editProductModalProps}/>
+      </Modal>
+      <Modal
+        open={showAddModal}
+        setOpen={setShowAddModal}
+        title='Añadir producto'
+      >
+        <ProductManagement {...addProductModalProps}/>
+      </Modal>
     </Container>
   )
 }

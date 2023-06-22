@@ -1,9 +1,11 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Typography } from '@mui/material'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { ErrorMessage, Form, Formik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
+import Swal from 'sweetalert2'
 
-// import CategoryManagement from 'containers/categoryManagement'
+import CategoryManagement from 'containers/categoryManagement'
 import Input from 'components/form/Input'
 import Modal from 'components/modal/Modal'
 import Select, { type Option } from 'components/form/Select'
@@ -11,12 +13,13 @@ import StockSelection from './StockSelection'
 import TypesList from './TypesList'
 import TypesSelection from './TypesSelection'
 
-import { formatCategoryToSelect, formatCategory, getProductPrice } from '../../helpers/functions'
+import useCategoryApi from 'api/services/useCategoryApi'
+import { formatCategoryToSelect, formatCategory, getProductPrice, formatCategories } from '../../helpers/functions'
 
 import { initialProduct } from '../../helpers/constants'
-import { categoriesMock } from 'pages/categories/mock/categoriesMock'
-
 import { type ProductType, type Product } from '../../interfaces/Products'
+import { initialFilters } from 'pages/categories/helpers/constants'
+import { type Category } from 'pages/categories/interfaces/Category'
 
 interface FormValues {
   productName: string
@@ -28,10 +31,10 @@ interface FormValues {
 
 interface Props {
   actionType: string
-  product?: Product
+  product: Product
   setShowProductModal: React.Dispatch<React.SetStateAction<boolean>>
-  onFinishModal: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
-  onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
+  onFinishModal: (product: Product) => void
+  onEditProductType: (typeId: ProductType['_id'], newType: ProductType) => void
   onAddProductType: (type: ProductType) => void
   onDeleteProductType: (iProduct: number) => void
 }
@@ -39,18 +42,25 @@ interface Props {
 const ProductManagement = ({
   actionType, product,
   setShowProductModal,
-  onFinishModal, onEditProductType, onAddProductType,
-  onDeleteProductType
+  onFinishModal, onEditProductType, onAddProductType, onDeleteProductType
 }: Props) => {
-  const [hasTypes, setHasTypes] = useState(product ? product.types.length > 0 : false)
-  const [hasStock, setHasStock] = useState(product ? !product.isInfinite : false)
-  const [currentCategory, setCurrentCategory] = useState(product ? formatCategoryToSelect(product.category ?? null) : null)
+  const [hasTypes, setHasTypes] = useState(product.types.length > 0)
+  const [hasStock, setHasStock] = useState(product.types.length > 0 ? false : !product.isInfinite)
+  const [currentCategory, setCurrentCategory] = useState(formatCategoryToSelect(product.category ?? null))
   const [showCategoryModal, setShowCategoryModal] = useState(false)
 
-  const formatCategories = categoriesMock.map((category) => ({
-    id: category.id,
-    label: category.name
-  }))
+  const { getAllCategories, createCategory } = useCategoryApi()
+
+  const createCategoryMutation = useMutation({
+    mutationFn: async (formValues: Category) =>
+      await createCategory(formValues.name)
+  })
+
+  const { data: categoriesList, isLoading: loadingCategories } = useQuery({
+    queryKey: ['categories', createCategoryMutation],
+    queryFn: async () => await getAllCategories(initialFilters),
+    retry: 1
+  })
 
   const validationSchema = Yup.object({
     productName: Yup.string().required('* Este campo es obligatorio'),
@@ -74,9 +84,49 @@ const ProductManagement = ({
     stockQuantity: product?.stockQuantity ?? 0
   }
 
+  /**
+   * Handles when user want to add a new category.
+   * @param {Category} newCategory - Category to add
+   */
+  const onAddCategory = async (newCategory: Category) => {
+    await Swal.fire({
+      title: '¿Estas seguro de añadir esta categoría?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, añadir',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          await createCategoryMutation.mutateAsync(newCategory)
+          return { isConfirmed: true }
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then(async (result) => {
+      if (result?.value?.isConfirmed) {
+        setShowCategoryModal(false)
+        await Swal.fire({
+          title: '¡Categoría creada!',
+          text: 'Su categoría ha sido creada correctamente',
+          icon: 'success'
+        })
+      } else if (!result.isDismissed) {
+        await Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
   const handleSubmit = (values: FormValues) => {
     const newProduct = {
-      id: product?.id ?? '',
+      ...(actionType === 'edit' && { _id: product?._id ?? '' }),
       name: values.productName,
       types: hasTypes ? product?.types ?? [] : [],
       ...(!hasTypes && { price: Number(values.price) }),
@@ -84,9 +134,11 @@ const ProductManagement = ({
         category: formatCategory(currentCategory) ?? formatCategory(values.category)
       }),
       ...(!hasTypes && { isInfinite: !hasStock }),
-      ...(hasStock && { stockQuantity: values.stockQuantity })
+      ...(hasStock && { stockQuantity: values.stockQuantity }),
+      updatedAt: product?.updatedAt ?? '',
+      createdAt: product?.createdAt ?? ''
     }
-    onFinishModal(newProduct, setShowProductModal)
+    onFinishModal(newProduct)
   }
 
   /* Component's Props */
@@ -113,7 +165,7 @@ const ProductManagement = ({
               placeholder="Escribe aquí el nombre de tu producto"
             />
 
-            <TypesSelection hasTypes={hasTypes} setHasTypes={setHasTypes} />
+            <TypesSelection hasTypes={hasTypes} setHasTypes={setHasTypes} setHasStock={setHasStock} />
             <>
               <br/>
               <ErrorMessage name="types" className='formik-error' component='span'/>
@@ -130,21 +182,26 @@ const ProductManagement = ({
 
             {hasTypes && <TypesList {...typesListProps} setFieldValue={setFieldValue} /> }
 
-            <Select
-              label="Categoría"
-              placeholder='Busque o seleccione una categoría'
-              name="category"
-              options={[{ id: 'none', label: 'Ninguna' }, ...formatCategories]}
-              onChange={(
-                event: React.SyntheticEvent<Element, Event>,
-                value: Option | null
-              ) => {
-                setFieldValue('category', value)
-                setCurrentCategory(value)
-              }}
-              value={currentCategory}
-              defaultValue={{ id: 'none', label: 'Ninguna' }}
-            />
+            {loadingCategories
+              ? <CircularProgress size={5} />
+              : (
+                <Select
+                  label="Categoría"
+                  placeholder='Busque o seleccione una categoría'
+                  name="category"
+                  options={[{ id: 'none', label: 'Ninguna' }, ...formatCategories(categoriesList)]}
+                  onChange={(
+                    event: React.SyntheticEvent<Element, Event>,
+                    value: Option | null
+                  ) => {
+                    setFieldValue('category', value)
+                    setCurrentCategory(value)
+                  }}
+                  value={currentCategory}
+                  defaultValue={{ id: 'none', label: 'Ninguna' }}
+                />
+
+              )}
 
             <Box display='flex' alignItems='center' mt='1px !important' mb={2}>
               <Typography variant='caption'>¿No encuentras una categoría en el listado?</Typography>
@@ -158,7 +215,7 @@ const ProductManagement = ({
 
             {!hasTypes && <StockSelection hasStock={hasStock} setHasStock={setHasStock} /> }
 
-            {hasStock && (
+            {hasStock && product.types.length === 0 && (
               <Input
                 label="Stock"
                 name="stockQuantity"
@@ -185,11 +242,11 @@ const ProductManagement = ({
         setOpen={setShowCategoryModal}
         title= 'Añadir categoría'
       >
-        <></>
-        {/* <CategoryManagement
+        <CategoryManagement
           actionType='create'
           setShow={setShowCategoryModal}
-        /> */}
+          onFinishModal={onAddCategory}
+        />
       </Modal>
     </>
   )

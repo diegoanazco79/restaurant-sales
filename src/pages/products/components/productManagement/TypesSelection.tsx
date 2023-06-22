@@ -5,9 +5,10 @@ import { buttonGroupStyles, pxToRem } from 'theme/helpers/functions'
 interface Props {
   hasTypes: boolean
   setHasTypes: React.Dispatch<React.SetStateAction<boolean>>
+  setHasStock: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const TypesSelection = ({ hasTypes, setHasTypes }: Props) => {
+const TypesSelection = ({ hasTypes, setHasTypes, setHasStock }: Props) => {
   const theme = useTheme()
 
   return (
@@ -21,13 +22,18 @@ const TypesSelection = ({ hasTypes, setHasTypes }: Props) => {
       </Typography>
       <ButtonGroup variant="contained" sx={{ mb: 2, mr: 2 }}>
         <Button
-          onClick={() => { setHasTypes(false) }}
+          onClick={() => {
+            setHasTypes(false)
+          }}
           sx={buttonGroupStyles(theme, !hasTypes)}
         >
           No
         </Button>
         <Button
-          onClick={() => { setHasTypes(true) }}
+          onClick={() => {
+            setHasTypes(true)
+            setHasStock(false)
+          }}
           sx={buttonGroupStyles(theme, hasTypes)}
         >
           Si

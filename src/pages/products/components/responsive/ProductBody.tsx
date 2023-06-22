@@ -1,17 +1,30 @@
-import { Box, Typography, IconButton } from '@mui/material'
+import { useState } from 'react'
+import { Box, Typography, IconButton, Popover } from '@mui/material'
+
+import ProductActions from './ProductActions'
 
 import { getProductPriceLabel } from 'pages/products/helpers/functions'
 
 import { type Product, type ProductType } from 'pages/products/interfaces/Products'
-
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 interface Props {
   product: Product
-  handleOpen: (event: React.MouseEvent<HTMLButtonElement>) => void
+  onDeleteProduct: (product: string) => void
 }
 
-const ProductBody = ({ product, handleOpen }: Props) => {
+const ProductBody = ({ product, onDeleteProduct }: Props) => {
+  const [open, setOpen] = useState<HTMLButtonElement | null>(null)
+
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setOpen(event.currentTarget)
+    event.stopPropagation()
+  }
+
+  const handleClose = () => {
+    setOpen(null)
+  }
+
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -33,7 +46,7 @@ const ProductBody = ({ product, handleOpen }: Props) => {
                 <b>Tipos:</b>
               </Typography>
               {product.types.map((type: ProductType) => (
-                <Typography key={type.id} variant="body2" ml={2}>
+                <Typography key={type._id} variant="body2" ml={2}>
                   <b>•</b> {type.name} - S/. {type.price.toFixed(2)}
                 </Typography>
               ))}
@@ -51,6 +64,30 @@ const ProductBody = ({ product, handleOpen }: Props) => {
       <Typography variant="body2" gutterBottom>
         <b>Stock:</b> {product.stockQuantity ?? 'Sin stock'}
       </Typography>
+
+      <Popover
+        open={Boolean(open)}
+        anchorEl={open}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            p: 0,
+            width: 'fit-content',
+            '& .MuiMenuItem-root': {
+              typography: 'body2',
+              borderRadius: 0.75
+            }
+          }
+        }}
+      >
+        <ProductActions
+          product={product}
+          setOpen={setOpen}
+          onDeleteProduct={onDeleteProduct}
+        />
+      </Popover>
     </>
   )
 }

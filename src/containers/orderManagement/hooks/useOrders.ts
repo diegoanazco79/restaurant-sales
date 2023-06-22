@@ -23,7 +23,7 @@ const useOrders = () => {
    * @param {Order} order
    */
   const onAddOrder = (order: Order) => {
-    const orderIndex = orders.findIndex(({ id, type }) => id === order.id && type?.id === order.type?.id)
+    const orderIndex = orders.findIndex(({ id, type }) => id === order.id && type?._id === order.type?._id)
     const newOrders = [...orders]
     if (orderIndex >= 0) {
       newOrders[orderIndex] = { ...newOrders[orderIndex], amount: newOrders[orderIndex].amount + 1 }
@@ -39,9 +39,9 @@ const useOrders = () => {
  * This function handles incrementing the amount of a specific order in an array of orders.
  * @param orderId - The `orderId` parameter is of type `Order['id']`nding order
  */
-  const handleIncrement = (orderId: Order['id'], typeId: ProductType['id']) => {
+  const handleIncrement = (orderId: Order['id'], typeId: ProductType['_id']) => {
     const newOrders = orders?.map((order) => {
-      if (order.id === orderId && (!order?.type || order?.type?.id === typeId)) {
+      if (order.id === orderId && (!order?.type || order?.type?._id === typeId)) {
         return { ...order, amount: order.amount + 1 }
       } else return order
     })
@@ -52,9 +52,9 @@ const useOrders = () => {
  * This function handles decrementing the amount of a specific order in an array of orders.
  * @param orderId - The `orderId` parameter is of type `Order['id']`nding order
  */
-  const handleDecrement = (orderId: Order['id'], typeId?: ProductType['id']) => {
+  const handleDecrement = (orderId: Order['id'], typeId?: ProductType['_id']) => {
     const newOrders = orders?.map((order) => {
-      if (order.id === orderId && (!order?.type || order?.type?.id === typeId)) {
+      if (order.id === orderId && (!order?.type || order?.type?._id === typeId)) {
         return { ...order, amount: order.amount === 1 ? 1 : order.amount - 1 }
       } else return order
     })
@@ -66,10 +66,10 @@ const useOrders = () => {
  * @param orderId - The `orderId` parameter is of type `Order['id']`
  * @param typeId - The `typeId` parameter is of type `ProductType['id']`
  */
-  const onDeleteOrder = (orderId: Order['id'], typeId?: ProductType['id']) => {
+  const onDeleteOrder = (orderId: Order['id'], typeId?: ProductType['_id']) => {
     const newOrders = orders.filter(order => {
       if (order?.id === orderId) {
-        if (!order?.type || order?.type?.id === typeId) {
+        if (!order?.type || order?.type?._id === typeId) {
           return false
         } else {
           return true
@@ -85,9 +85,9 @@ const useOrders = () => {
    * @param {string} note - The `note` that represents the note to be added
    * @param [typeId] - `typeId`
    */
-  const onAddNote = (note: string, typeId?: ProductType['id']) => {
+  const onAddNote = (note: string, typeId?: ProductType['_id']) => {
     const newOrders = orders?.map((order) => {
-      if (order.id === currentOrder?.id && (!order?.type || order?.type?.id === typeId)) {
+      if (order.id === currentOrder?.id && (!order?.type || order?.type?._id === typeId)) {
         return { ...order, note }
       } else return order
     })

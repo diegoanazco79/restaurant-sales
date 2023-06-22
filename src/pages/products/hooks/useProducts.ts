@@ -1,112 +1,163 @@
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 
-import { type ProductType, type Product, type FiltersType, type AppliedFiltersType, type CategoryProductType } from '../interfaces/Products'
+import {
+  type ProductType, type Product,
+  type FiltersType, type AppliedFiltersType,
+  type CategoryProductType
+} from '../interfaces/Products'
 
-import productsMock from '../mock/productsMock'
-import { initialAppliedFilters, initialFilters, initialProduct } from '../helpers/constants'
+import useProductApi from 'api/services/useProductApi'
+import useCategoryApi from 'api/services/useCategoryApi'
+
+import {
+  initialAppliedFilters, initialFilters, initialProduct
+} from '../helpers/constants'
+import { type CreateProduct } from 'api/interfaces/ProductApi'
 
 const useProducts = () => {
-  const [productsList] = useState<Product[]>(productsMock)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const [currentProduct, setCurrentProduct] = useState<Product>(initialProduct)
 
   const [filters, setFilters] = useState<FiltersType>(initialFilters)
-  const [appliedFilters, setAppliedFilters] = useState<AppliedFiltersType>(initialAppliedFilters)
+  const [appliedFilters, setAppliedFilters] = useState<AppliedFiltersType>(
+    initialAppliedFilters
+  )
+
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [showAddModal, setShowAddModal] = useState(false)
+
+  const { createProduct, getAllProducts, deleteProduct } = useProductApi()
+  const { getAllCategories } = useCategoryApi()
+
+  const createMutation = useMutation({
+    mutationFn: async (formValues: CreateProduct) =>
+      await createProduct(formValues)
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => await deleteProduct(id)
+  })
+
+  const { data: productsList, isLoading: loadingProducts } = useQuery({
+    queryKey: ['products', filters, createMutation, deleteMutation],
+    queryFn: async () => await getAllProducts(filters),
+    retry: 1
+  })
+
+  const { data: categoriesList, isLoading: loadingCategories } = useQuery({
+    queryKey: ['categories', filters, createMutation],
+    queryFn: async () => await getAllCategories(filters),
+    retry: 1
+  })
 
   /**
- * Handles a search input box in products list.
- * @param {string} search
- */
+   * Handles a search input box in products list.
+   * @param {string} search
+   */
   const onSearchProduct = (search: string) => {
     setFilters({ ...filters, search })
   }
 
   /**
- * Handles a category filter in products list.
- * @param categoryID
- */
-  const onFilterByCategory = (categoryID: CategoryProductType['id']) => {
+   * Handles a category filter in products list.
+   * @param categoryID
+   */
+  const onFilterByCategory = (categoryID: CategoryProductType['_id']) => {
     setFilters({ ...filters, category: categoryID })
     setAppliedFilters({ ...appliedFilters, category: true })
   }
 
   /**
- * The function deletes the category filter in products list
- */
+   * The function deletes the category filter in products list
+   */
   const onDeleteCategoryFilter = () => {
     setFilters({ ...filters, category: '' })
     setAppliedFilters({ ...appliedFilters, category: false })
   }
 
   /**
- * Handles a filters in mobile view.
- * @param categoryID
- */
-  const onApplyMobileFilters = (categoryId: CategoryProductType['id']) => {
+   * Handles a filters in mobile view.
+   * @param categoryID
+   */
+  const onApplyMobileFilters = (categoryId: CategoryProductType['_id']) => {
     setFilters({ ...filters, category: categoryId })
     setAppliedFilters({ ...appliedFilters, category: categoryId !== '' })
   }
 
   /**
- * Handles a change in page and updates the current page number in products table.
- * @param {unknown} event
- * @param {number} newPage
- */
+   * Handles a change in page and updates the current page number in users table.
+   * @param {unknown} event
+   * @param {number} newPage
+   */
   const handleChangePage = (event: unknown, newPage: number) => {
     setCurrentPage(newPage)
+    setFilters({ ...filters, page: newPage })
   }
 
   /**
- * Handles when user change a rows per page in products table.
- * @param event
- */
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setCurrentPage(0)
-  }
-
-  /**
- * Handles the editing of a product.
- * @param {Product} product - Product to edit
- */
+   * Handles the editing of a product.
+   * @param {Product} product - Product to edit
+   */
   const onSelectProduct = (product: Product) => {
     setCurrentProduct(product)
   }
 
   /**
- * Handles a creation of a product.
- * @param {Product} product - Product to create
- * @param {Function} setShow - Function to close modal
- */
-  const onAddProduct = (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
-    try {
-      void Swal.fire({
-        title: '¡Creado!',
-        text: 'Su producto ha sido creado correctamente',
-        icon: 'success'
-      })
-      console.log(product)
-      setShow(false)
-    } catch (error) {
-      void Swal.fire({
-        title: 'Oops...',
-        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
-        icon: 'error'
-      })
-    }
+   * Handles a creation of a product.
+   * @param {Product} product - Product to create
+   */
+  const onAddProduct = async (product: Product) => {
+    const productTypes = product.types.map((type: ProductType) => ({
+      name: type.name,
+      price: type.price,
+      isInfinite: type.isInfinite,
+      stockQuantity: type.stockQuantity
+    }))
+    const newProduct = { ...product, category: product.category?._id, types: productTypes }
+    await Swal.fire({
+      title: '¿Estas seguro de añadir este producto?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, añadir',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          await createMutation.mutateAsync(newProduct)
+          return { isConfirmed: true }
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then(async (result) => {
+      if (result?.value?.isConfirmed) {
+        setShowAddModal(false)
+        await Swal.fire({
+          title: '¡Producto creado!',
+          text: 'Su producto ha sido creado correctamente',
+          icon: 'success'
+        })
+      } else if (!result.isDismissed) {
+        await Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    })
   }
 
   /**
- * Handles a edition of a product.
- * @param {Product} product - Product to edit
- * @param {Function} setShow - Function to close modal
- */
-  const onEditProduct = (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+   * Handles a edition of a product.
+   * @param {Product} product - Product to edit
+   * @param {Function} setShow - Function to close modal
+   */
+  const onEditProduct = (product: Product) => {
     void Swal.fire({
       title: '¿Estas seguro de editar este producto?',
       icon: 'warning',
@@ -117,7 +168,6 @@ const useProducts = () => {
       preConfirm: () => {
         try {
           console.log(product)
-          setShow(false)
           return { isConfirmed: true }
           // eslint-disable-next-line no-unreachable
         } catch (error) {
@@ -126,7 +176,7 @@ const useProducts = () => {
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
-      if ((result.value?.isConfirmed) ?? false) {
+      if (result.value?.isConfirmed ?? false) {
         void Swal.fire({
           title: '¡Editado!',
           text: 'Su producto ha sido editado correctamente',
@@ -143,13 +193,16 @@ const useProducts = () => {
   }
 
   /**
- * This function updates a product type in the current product selected.
- * @param {ProductType['id']} typeId
- * @param {ProductType} newType
- */
-  const onEditProductType = (typeId: ProductType['id'], newType: ProductType) => {
+   * This function updates a product type in the current product selected.
+   * @param {ProductType['id']} typeId
+   * @param {ProductType} newType
+   */
+  const onEditProductType = (
+    typeId: ProductType['_id'],
+    newType: ProductType
+  ) => {
     const newTypes = currentProduct?.types?.map((type) => {
-      if (type.id === typeId) {
+      if (type._id === typeId) {
         return newType
       }
       return type
@@ -158,11 +211,14 @@ const useProducts = () => {
   }
 
   /**
- * The function adds a new product type to the current product selected.
- * @param {ProductType} newType
- */
+   * The function adds a new product type to the current product selected.
+   * @param {ProductType} newType
+   */
   const onAddProductType = (newType: ProductType) => {
-    setCurrentProduct({ ...currentProduct, types: [...currentProduct?.types, newType] })
+    setCurrentProduct({
+      ...currentProduct,
+      types: [...currentProduct?.types, newType]
+    })
   }
 
   /**
@@ -180,7 +236,9 @@ const useProducts = () => {
       showCancelButton: true,
       preConfirm: () => {
         try {
-          const newTypes = currentProduct?.types?.filter((type, idxType) => idxType !== iType)
+          const newTypes = currentProduct?.types?.filter(
+            (type, idxType) => idxType !== iType
+          )
           setCurrentProduct({ ...currentProduct, types: newTypes })
           return { isConfirmed: true }
           // eslint-disable-next-line no-unreachable
@@ -190,7 +248,7 @@ const useProducts = () => {
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
-      if ((result.value?.isConfirmed) ?? false) {
+      if (result.value?.isConfirmed ?? false) {
         void Swal.fire({
           title: '¡Eliminado!',
           text: 'Su tipo del producto ha sido eliminado correctamente',
@@ -208,9 +266,9 @@ const useProducts = () => {
 
   /**
    * Handles when user want to delete a product.
-   * @param {Product['id']} productId - Product id to delete
+   * @param {string} productId - Product id to delete
    */
-  const onDeleteProduct = (productId: Product['id']) => {
+  const onDeleteProduct = (productId: string) => {
     void Swal.fire({
       title: '¿Estas seguro de eliminar este producto?',
       text: 'Esta acción no se puede deshacer',
@@ -219,17 +277,18 @@ const useProducts = () => {
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'No, cancelar',
       showCancelButton: true,
-      preConfirm: () => {
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
         try {
+          await deleteMutation.mutateAsync(productId)
           return { isConfirmed: true }
-          // eslint-disable-next-line no-unreachable
         } catch (error) {
           return { isConfirmed: false }
         }
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
-      if ((result.value?.isConfirmed) ?? false) {
+      if (result.value?.isConfirmed ?? false) {
         void Swal.fire({
           title: '¡Eliminado!',
           text: 'Su producto ha sido eliminado correctamente',
@@ -247,18 +306,24 @@ const useProducts = () => {
 
   return {
     /* States */
-    productsList,
+    productsList: productsList?.products ?? [],
+    totalPages: productsList?.totalPages ?? 0,
     currentPage,
-    rowsPerPage,
     currentProduct,
     filters,
     appliedFilters,
+    loadingProducts,
+    showEditModal,
+    showAddModal,
+    categoriesList,
+    loadingCategories,
 
     /* States Functions */
+    setShowEditModal,
+    setShowAddModal,
+    setCurrentProduct,
 
     /* Functions */
-    handleChangePage,
-    handleChangeRowsPerPage,
     onSelectProduct,
     onDeleteProduct,
     onEditProduct,
@@ -269,7 +334,8 @@ const useProducts = () => {
     onFilterByCategory,
     onDeleteCategoryFilter,
     onApplyMobileFilters,
-    onSearchProduct
+    onSearchProduct,
+    handleChangePage
   }
 }
 

@@ -11,7 +11,7 @@ import TuneIcon from '@mui/icons-material/Tune'
 interface Props {
   filters: FiltersType
   appliedFilters: AppliedFiltersType
-  onApplyMobileFilters: (categoryId: CategoryProductType['id']) => void
+  onApplyMobileFilters: (categoryId: CategoryProductType['_id']) => void
 }
 
 const Navigation = ({

@@ -1,53 +1,40 @@
 import { Box, Button, Chip, Grid, Stack, Typography } from '@mui/material'
-import { useState } from 'react'
 
 import Dropdown, { type Option } from 'components/dropdown'
-import Modal from 'components/modal/Modal'
-import ProductManagement from './productManagement/ProductManagement'
 import SearchInput from 'components/searchInput'
 
-import { type FiltersType, type CategoryProductType, type Product, type ProductType, type AppliedFiltersType } from '../interfaces/Products'
-import { categoriesMock } from '../../categories/mock/categoriesMock'
+import { type FiltersType, type AppliedFiltersType, type Product } from '../interfaces/Products'
+import { type Category } from 'pages/categories/interfaces/Category'
+import { initialProduct } from '../helpers/constants'
 
 interface Props {
   filters: FiltersType
   appliedFilters: AppliedFiltersType
+  categoriesList: Category[]
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>
+  setCurrentProduct: React.Dispatch<React.SetStateAction<Product>>
   onSearchProduct: (search: string) => void
-  onFilterByCategory: (categoryId: CategoryProductType['id']) => void
+  onFilterByCategory: (categoryId: string) => void
   onDeleteCategoryFilter: () => void
-  onAddProduct: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
-  onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
-  onAddProductType: (type: ProductType) => void
-  onDeleteProductType: (iProduct: number) => void
 }
 
 const Filters = ({
-  appliedFilters, filters,
-  onFilterByCategory, onDeleteCategoryFilter, onSearchProduct,
-  onAddProduct, onAddProductType, onEditProductType, onDeleteProductType
+  appliedFilters, filters, categoriesList,
+  setShowAddModal, setCurrentProduct,
+  onFilterByCategory, onDeleteCategoryFilter, onSearchProduct
 }: Props) => {
-  const [showProductModal, setShowProductModal] = useState(false)
-
   const hasFilters = Object.values(appliedFilters).some(val => val === true)
   const hasCategoryFilter = appliedFilters?.category
 
-  const formatCategories = categoriesMock.map((category) => ({
-    id: category.id,
+  const formatCategories = categoriesList?.map((category) => ({
+    id: category._id,
     label: category.name
   }))
 
+  const categoryLabel = formatCategories?.find(category => category.id === filters.category)?.label ?? ''
+
   const handleOptionClick = (option: Option) => {
     onFilterByCategory(option?.id)
-  }
-
-  /* Component's Props */
-  const productManagementProps = {
-    actionType: 'create',
-    setShowProductModal,
-    onFinishModal: onAddProduct,
-    onEditProductType,
-    onAddProductType,
-    onDeleteProductType
   }
 
   return (
@@ -71,7 +58,7 @@ const Filters = ({
         <Grid item md={6} textAlign='end'>
           <Button
             variant='contained' color='primary'
-            onClick={() => { setShowProductModal(true) }}
+            onClick={() => { setShowAddModal(true); setCurrentProduct(initialProduct) }}
           >
             Añadir producto
           </Button>
@@ -86,7 +73,7 @@ const Filters = ({
             <Stack direction="row" spacing={1}>
               {hasCategoryFilter && (
                 <Chip
-                  label={`Estado: ${filters.category.toString()}`}
+                  label={`Categoría: ${categoryLabel}`}
                   onDelete={onDeleteCategoryFilter}
                 />
               )}
@@ -94,13 +81,6 @@ const Filters = ({
           </Grid>
         </Grid>
       )}
-      <Modal
-        open={showProductModal}
-        setOpen={setShowProductModal}
-        title='Añadir producto'
-      >
-        <ProductManagement {...productManagementProps}/>
-      </Modal>
     </Box>
   )
 }

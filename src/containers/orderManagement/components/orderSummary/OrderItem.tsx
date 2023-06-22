@@ -17,9 +17,9 @@ interface Props {
   isMobileOrTablet: boolean
   setCurrentOrder: (order: Order) => void
   setShowNoteModal: (value: boolean) => void
-  onDeleteOrder: (id: string, orderType: ProductType['id']) => void
-  handleIncrement: (id: string, type: ProductType['id']) => void
-  handleDecrement: (id: string, type: ProductType['id']) => void
+  onDeleteOrder: (id: string, orderType: ProductType['_id']) => void
+  handleIncrement: (id: string, type: ProductType['_id']) => void
+  handleDecrement: (id: string, type: ProductType['_id']) => void
 }
 
 const OrderItem = ({
@@ -28,7 +28,7 @@ const OrderItem = ({
   onDeleteOrder, handleIncrement, handleDecrement
 }: Props) => {
   const theme = useTheme()
-  const currentType = type ?? { id: '', name: '', price: 0 }
+  const currentType = type ?? { _id: '', name: '', price: 0 }
 
   const onAddNote = () => {
     const order = { id, name, price, amount, note, type: currentType }
@@ -48,7 +48,7 @@ const OrderItem = ({
         <IconButton
           sx={{ padding: '2px' }}
           onClick={() => {
-            onDeleteOrder(id, currentType?.id)
+            onDeleteOrder(id, currentType?._id)
           }}
         >
           <DeleteOutlineOutlinedIcon />

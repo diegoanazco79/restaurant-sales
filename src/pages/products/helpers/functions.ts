@@ -1,5 +1,3 @@
-import { type LabelDisplayedRowsArgs } from '@mui/material'
-
 import { type Product, type CategoryProductType } from '../interfaces/Products'
 
 /**
@@ -33,23 +31,22 @@ export const getProductPriceLabel = (product: Product) => {
 }
 
 /**
- * Return a label for displayed rows in products table.
- * @param {LabelDisplayedRowsArgs}
- */
-export const labelDisplayedRows = ({ from, to, count }: LabelDisplayedRowsArgs) => {
-  return `${from}-${to} de ${count} productos`
-}
-
-/**
  * Format a category item for the Select component.
  * @param {CategoryProductType | null} category - Category item.
  */
 export const formatCategoryToSelect = (category: CategoryProductType | null) => {
   if (!category) return null
-  else return { id: category?.id, label: category?.name }
+  else return { id: category?._id, label: category?.name }
 }
 
 export const formatCategory = (category: { id: string, label: string } | null) => {
   if (!category) return null
-  else return { id: category?.id, name: category?.label }
+  else return { _id: category?.id, name: category?.label }
 }
+
+export const formatCategories = (categories: CategoryProductType[]) => (
+  categories.map((category) => ({
+    id: category._id,
+    label: category.name
+  }))
+)

@@ -8,22 +8,20 @@ import { type Order } from 'containers/orderManagement/interfaces/Order'
 import { type Product, type ProductType } from 'pages/products/interfaces/Products'
 
 interface Props {
-  id: string
-  name: string
-  price: number | undefined
-  types: ProductType[]
-  isInfinite: boolean
+  product: Product
   setSelectedProduct: (product: Product) => void
   setShowTypesModal: (value: boolean) => void
   onAddOrder: (order: Order) => void
 }
 
 const ProductItem = ({
-  id, name, price, types, isInfinite,
+  product,
   setSelectedProduct, setShowTypesModal,
   onAddOrder
 }: Props) => {
   const { isMobileOrTablet } = useReponsive()
+
+  const { _id, name, price, types, isInfinite, createdAt, updatedAt } = product ?? {}
 
   const getTypeWithLowestPrice = (types: ProductType[]) => {
     const sortedTypes = types.sort((a, b) => a.price - b.price)
@@ -33,15 +31,14 @@ const ProductItem = ({
   const handleSelectProduct = () => {
     if (types.length > 0) {
       setShowTypesModal(true)
-      setSelectedProduct({ id, name, price, types, isInfinite })
+      setSelectedProduct({ _id, name, price, types, isInfinite, createdAt, updatedAt })
     } else {
-      onAddOrder({ id, name, price: price ?? 0, amount: 1 })
+      onAddOrder({ id: _id ?? '', name, price: price ?? 0, amount: 1 })
     }
   }
 
   return (
     <ProductButton
-      id={`product-${id}`}
       container
       onClick={() => { handleSelectProduct() }}
     >

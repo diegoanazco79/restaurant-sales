@@ -1,5 +1,5 @@
 export interface ProductType {
-  id: string
+  _id: string
   name: string
   price: number
   isInfinite?: boolean
@@ -7,23 +7,31 @@ export interface ProductType {
 }
 
 export interface CategoryProductType {
-  id: string
+  _id: string
   name: string
+  createdAt?: string
+  updatedAt?: string
+  organization?: string
+  subsidiary?: string
 }
 
 export interface Product {
-  id: string
+  _id?: string
   name: string
   types: ProductType[] | []
   price?: number
   category?: CategoryProductType | null
   isInfinite?: boolean
   stockQuantity?: number
+  updatedAt: string
+  createdAt: string
 }
 
 export interface FiltersType {
   search: string
   category: string
+  page: number
+  limit: number
 }
 
 export interface AppliedFiltersType {

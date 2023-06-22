@@ -1,52 +1,31 @@
-import { useState } from 'react'
 import {
+  Box,
+  Pagination,
   Paper, Table, TableBody, TableCell,
-  TableContainer, TableHead, TablePagination, TableRow
+  TableContainer, TableHead, TableRow, Typography
 } from '@mui/material'
 
-import Modal from 'components/modal/Modal'
-import ProductManagement from './productManagement/ProductManagement'
 import ProductRow from './ProductRow'
 
-import { labelDisplayedRows } from '../helpers/functions'
-
 import { producTableRows } from '../helpers/constants'
-import { type ProductType, type Product } from '../interfaces/Products'
+import { type Product } from '../interfaces/Products'
 
 interface Props {
   products: Product[]
+  totalPages: number
   currentPage: number
-  rowsPerPage: number
-  currentProduct: Product
-  handleChangePage: (event: unknown, newPage: number) => void
-  handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
+  setShowProductModal: React.Dispatch<React.SetStateAction<boolean>>
   onSelectProduct: (product: Product) => void
-  onEditProduct: (product: Product, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
-  onEditProductType: (typeId: ProductType['id'], newType: ProductType) => void
-  onAddProductType: (type: ProductType) => void
-  onDeleteProductType: (iProduct: number) => void
-  onDeleteProduct: (product: Product['id']) => void
+  onDeleteProduct: (product: string) => void
+  handleChangePage: (event: unknown, newPage: number) => void
 }
 
 const ProductsTable = ({
-  products, currentPage, rowsPerPage, currentProduct,
-  handleChangePage, handleChangeRowsPerPage, onSelectProduct,
-  onDeleteProduct, onEditProduct, onEditProductType, onAddProductType,
-  onDeleteProductType
+  products, currentPage, totalPages,
+  setShowProductModal,
+  onSelectProduct, onDeleteProduct, handleChangePage
 }: Props) => {
-  const [showProductModal, setShowProductModal] = useState(false)
-
   /* Component's Props */
-  const productManagementProps = {
-    actionType: 'edit',
-    product: currentProduct,
-    setShowProductModal,
-    onFinishModal: onEditProduct,
-    onEditProductType,
-    onAddProductType,
-    onDeleteProductType
-  }
-
   const productRowProps = {
     setShowProductModal,
     onSelectProduct,
@@ -55,48 +34,48 @@ const ProductsTable = ({
 
   return (
     <>
-      <Paper>
-        <TableContainer sx={{ maxHeight: '65vh' }}>
-          <Table stickyHeader>
-            <TableHead>
-              <TableRow>
-                {producTableRows.map((row, idx) => (
-                  <TableCell key={idx}>{row.label}</TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {products
-                .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
-                .map((product, idx) => (
-                  <ProductRow
-                    key={idx}
-                    product={product}
-                    {...productRowProps}
-                  />
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={products.length}
-          rowsPerPage={rowsPerPage}
-          page={currentPage}
-          labelRowsPerPage="Productos por página"
-          labelDisplayedRows={labelDisplayedRows}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <Modal
-        open={showProductModal}
-        setOpen={setShowProductModal}
-        title='Editar producto'
-      >
-        <ProductManagement {...productManagementProps}/>
-      </Modal>
+      {products.length > 0
+        ? (
+          <Paper>
+            <TableContainer sx={{ maxHeight: '65vh' }}>
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    {producTableRows.map((row, idx) => (
+                      <TableCell key={idx}>{row.label}</TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {products.map((product, idx) => (
+                    <ProductRow
+                      key={idx}
+                      product={product}
+                      {...productRowProps}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {totalPages > 1 && (
+              <Pagination
+                sx={{ display: 'flex', justifyContent: 'center', py: '1rem' }}
+                onChange={handleChangePage}
+                page={currentPage}
+                count={totalPages}
+                variant="outlined"
+                color="primary"
+              />
+            )}
+          </Paper>
+        )
+        : (
+          <Box display='flex' mt={5} justifyContent='center' width='100%'>
+            <Typography variant="h5" align="center">
+              No hay productos que coincidan con tus filtros
+            </Typography>
+          </Box>
+        )}
     </>
   )
 }

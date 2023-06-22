@@ -1,6 +1,6 @@
 export const categoriesMock = [
-  { id: 'picantería_id', name: 'Picantería' },
-  { id: 'especial_id', name: 'Especiales' },
-  { id: 'drinks_id', name: 'Bebidas' },
-  { id: 'postres_id', name: 'Postres' }
+  { _id: 'picantería_id', name: 'Picantería' },
+  { _id: 'especial_id', name: 'Especiales' },
+  { _id: 'drinks_id', name: 'Bebidas' },
+  { _id: 'postres_id', name: 'Postres' }
 ]

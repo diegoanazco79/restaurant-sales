@@ -9,7 +9,7 @@ import { categoriesMock } from 'pages/categories/mock/categoriesMock'
 interface Props {
   filters: FiltersType
   setShowFiltersModal: React.Dispatch<React.SetStateAction<boolean>>
-  onApplyMobileFilters: (categoryId: CategoryProductType['id']) => void
+  onApplyMobileFilters: (categoryId: CategoryProductType['_id']) => void
 }
 
 const FiltersModal = ({
@@ -18,24 +18,24 @@ const FiltersModal = ({
   onApplyMobileFilters
 }: Props) => {
   const currentCategoryFilter = categoriesMock.find(
-    (category) => category.id === filters.category
+    (category) => category._id === filters.category
   )
 
   const [categoryFilter, setCategoryFilter] = useState<CategoryProductType>(
-    currentCategoryFilter ?? { id: '', name: '' }
+    currentCategoryFilter ?? { _id: '', name: '' }
   )
 
   const formatCategories = categoriesMock.map((category) => ({
-    id: category.id,
+    id: category._id,
     label: category.name
   }))
 
   const handleOptionClick = (option: Option) => {
-    setCategoryFilter({ id: option.id, name: option.label })
+    setCategoryFilter({ _id: option.id, name: option.label })
   }
 
   const onDeleteCategoryFilter = () => {
-    setCategoryFilter({ id: '', name: '' })
+    setCategoryFilter({ _id: '', name: '' })
   }
 
   return (
@@ -72,7 +72,7 @@ const FiltersModal = ({
         variant="contained" color="primary" sx={{ mt: 2 }}
         onClick={() => {
           setShowFiltersModal(false)
-          onApplyMobileFilters(categoryFilter.id)
+          onApplyMobileFilters(categoryFilter._id)
         }}
       >
         Aplicar filtros
