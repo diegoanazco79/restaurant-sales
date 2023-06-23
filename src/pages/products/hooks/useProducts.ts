@@ -29,7 +29,7 @@ const useProducts = () => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showAddModal, setShowAddModal] = useState(false)
 
-  const { createProduct, getAllProducts, deleteProduct } = useProductApi()
+  const { createProduct, getAllProducts, deleteProduct, updateProduct } = useProductApi()
   const { getAllCategories } = useCategoryApi()
 
   const createMutation = useMutation({
@@ -37,20 +37,23 @@ const useProducts = () => {
       await createProduct(formValues)
   })
 
+  const updateMutation = useMutation({
+    mutationFn: async (formValues: CreateProduct) =>
+      await updateProduct(formValues._id ?? '', formValues)
+  })
+
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => await deleteProduct(id)
   })
 
   const { data: productsList, isLoading: loadingProducts } = useQuery({
-    queryKey: ['products', filters, createMutation, deleteMutation],
-    queryFn: async () => await getAllProducts(filters),
-    retry: 1
+    queryKey: ['products', filters, createMutation, deleteMutation, updateMutation],
+    queryFn: async () => await getAllProducts(filters)
   })
 
   const { data: categoriesList, isLoading: loadingCategories } = useQuery({
     queryKey: ['categories', filters, createMutation],
-    queryFn: async () => await getAllCategories(filters),
-    retry: 1
+    queryFn: async () => await getAllCategories(filters)
   })
 
   /**
@@ -158,6 +161,17 @@ const useProducts = () => {
    * @param {Function} setShow - Function to close modal
    */
   const onEditProduct = (product: Product) => {
+    const productTypes = product.types.map((type: ProductType) => ({
+      name: type.name,
+      price: type.price,
+      isInfinite: type.isInfinite,
+      stockQuantity: type.stockQuantity
+    }))
+    const newProduct = {
+      ...product,
+      category: product.category?._id,
+      types: productTypes
+    }
     void Swal.fire({
       title: '¿Estas seguro de editar este producto?',
       icon: 'warning',
@@ -165,18 +179,19 @@ const useProducts = () => {
       confirmButtonText: 'Sí, editar',
       cancelButtonText: 'No, cancelar',
       showCancelButton: true,
-      preConfirm: () => {
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
         try {
-          console.log(product)
+          await updateMutation.mutateAsync(newProduct)
           return { isConfirmed: true }
-          // eslint-disable-next-line no-unreachable
         } catch (error) {
           return { isConfirmed: false }
         }
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
-      if (result.value?.isConfirmed ?? false) {
+      if (result.value?.isConfirmed) {
+        setShowEditModal(false)
         void Swal.fire({
           title: '¡Editado!',
           text: 'Su producto ha sido editado correctamente',
@@ -304,6 +319,33 @@ const useProducts = () => {
     })
   }
 
+  /**
+   * This function displays a confirmation dialog and deletes all product types from the current product
+   * if confirmed.
+   * @param {React.Dispatch<React.SetStateAction<boolean>>} setHasTypes
+  */
+  const onDeleteAllProductsType = (setHasTypes: React.Dispatch<React.SetStateAction<boolean>>) => {
+    void Swal.fire({
+      title: '¿Estas seguro de eliminar todos los tipos de este producto?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setHasTypes(false)
+        setCurrentProduct({ ...currentProduct, types: [] })
+        void Swal.fire({
+          title: '¡Eliminado!',
+          text: 'Todos los tipos de este producto han sido eliminados correctamente',
+          icon: 'success'
+        })
+      }
+    })
+  }
+
   return {
     /* States */
     productsList: productsList?.products ?? [],
@@ -335,7 +377,8 @@ const useProducts = () => {
     onDeleteCategoryFilter,
     onApplyMobileFilters,
     onSearchProduct,
-    handleChangePage
+    handleChangePage,
+    onDeleteAllProductsType
   }
 }
 

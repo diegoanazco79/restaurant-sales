@@ -42,6 +42,21 @@ const useProductApi = () => {
     }
   }
 
+  const updateProduct = async (id: string, product: CreateProduct) => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/product/${id}`,
+        { ...product, organization, subsidiary },
+        {
+          headers: { Authorization: `Bearer ${currentToken}` }
+        }
+      )
+      return response.data
+    } catch (error) {
+      throw new Error(`Error: ${error as string}`)
+    }
+  }
+
   const deleteProduct = async (id: string) => {
     try {
       const response = await axios.delete(`${API_URL}/product/${id}`, {
@@ -56,7 +71,8 @@ const useProductApi = () => {
   return {
     getAllProducts,
     createProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
   }
 }
 

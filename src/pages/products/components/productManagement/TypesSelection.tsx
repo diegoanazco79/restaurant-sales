@@ -1,15 +1,26 @@
 import { Button, ButtonGroup, Typography, useTheme } from '@mui/material'
+import { type Product } from 'pages/products/interfaces/Products'
 
 import { buttonGroupStyles, pxToRem } from 'theme/helpers/functions'
 
 interface Props {
+  product: Product
   hasTypes: boolean
   setHasTypes: React.Dispatch<React.SetStateAction<boolean>>
   setHasStock: React.Dispatch<React.SetStateAction<boolean>>
+  onDeleteAllProductsType: (setHastTypes: React.Dispatch<React.SetStateAction<boolean>>) => void
 }
 
-const TypesSelection = ({ hasTypes, setHasTypes, setHasStock }: Props) => {
+const TypesSelection = ({ hasTypes, product, setHasTypes, setHasStock, onDeleteAllProductsType }: Props) => {
   const theme = useTheme()
+
+  const handleCancelTypes = () => {
+    if (product.types.length > 0) {
+      onDeleteAllProductsType(setHasTypes)
+    } else {
+      setHasTypes(false)
+    }
+  }
 
   return (
     <>
@@ -22,9 +33,7 @@ const TypesSelection = ({ hasTypes, setHasTypes, setHasStock }: Props) => {
       </Typography>
       <ButtonGroup variant="contained" sx={{ mb: 2, mr: 2 }}>
         <Button
-          onClick={() => {
-            setHasTypes(false)
-          }}
+          onClick={handleCancelTypes}
           sx={buttonGroupStyles(theme, !hasTypes)}
         >
           No

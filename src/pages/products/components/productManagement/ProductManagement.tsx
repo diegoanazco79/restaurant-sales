@@ -37,14 +37,16 @@ interface Props {
   onEditProductType: (typeId: ProductType['_id'], newType: ProductType) => void
   onAddProductType: (type: ProductType) => void
   onDeleteProductType: (iProduct: number) => void
+  onDeleteAllProductsType: (setHastTypes: React.Dispatch<React.SetStateAction<boolean>>) => void
 }
 
 const ProductManagement = ({
   actionType, product,
   setShowProductModal,
-  onFinishModal, onEditProductType, onAddProductType, onDeleteProductType
+  onFinishModal, onEditProductType, onAddProductType, onDeleteProductType,
+  onDeleteAllProductsType
 }: Props) => {
-  const [hasTypes, setHasTypes] = useState(product.types.length > 0)
+  const [hasTypes, setHasTypes] = useState(product.types.length !== 0)
   const [hasStock, setHasStock] = useState(product.types.length > 0 ? false : !product.isInfinite)
   const [currentCategory, setCurrentCategory] = useState(formatCategoryToSelect(product.category ?? null))
   const [showCategoryModal, setShowCategoryModal] = useState(false)
@@ -58,8 +60,7 @@ const ProductManagement = ({
 
   const { data: categoriesList, isLoading: loadingCategories } = useQuery({
     queryKey: ['categories', createCategoryMutation],
-    queryFn: async () => await getAllCategories(initialFilters),
-    retry: 1
+    queryFn: async () => await getAllCategories(initialFilters)
   })
 
   const validationSchema = Yup.object({
@@ -165,7 +166,13 @@ const ProductManagement = ({
               placeholder="Escribe aquí el nombre de tu producto"
             />
 
-            <TypesSelection hasTypes={hasTypes} setHasTypes={setHasTypes} setHasStock={setHasStock} />
+            <TypesSelection
+              hasTypes={hasTypes}
+              setHasTypes={setHasTypes}
+              setHasStock={setHasStock}
+              onDeleteAllProductsType={onDeleteAllProductsType}
+              product={product}
+            />
             <>
               <br/>
               <ErrorMessage name="types" className='formik-error' component='span'/>

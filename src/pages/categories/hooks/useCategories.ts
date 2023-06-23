@@ -43,8 +43,7 @@ const useCategories = () => {
       updateMutation,
       deleteMutation
     ],
-    queryFn: async () => await getAllCategories(filters),
-    retry: 1
+    queryFn: async () => await getAllCategories(filters)
   })
 
   /**

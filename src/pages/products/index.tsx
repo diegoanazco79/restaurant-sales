@@ -20,7 +20,7 @@ const ProductsPage = () => {
     onSelectProduct, onSearchProduct, onDeleteProduct, onEditProduct,
     onEditProductType, onAddProductType, onDeleteProductType,
     onAddProduct, onFilterByCategory, onDeleteCategoryFilter,
-    onApplyMobileFilters, handleChangePage
+    onApplyMobileFilters, handleChangePage, onDeleteAllProductsType
   } = useProducts()
 
   const { isMobileOrTablet } = useResponsive()
@@ -65,7 +65,8 @@ const ProductsPage = () => {
     product: currentProduct,
     onEditProductType,
     onAddProductType,
-    onDeleteProductType
+    onDeleteProductType,
+    onDeleteAllProductsType
   }
 
   const editProductModalProps = {
