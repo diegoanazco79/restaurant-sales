@@ -21,12 +21,60 @@ const useCategories = () => {
 
   const createMutation = useMutation({
     mutationFn: async (formValues: Category) =>
-      await createCategory(formValues.name)
+      await createCategory(formValues.name),
+    onSuccess: () => {
+      void Swal.fire({
+        title: '¡Categoría creada!',
+        text: 'La categoría ha sido creada correctamente',
+        icon: 'success'
+      })
+    },
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    }
   })
 
   const updateMutation = useMutation({
     mutationFn: async (formValues: Category) =>
-      await updateCategory(formValues._id, formValues.name)
+      await updateCategory(formValues._id, formValues.name),
+    onSuccess: () => {
+      void Swal.fire({
+        title: '¡Categoría editada!',
+        text: 'La categoría ha sido editada correctamente',
+        icon: 'success'
+      })
+    },
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    }
   })
 
   const deleteMutation = useMutation({
@@ -75,30 +123,11 @@ const useCategories = () => {
       cancelButtonText: 'No, cancelar',
       showCancelButton: true,
       showLoaderOnConfirm: true,
-      preConfirm: async () => {
-        try {
-          await createMutation.mutateAsync(newCategory)
-          return { isConfirmed: true }
-        } catch (error) {
-          return { isConfirmed: false }
-        }
+      preConfirm: () => {
+        createMutation.mutate(newCategory)
+        setShowAddModal(false)
       },
       allowOutsideClick: () => !Swal.isLoading()
-    }).then(async (result) => {
-      if (result?.value?.isConfirmed) {
-        setShowAddModal(false)
-        await Swal.fire({
-          title: '¡Categoría creada!',
-          text: 'Su categoría ha sido creada correctamente',
-          icon: 'success'
-        })
-      } else if (!result.isDismissed) {
-        await Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
-          icon: 'error'
-        })
-      }
     })
   }
 
@@ -115,31 +144,11 @@ const useCategories = () => {
       cancelButtonText: 'No, cancelar',
       showCancelButton: true,
       showLoaderOnConfirm: true,
-      preConfirm: async () => {
-        try {
-          await updateMutation.mutateAsync(newCategory)
-          return { isConfirmed: true }
-        } catch (error) {
-          return { isConfirmed: false }
-        }
+      preConfirm: () => {
+        updateMutation.mutate(newCategory)
+        setShowEditModal(false)
       },
       allowOutsideClick: () => !Swal.isLoading()
-    }).then(async (result) => {
-      setShowEditModal(false)
-      if (result?.value?.isConfirmed) {
-        setShowEditModal(false)
-        await Swal.fire({
-          title: '¡Categoría editada!',
-          text: 'Su categoría ha sido editada correctamente',
-          icon: 'success'
-        })
-      } else if (!result.isDismissed) {
-        await Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
-          icon: 'error'
-        })
-      }
     })
   }
 
@@ -150,7 +159,7 @@ const useCategories = () => {
   const onDeleteCategory = async (categoryId: Category['_id']) => {
     void Swal.fire({
       title: '¿Estas seguro de eliminar esta categoría?',
-      html: 'Al eliminar la categoría <b> todos los productos que estén incluidos en ella se eliminarán. </b>  </br>  Esta acción no se puede deshacer.',
+      html: 'Al eliminar la categoría <b> todos los productos que estén incluidos en ella quedarán sin categoría. </b>  </br>  Esta acción no se puede deshacer.',
       icon: 'warning',
       showConfirmButton: true,
       confirmButtonText: 'Sí, eliminar',

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { isAxiosError } from 'axios'
 import { type FiltersType } from 'pages/products/interfaces/Products'
 
 import { useAuthStore } from 'store/auth'
@@ -37,8 +37,14 @@ const useProductApi = () => {
         }
       )
       return response.data
-    } catch (error) {
-      throw new Error(`Error: ${error as string}`)
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        if (error.response) {
+          const serializedErrors = JSON.stringify(error.response.data.errors)
+          throw new Error(serializedErrors)
+        }
+      }
+      throw new Error('An error occurred during the invitation process.')
     }
   }
 
@@ -52,8 +58,14 @@ const useProductApi = () => {
         }
       )
       return response.data
-    } catch (error) {
-      throw new Error(`Error: ${error as string}`)
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        if (error.response) {
+          const serializedErrors = JSON.stringify(error.response.data.errors)
+          throw new Error(serializedErrors)
+        }
+      }
+      throw new Error('An error occurred during the invitation process.')
     }
   }
 

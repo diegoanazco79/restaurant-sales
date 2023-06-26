@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { isAxiosError } from 'axios'
 import { useAuthStore } from 'store/auth'
 
 import { API_URL } from 'api/helpers/constants'
@@ -18,8 +18,14 @@ const useUsersApi = () => {
         headers: { Authorization: `Bearer ${currentToken}` }
       })
       return response.data
-    } catch (error) {
-      throw new Error(`Error: ${error as string}`)
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        if (error.response) {
+          const serializedErrors = JSON.stringify(error.response.data.errors)
+          throw new Error(serializedErrors)
+        }
+      }
+      throw new Error('An error occurred during the invitation process.')
     }
   }
 
@@ -65,8 +71,14 @@ const useUsersApi = () => {
         headers: { Authorization: `Bearer ${currentToken}` }
       })
       return response.data
-    } catch (error) {
-      throw new Error(`Error: ${error as string}`)
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        if (error.response) {
+          const serializedErrors = JSON.stringify(error.response.data.errors)
+          throw new Error(serializedErrors)
+        }
+      }
+      throw new Error('An error occurred during the invitation process.')
     }
   }
 

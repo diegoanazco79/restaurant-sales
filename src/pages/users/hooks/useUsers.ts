@@ -37,12 +37,22 @@ const useUsers = () => {
         icon: 'success'
       })
     },
-    onError: () => {
-      void Swal.fire({
-        title: 'Oops...',
-        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
-        icon: 'error'
-      })
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
     }
   })
 
@@ -57,12 +67,22 @@ const useUsers = () => {
         icon: 'success'
       })
     },
-    onError: () => {
-      void Swal.fire({
-        title: 'Oops...',
-        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
-        icon: 'error'
-      })
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
     }
   })
 

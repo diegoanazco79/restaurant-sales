@@ -34,12 +34,60 @@ const useProducts = () => {
 
   const createMutation = useMutation({
     mutationFn: async (formValues: CreateProduct) =>
-      await createProduct(formValues)
+      await createProduct(formValues),
+    onSuccess: () => {
+      void Swal.fire({
+        title: '¡Producto creado!',
+        text: 'El producto ha sido creado correctamente',
+        icon: 'success'
+      })
+    },
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    }
   })
 
   const updateMutation = useMutation({
     mutationFn: async (formValues: CreateProduct) =>
-      await updateProduct(formValues._id ?? '', formValues)
+      await updateProduct(formValues._id ?? '', formValues),
+    onSuccess: () => {
+      void Swal.fire({
+        title: '¡Producto editado!',
+        text: 'El producto ha sido editado correctamente',
+        icon: 'success'
+      })
+    },
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    }
   })
 
   const deleteMutation = useMutation({
@@ -129,29 +177,10 @@ const useProducts = () => {
       showCancelButton: true,
       showLoaderOnConfirm: true,
       preConfirm: async () => {
-        try {
-          await createMutation.mutateAsync(newProduct)
-          return { isConfirmed: true }
-        } catch (error) {
-          return { isConfirmed: false }
-        }
+        createMutation.mutate(newProduct)
+        setShowAddModal(false)
       },
       allowOutsideClick: () => !Swal.isLoading()
-    }).then(async (result) => {
-      if (result?.value?.isConfirmed) {
-        setShowAddModal(false)
-        await Swal.fire({
-          title: '¡Producto creado!',
-          text: 'Su producto ha sido creado correctamente',
-          icon: 'success'
-        })
-      } else if (!result.isDismissed) {
-        await Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
-          icon: 'error'
-        })
-      }
     })
   }
 
@@ -181,29 +210,10 @@ const useProducts = () => {
       showCancelButton: true,
       showLoaderOnConfirm: true,
       preConfirm: async () => {
-        try {
-          await updateMutation.mutateAsync(newProduct)
-          return { isConfirmed: true }
-        } catch (error) {
-          return { isConfirmed: false }
-        }
+        await updateMutation.mutateAsync(newProduct)
+        setShowEditModal(false)
       },
       allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.value?.isConfirmed) {
-        setShowEditModal(false)
-        void Swal.fire({
-          title: '¡Editado!',
-          text: 'Su producto ha sido editado correctamente',
-          icon: 'success'
-        })
-      } else if (!result?.isDismissed) {
-        void Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
-          icon: 'error'
-        })
-      }
     })
   }
 
