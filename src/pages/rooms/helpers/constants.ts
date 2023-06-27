@@ -3,6 +3,10 @@ export const initialFilters = {
 }
 
 export const initialRoom = {
-  id: '',
-  name: ''
+  _id: '',
+  name: '',
+  subsidiary: '',
+  organization: '',
+  createdAt: '',
+  updatedAt: ''
 }

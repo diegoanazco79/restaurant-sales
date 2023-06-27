@@ -8,7 +8,7 @@ import { type Room } from '../interfaces/Room'
 interface Props {
   room: Room
   setOpen: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>
-  onDeleteRoom: (roomId: Room['id']) => void
+  onDeleteRoom: (roomId: Room['_id']) => void
 }
 
 const RoomActions = ({ room, setOpen, onDeleteRoom }: Props) => {
@@ -19,7 +19,7 @@ const RoomActions = ({ room, setOpen, onDeleteRoom }: Props) => {
         sx={{ px: 1 }}
         onClick={(ev) => {
           ev.stopPropagation()
-          onDeleteRoom(room.id)
+          onDeleteRoom(room._id)
           setOpen(null)
         }}
       >

@@ -4,8 +4,6 @@ import * as Yup from 'yup'
 
 import Input from 'components/form/Input'
 
-import useRoomManagement from './hooks/useRoomManagement'
-
 import { type Room } from 'pages/rooms/interfaces/Room'
 
 interface FormValues {
@@ -16,11 +14,10 @@ interface Props {
   actionType: string
   room?: Room
   setShow: React.Dispatch<React.SetStateAction<boolean>>
+  onFinishModal: (newRoom: Room) => Promise<void>
 }
 
-const RoomManagement = ({ actionType, room, setShow }: Props) => {
-  const { onAddRoom, onEditRoom } = useRoomManagement()
-
+const RoomManagement = ({ actionType, room, setShow, onFinishModal }: Props) => {
   const validationSchema = Yup.object({
     roomName: Yup.string().required('* Este campo es obligatorio')
   })
@@ -29,20 +26,23 @@ const RoomManagement = ({ actionType, room, setShow }: Props) => {
     roomName: room?.name ?? ''
   }
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = async (values: FormValues) => {
     const newRoom = {
-      id: room?.id ?? '',
-      name: values.roomName
+      _id: room?._id ?? '',
+      name: values.roomName ?? '',
+      subsidiary: room?.subsidiary ?? '',
+      organization: room?.organization ?? '',
+      createdAt: room?.createdAt ?? '',
+      updatedAt: room?.updatedAt ?? ''
     }
-    if (actionType === 'create') onAddRoom(newRoom, setShow)
-    else onEditRoom(newRoom, setShow)
+    await onFinishModal(newRoom)
   }
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => { handleSubmit(values) }}
+      onSubmit={async (values) => { await handleSubmit(values) }}
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>

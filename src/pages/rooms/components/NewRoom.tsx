@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 
-import CategoryCard from './styled/CategoryCard'
+import RoomCard from './styled/RoomCard'
 
 import AddIcon from '@mui/icons-material/Add'
 
@@ -9,19 +9,19 @@ interface Props {
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const NewCategory = ({ isEmpty, setShowAddModal }: Props) => {
+const NewRoom = ({ isEmpty, setShowAddModal }: Props) => {
   return (
-    <CategoryCard
+    <RoomCard
       display="flex" flexDirection="column" alignItems="center" justifyContent="center"
       width={isEmpty ? 'fit-content' : '100%'}
       onClick={() => { setShowAddModal(true) }}
     >
       <AddIcon sx={{ height: 115, width: 115, opacity: '0.3' }} />
       <Typography variant="body1" align="center">
-        Añadir nueva categoría
+        Añadir nuevo ambiente
       </Typography>
-    </CategoryCard>
+    </RoomCard>
   )
 }
 
-export default NewCategory
+export default NewRoom
