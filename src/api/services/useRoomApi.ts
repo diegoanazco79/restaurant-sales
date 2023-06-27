@@ -1,9 +1,10 @@
-import axios, { isAxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 
 import { useAuthStore } from 'store/auth'
 
 import { API_URL } from 'api/helpers/constants'
 import { type Filters } from 'pages/rooms/interfaces/Room'
+import axiosConfig from 'api/config'
 
 const useRoomApi = () => {
   const currentToken = useAuthStore((state) => state.token)
@@ -15,7 +16,7 @@ const useRoomApi = () => {
   const getAllRooms = async (filters: Filters) => {
     try {
       const { search } = filters
-      const response = await axios.get(
+      const response = await axiosConfig.get(
         `${API_URL}/room/subsidiary/${subsidiary}`,
         {
           params: { search },
@@ -31,7 +32,7 @@ const useRoomApi = () => {
   /* Create a new room */
   const createRoom = async (name: string) => {
     try {
-      const response = await axios.post(
+      const response = await axiosConfig.post(
         `${API_URL}/room`,
         { name, subsidiary, organization },
         { headers: { Authorization: `Bearer ${currentToken}` } }
@@ -51,7 +52,7 @@ const useRoomApi = () => {
   /* Update a room */
   const updateRoom = async (roomId: string, name: string) => {
     try {
-      const response = await axios.put(
+      const response = await axiosConfig.put(
         `${API_URL}/room/${roomId}`,
         { _id: roomId, name, subsidiary, organization },
         { headers: { Authorization: `Bearer ${currentToken}` } }
@@ -71,7 +72,7 @@ const useRoomApi = () => {
   /* Delete a room */
   const deleteRoom = async (roomId: string) => {
     try {
-      const response = await axios.delete(
+      const response = await axiosConfig.delete(
         `${API_URL}/room/${roomId}`,
         { headers: { Authorization: `Bearer ${currentToken}` } }
       )

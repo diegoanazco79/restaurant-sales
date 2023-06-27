@@ -1,5 +1,6 @@
-import axios, { isAxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 
+import axiosConfig from 'api/config'
 import { useAuthStore } from 'store/auth'
 
 import { API_URL } from 'api/helpers/constants'
@@ -18,7 +19,7 @@ const useCategoryApi = () => {
   const getAllCategories = async (filters: Filters) => {
     try {
       const { search } = filters
-      const response = await axios.get(
+      const response = await axiosConfig.get(
         `${API_URL}/category/subsidiary/${subsidiary}`,
         {
           params: { search },
@@ -37,7 +38,7 @@ const useCategoryApi = () => {
    */
   const createCategory = async (name: string) => {
     try {
-      const response = await axios.post(
+      const response = await axiosConfig.post(
         `${API_URL}/category`,
         { name, subsidiary, organization },
         { headers: { Authorization: `Bearer ${currentToken}` } }
@@ -61,7 +62,7 @@ const useCategoryApi = () => {
    */
   const updateCategory = async (categoryId: string, name: string) => {
     try {
-      const response = await axios.put(
+      const response = await axiosConfig.put(
         `${API_URL}/category/${categoryId}`,
         { _id: categoryId, name, subsidiary, organization },
         { headers: { Authorization: `Bearer ${currentToken}` } }
@@ -84,7 +85,7 @@ const useCategoryApi = () => {
    */
   const deleteCategory = async (categoryId: string) => {
     try {
-      const response = await axios.delete(`${API_URL}/category/${categoryId}`, {
+      const response = await axiosConfig.delete(`${API_URL}/category/${categoryId}`, {
         headers: { Authorization: `Bearer ${currentToken}` }
       })
       return response.data

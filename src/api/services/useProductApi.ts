@@ -1,6 +1,7 @@
-import axios, { isAxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 import { type FiltersType } from 'pages/products/interfaces/Products'
 
+import axiosConfig from 'api/config'
 import { useAuthStore } from 'store/auth'
 
 import { API_URL } from 'api/helpers/constants'
@@ -14,7 +15,7 @@ const useProductApi = () => {
   const getAllProducts = async (filters: FiltersType) => {
     try {
       const { search, category, page, limit } = filters
-      const response = await axios.get(
+      const response = await axiosConfig.get(
         `${API_URL}/product/${subsidiary}/list`,
         {
           params: { search, category, page, limit },
@@ -29,7 +30,7 @@ const useProductApi = () => {
 
   const createProduct = async (product: CreateProduct) => {
     try {
-      const response = await axios.post(
+      const response = await axiosConfig.post(
         `${API_URL}/product`,
         { ...product, organization, subsidiary },
         {
@@ -50,7 +51,7 @@ const useProductApi = () => {
 
   const updateProduct = async (id: string, product: CreateProduct) => {
     try {
-      const response = await axios.put(
+      const response = await axiosConfig.put(
         `${API_URL}/product/${id}`,
         { ...product, organization, subsidiary },
         {
@@ -71,7 +72,7 @@ const useProductApi = () => {
 
   const deleteProduct = async (id: string) => {
     try {
-      const response = await axios.delete(`${API_URL}/product/${id}`, {
+      const response = await axiosConfig.delete(`${API_URL}/product/${id}`, {
         headers: { Authorization: `Bearer ${currentToken}` }
       })
       return response.data

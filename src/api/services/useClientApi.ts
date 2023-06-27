@@ -1,5 +1,6 @@
-import axios, { isAxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 
+import axiosConfig from 'api/config'
 import { useAuthStore } from 'store/auth'
 
 import { API_URL } from 'api/helpers/constants'
@@ -19,7 +20,7 @@ const useClientApi = () => {
   const getAllClients = async (filters: Filters) => {
     try {
       const { search, page, limit } = filters
-      const response = await axios.get(
+      const response = await axiosConfig.get(
         `${API_URL}/client/subsidiary/${subsidiary}`,
         {
           params: { search, page, limit },
@@ -39,7 +40,7 @@ const useClientApi = () => {
   const createClient = async (client: Client) => {
     const { _id, ...clientData } = client
     try {
-      const response = await axios.post(
+      const response = await axiosConfig.post(
         `${API_URL}/client`,
         { ...clientData, subsidiary, organization },
         { headers: { Authorization: `Bearer ${currentToken}` } }
@@ -63,7 +64,7 @@ const useClientApi = () => {
   const updateClient = async (client: Client) => {
     const { _id, ...clientData } = client
     try {
-      const response = await axios.put(
+      const response = await axiosConfig.put(
         `${API_URL}/client/${_id}`,
         { ...clientData, subsidiary, organization },
         { headers: { Authorization: `Bearer ${currentToken}` } }
@@ -86,7 +87,7 @@ const useClientApi = () => {
    */
   const deleteClient = async (clientId: string) => {
     try {
-      const response = await axios.delete(`${API_URL}/client/${clientId}`, {
+      const response = await axiosConfig.delete(`${API_URL}/client/${clientId}`, {
         headers: { Authorization: `Bearer ${currentToken}` }
       })
       return response.data
