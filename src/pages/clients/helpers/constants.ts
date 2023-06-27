@@ -1,7 +1,7 @@
 export const initialFilters = {
   search: '',
   page: 1,
-  limit: 2
+  limit: 10
 }
 
 export const initialClient = {
