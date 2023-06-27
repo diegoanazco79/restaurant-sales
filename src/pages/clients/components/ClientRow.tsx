@@ -9,13 +9,15 @@ interface Props {
   client: Client
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>
   onSelectClient: (client: Client) => void
-  onDeleteClient: (clientId: Client['id']) => void
+  onDeleteClient: (clientId: Client['_id']) => void
 }
 
 const ClientRow = ({ client, setShowEditModal, onSelectClient, onDeleteClient }: Props) => {
+  const clientEmail = client.email !== '' ? client.email : '-'
+
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation()
-    onDeleteClient(client.id)
+    onDeleteClient(client._id)
   }
 
   return (
@@ -24,7 +26,8 @@ const ClientRow = ({ client, setShowEditModal, onSelectClient, onDeleteClient }:
 
       <TableCell>{client.name}</TableCell>
       <TableCell><b>{(client.typeDocument).toUpperCase()}</b> {client.document}</TableCell>
-      <TableCell>{prettyPhoneNumber(client.phone)}</TableCell>
+      <TableCell>{prettyPhoneNumber(client.phone ?? '')}</TableCell>
+      <TableCell>{clientEmail}</TableCell>
       <TableCell>
         <IconButton onClick={handleDelete}>
           <DeleteIcon color="error" />

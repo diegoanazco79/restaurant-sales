@@ -13,39 +13,44 @@ interface FormValues {
   typeDocument: string
   document: string
   phone: string
+  email: string
 }
 
 interface Props {
   actionType: string
   currentClient?: Client
   setShow: React.Dispatch<React.SetStateAction<boolean>>
-  onFinishModal: (client: Client, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
+  onFinishModal: (client: Client) => void
 }
 
 const ClientManagement = ({ actionType, currentClient, setShow, onFinishModal }: Props) => {
   const validationSchema = Yup.object({
     name: Yup.string().required('* Este campo es obligatorio'),
-    typeDocument: Yup.string().required('Este campo es requerido'),
+    typeDocument: Yup.string().required('* Este campo es requerido'),
     document: Yup.string().required('* Este campo es obligatorio'),
-    phone: Yup.string().required('* Este campo es obligatorio')
+    email: Yup.string().email('* Debe ser un correo electrónico válido')
   })
 
   const initialValues = {
     name: currentClient?.name ?? '',
     typeDocument: currentClient?.typeDocument ?? '',
     document: currentClient?.document ?? '',
-    phone: currentClient?.phone ?? ''
+    phone: currentClient?.phone ?? '',
+    email: currentClient?.email ?? ''
   }
 
   const handleSubmit = (values: FormValues) => {
     const newClient = {
-      id: currentClient?.id ?? '',
+      _id: currentClient?._id ?? '',
       name: values.name ?? '',
       typeDocument: values.typeDocument ?? '',
       document: values.document ?? '',
-      phone: values.phone ?? ''
+      phone: values.phone ?? '',
+      email: values?.email ?? '',
+      subsidiary: currentClient?.subsidiary ?? '',
+      organization: currentClient?.organization ?? ''
     }
-    onFinishModal(newClient, setShow)
+    onFinishModal(newClient)
   }
 
   return (
@@ -58,9 +63,9 @@ const ClientManagement = ({ actionType, currentClient, setShow, onFinishModal }:
         <Form onSubmit={handleSubmit}>
           <Input
             className={{ mb: 2 }}
-            label="Nombre / Razón Social"
+            label="Nombres y Apellidos / Razón Social"
             name="name"
-            placeholder="Escribe aquí el nombre o razón social"
+            placeholder="Escribe aquí el nombre completo o razón social"
           />
 
           <RadioGroupField
@@ -78,9 +83,16 @@ const ClientManagement = ({ actionType, currentClient, setShow, onFinishModal }:
 
           <Input
             className={{ mb: 2 }}
-            label="Número de Celular"
+            label="Número de Celular (opcional)"
             name="phone"
             placeholder="Escribe aquí el número de celular"
+          />
+
+          <Input
+            className={{ mb: 2 }}
+            label="Correo Electrónico (opcional)"
+            name="email"
+            placeholder="Escribe aquí el correo electrónico"
           />
 
           <Box display="flex" justifyContent="space-between" pt={4}>

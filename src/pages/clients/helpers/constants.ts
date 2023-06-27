@@ -1,19 +1,25 @@
 export const initialFilters = {
-  search: ''
+  search: '',
+  page: 1,
+  limit: 2
 }
 
 export const initialClient = {
-  id: '',
+  _id: '',
   name: '',
   typeDocument: '',
   document: '',
-  phone: ''
+  phone: '',
+  email: '',
+  subsidiary: '',
+  organization: ''
 }
 
 export const clientsRows = [
   { id: 'name', label: 'Nombre / Razon Social' },
   { id: 'document', label: 'Documento' },
   { id: 'phone', label: 'Teléfono' },
+  { id: 'email', label: 'Correo Electrónico' },
   { id: 'actions', label: 'Acciones' }
 ]
 

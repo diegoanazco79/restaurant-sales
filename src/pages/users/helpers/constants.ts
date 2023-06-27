@@ -6,8 +6,8 @@ export const initialFilters = {
 
 export const usersRows = [
   { id: 'username', label: 'Usuario' },
-  { id: 'email', label: 'Correo' },
   { id: 'name', label: 'Nombres y Apellidos' },
+  { id: 'email', label: 'Correo' },
   { id: 'role', label: 'Rol' },
   { id: 'status', label: 'Estado' },
   { id: 'actions', label: 'Acciones' }

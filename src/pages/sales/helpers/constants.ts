@@ -35,11 +35,14 @@ export const salesRows = [
 export const initialSale = {
   id: '',
   client: {
-    id: '',
+    _id: '',
     name: '',
     typeDocument: '',
     document: '',
-    phone: ''
+    phone: '',
+    email: '',
+    subsidiary: '',
+    organization: ''
   },
   typeSale: '',
   totalAmount: 0,

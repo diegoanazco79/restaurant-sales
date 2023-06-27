@@ -30,11 +30,14 @@ export const initialInvoice = {
   invoiceType: '',
   date: '',
   client: {
-    id: '',
+    _id: '',
     name: '',
     typeDocument: '',
     document: '',
-    phone: ''
+    phone: '',
+    email: '',
+    subsidiary: '',
+    organization: ''
   },
   totalAmount: 0,
   user: {

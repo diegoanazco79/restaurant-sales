@@ -2,11 +2,14 @@ export const salesMockList = [
   {
     id: '1',
     client: {
-      id: '1',
+      _id: '1',
       name: 'Juan Pérez',
       typeDocument: 'DNI',
       document: '12345678',
-      phone: '111-111-111'
+      phone: '111-111-111',
+      email: '',
+      subsidiary: '1',
+      organization: '1'
     },
     typeSale: 'Online',
     totalAmount: 200,
@@ -28,11 +31,14 @@ export const salesMockList = [
   {
     id: '2',
     client: {
-      id: '2',
-      name: 'Ana Gómez',
-      typeDocument: 'RUC',
-      document: '87654321',
-      phone: '222-222-222'
+      _id: '2',
+      name: 'Juan Pérez',
+      typeDocument: 'DNI',
+      document: '12345678',
+      phone: '111-111-111',
+      email: '',
+      subsidiary: '1',
+      organization: '1'
     },
     typeSale: 'In-store',
     totalAmount: 500,
@@ -54,11 +60,14 @@ export const salesMockList = [
   {
     id: '3',
     client: {
-      id: '3',
-      name: 'Carlos Rodríguez',
+      _id: '3',
+      name: 'Juan Pérez',
       typeDocument: 'DNI',
-      document: '45678901',
-      phone: '333-333-333'
+      document: '12345678',
+      phone: '111-111-111',
+      email: '',
+      subsidiary: '1',
+      organization: '1'
     },
     typeSale: 'Online',
     totalAmount: 100,
@@ -80,18 +89,21 @@ export const salesMockList = [
   {
     id: '4',
     client: {
-      id: '4',
-      name: 'Laura Fernández',
+      _id: '4',
+      name: 'Juan Pérez',
       typeDocument: 'DNI',
-      document: '56789012',
-      phone: '444-444-444'
+      document: '12345678',
+      phone: '111-111-111',
+      email: '',
+      subsidiary: '1',
+      organization: '1'
     },
     typeSale: 'In-store',
     totalAmount: 750,
     date: '2023-05-03',
     invoice: 'JKL012',
     user: {
-      _id: '1',
+      _id: '2',
       username: 'j_perez',
       email: 'juanperez@example.com',
       firstName: 'Juan',
@@ -106,11 +118,14 @@ export const salesMockList = [
   {
     id: '5',
     client: {
-      id: '5',
-      name: 'María López',
+      _id: '5',
+      name: 'Juan Pérez',
       typeDocument: 'DNI',
-      document: '90123456',
-      phone: '555-555-555'
+      document: '12345678',
+      phone: '111-111-111',
+      email: '',
+      subsidiary: '1',
+      organization: '1'
     },
     typeSale: 'Online',
     totalAmount: 300,

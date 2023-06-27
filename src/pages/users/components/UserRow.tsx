@@ -41,10 +41,10 @@ const UserRow = ({
       }}
     >
       <TableCell>{user.username}</TableCell>
-      <TableCell>{user.email}</TableCell>
       <TableCell>
         {user.firstName} {user.lastName}
       </TableCell>
+      <TableCell>{user.email}</TableCell>
       <TableCell>{getLabelRole(user.role.name)}</TableCell>
       <TableCell>
         {user.status === 'active'

@@ -1,17 +1,105 @@
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 
+import useClientApi from 'api/services/useClientApi'
+
 import { initialClient, initialFilters } from '../helpers/constants'
 import { type Client, type Filters } from '../interfaces/Clients'
-import { clientsMock } from '../mock/clientMock'
 
 const useClients = () => {
-  const [clientList] = useState<Client[]>(clientsMock)
+  const [currentPage, setCurrentPage] = useState(1)
+
   const [currentClient, setCurrentClient] = useState<Client>(initialClient)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
 
   const [filters, setFilters] = useState<Filters>(initialFilters)
+
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+
+  const { getAllClients, createClient, updateClient, deleteClient } = useClientApi()
+
+  const createMutation = useMutation({
+    mutationFn: async (client: Client) => await createClient(client),
+    onSuccess: () => {
+      setShowAddModal(false)
+      void Swal.fire({
+        title: '¡Cliente creado!',
+        text: 'El cliente ha sido creado correctamente',
+        icon: 'success'
+      })
+    },
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    }
+  })
+
+  const updateMutation = useMutation({
+    mutationFn: async (client: Client) => await updateClient(client),
+    onSuccess: () => {
+      setShowEditModal(false)
+      void Swal.fire({
+        title: '¡Cliente actualizado!',
+        text: 'El cliente ha sido actualizado correctamente',
+        icon: 'success'
+      })
+    },
+    onError: (error: Error) => {
+      const errorJson = JSON.parse(error.message)
+      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      if (errorMessages.length > 0) {
+        void Swal.fire({
+          title: 'Oops...',
+          html: errorMessages.join('</br>'),
+          icon: 'error'
+        })
+      } else {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+          icon: 'error'
+        })
+      }
+    }
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: async (clientId: Client['_id']) => await deleteClient(clientId),
+    onSuccess: () => {
+      void Swal.fire({
+        title: '¡Cliente eliminado!',
+        text: 'El cliente ha sido eliminado correctamente',
+        icon: 'success'
+      })
+    },
+    onError: () => {
+      void Swal.fire({
+        title: 'Oops...',
+        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunícate con soporte',
+        icon: 'error'
+      })
+    }
+  })
+
+  /* Get all users with filters */
+  const { data: clientList, isLoading: loadingClients } = useQuery({
+    queryKey: ['clients', filters, createMutation, updateMutation, deleteMutation],
+    queryFn: async () => await getAllClients(filters)
+  })
 
   /**
  * Handles a search input box in client list.
@@ -30,54 +118,41 @@ const useClients = () => {
   }
 
   /**
- * Handles a change in page and updates the current page number in client table.
+ * Handles a change in page and updates the current page number in users table.
  * @param {unknown} event
  * @param {number} newPage
  */
   const handleChangePage = (event: unknown, newPage: number) => {
     setCurrentPage(newPage)
-  }
-
-  /**
- * Handles when user change a rows per page in users table.
- * @param event
- */
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setCurrentPage(0)
+    setFilters({ ...filters, page: newPage })
   }
 
   /**
  * Handles a creation of a client.
  * @param {Client} client - Client to create
- * @param {Function} setShow - Function to close modal
  */
-  const onAddClient = (client: Client, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
-    try {
-      void Swal.fire({
-        title: '¡Creado!',
-        text: 'El cliente ha sido creado correctamente.',
-        icon: 'success'
-      })
-      console.log(client)
-      setShow(false)
-    } catch (error) {
-      void Swal.fire({
-        title: 'Oops...',
-        text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
-        icon: 'error'
-      })
-    }
+  const onAddClient = (client: Client) => {
+    void Swal.fire({
+      title: '¿Estas seguro de crear este cliente?',
+      icon: 'warning',
+      showConfirmButton: true,
+      confirmButtonText: 'Sí, crear',
+      cancelButtonText: 'No, cancelar',
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        createMutation.mutate(client)
+        setShowAddModal(false)
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    })
   }
 
   /**
 * Handles a edition of a client.
 * @param {Client} client - Client to edit
-* @param {Function} setShow - Function to close modal
 */
-  const onEditClient = (client: Client, setShow: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const onEditClient = (client: Client) => {
     void Swal.fire({
       title: '¿Estas seguro de editar este cliente?',
       icon: 'warning',
@@ -86,30 +161,10 @@ const useClients = () => {
       cancelButtonText: 'No, cancelar',
       showCancelButton: true,
       preConfirm: () => {
-        try {
-          console.log(client)
-          setShow(false)
-          return { isConfirmed: true }
-        // eslint-disable-next-line no-unreachable
-        } catch (error) {
-          return { isConfirmed: false }
-        }
+        updateMutation.mutate(client)
+        setShowEditModal(false)
       },
       allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if ((result.value?.isConfirmed) ?? false) {
-        void Swal.fire({
-          title: '¡Editado!',
-          text: 'El cliente ha sido editado correctamente',
-          icon: 'success'
-        })
-      } else if (!result?.isDismissed) {
-        void Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
-          icon: 'error'
-        })
-      }
     })
   }
 
@@ -117,7 +172,7 @@ const useClients = () => {
    * Handles when you want to delete a client.
    * @param {Client['id']} clientId - Cliend id to delete
    */
-  const onDeleteClient = (clientId: Client['id']) => {
+  const onDeleteClient = (clientId: Client['_id']) => {
     void Swal.fire({
       title: '¿Estas seguro de eliminar este cliente?',
       text: 'Esta acción no se puede deshacer',
@@ -127,39 +182,25 @@ const useClients = () => {
       cancelButtonText: 'No, cancelar',
       showCancelButton: true,
       preConfirm: () => {
-        try {
-          return { isConfirmed: true }
-          // eslint-disable-next-line no-unreachable
-        } catch (error) {
-          return { isConfirmed: false }
-        }
+        deleteMutation.mutate(clientId)
       },
       allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if ((result.value?.isConfirmed) ?? false) {
-        void Swal.fire({
-          title: '¡Eliminado!',
-          text: 'Su cliente ha sido eliminado correctamente',
-          icon: 'success'
-        })
-      } else if (!result?.isDismissed) {
-        void Swal.fire({
-          title: 'Oops...',
-          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
-          icon: 'error'
-        })
-      }
     })
   }
 
   return {
     /* States */
-    clientList,
+    clientList: clientList?.clients ?? [],
+    totalPages: clientList?.totalPages ?? 0,
     currentClient,
     currentPage,
-    rowsPerPage,
+    loadingClients,
+    showAddModal,
+    showEditModal,
 
     /* Function States */
+    setShowAddModal,
+    setShowEditModal,
 
     /* Functions */
     onSearchClient,
@@ -167,8 +208,7 @@ const useClients = () => {
     onDeleteClient,
     onAddClient,
     onEditClient,
-    handleChangePage,
-    handleChangeRowsPerPage
+    handleChangePage
   }
 }
 

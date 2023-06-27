@@ -1,20 +1,13 @@
-import { useState } from 'react'
 import { Box, Grid, Button } from '@mui/material'
 
-import ClientManagement from './ClientManagement'
-import Modal from 'components/modal/Modal'
 import SearchInput from 'components/searchInput'
-
-import { type Client } from '../interfaces/Clients'
 
 interface Props {
   onSearchClient: (search: string) => void
-  onAddClient: (client: Client, setShow: React.Dispatch<React.SetStateAction<boolean>>) => void
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Filters = ({ onSearchClient, onAddClient }: Props) => {
-  const [showAddModal, setShowAddModal] = useState(false)
-
+const Filters = ({ onSearchClient, setShowAddModal }: Props) => {
   return (
     <Box mb={2}>
       <Grid container spacing={2}>
@@ -33,17 +26,6 @@ const Filters = ({ onSearchClient, onAddClient }: Props) => {
           </Button>
         </Grid>
       </Grid>
-      <Modal
-        open={showAddModal}
-        setOpen={setShowAddModal}
-        title='Añadir cliente'
-      >
-        <ClientManagement
-          actionType='create'
-          setShow={setShowAddModal}
-          onFinishModal={onAddClient}
-        />
-      </Modal>
     </Box>
   )
 }

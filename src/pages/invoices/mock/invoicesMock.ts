@@ -4,11 +4,14 @@ export const invocesMockList = [
     invoiceType: 'Factura',
     date: '2023-05-01',
     client: {
-      id: '123456',
-      name: 'Juan Perez',
+      _id: '1',
+      name: 'Juan Pérez',
       typeDocument: 'DNI',
       document: '12345678',
-      phone: '555-1234'
+      phone: '111-111-111',
+      email: '',
+      subsidiary: '1',
+      organization: '1'
     },
     totalAmount: 100.50,
     user: {
@@ -29,11 +32,14 @@ export const invocesMockList = [
     invoiceType: 'Nota de crédito',
     date: '2023-04-15',
     client: {
-      id: '789012',
-      name: 'Ana Rodriguez',
-      typeDocument: 'RUC',
-      document: '78901234',
-      phone: '555-5678'
+      _id: '2',
+      name: 'Juan Pérez',
+      typeDocument: 'DNI',
+      document: '12345678',
+      phone: '111-111-111',
+      email: '',
+      subsidiary: '1',
+      organization: '1'
     },
     totalAmount: 50.25,
     user: {
