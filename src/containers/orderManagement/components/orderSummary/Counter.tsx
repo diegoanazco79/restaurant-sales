@@ -1,6 +1,4 @@
-import { Box, IconButton, Typography, useTheme } from '@mui/material'
-
-import useResponsive from 'helpers/hooks/useResponsive'
+import { Box, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 import { type ProductType } from 'pages/products/interfaces/Products'
 
@@ -20,7 +18,7 @@ const Counter = ({
   handleIncrement, handleDecrement
 }: Props) => {
   const theme = useTheme()
-  const { isMobileOrTablet } = useResponsive()
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <Box display="flex" alignItems="center">

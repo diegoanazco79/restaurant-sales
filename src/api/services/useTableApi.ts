@@ -33,6 +33,21 @@ const useTableApi = () => {
   }
 
   /**
+   * Get table by id from the API
+   * @param {string} id
+   */
+  const getTableById = async (id: string) => {
+    try {
+      const response = await axiosConfig.get(`${API_URL}/table/${id}`, {
+        headers: { Authorization: `Bearer ${currentToken}` }
+      })
+      return response.data
+    } catch (error) {
+      throw new Error(`Error: ${error as string}`)
+    }
+  }
+
+  /**
    * Create a new table
    * @param {TableType} table
    */
@@ -97,6 +112,7 @@ const useTableApi = () => {
 
   return {
     getAllTables,
+    getTableById,
     createTable,
     updateTable,
     deleteTable

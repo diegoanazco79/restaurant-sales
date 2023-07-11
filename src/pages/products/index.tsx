@@ -2,14 +2,11 @@ import { Container, LinearProgress } from '@mui/material'
 
 import Filters from './components/Filters'
 import Modal from 'components/modal/Modal'
-import Navigation from './components/responsive/Navigation'
-import ProductList from './components/responsive/ProductList'
 import ProductManagement from './components/productManagement/ProductManagement'
 import ProductsTable from './components/ProductsTable'
 import TitlePage from 'components/titlePage'
 
 import useProducts from './hooks/useProducts'
-import useResponsive from 'helpers/hooks/useResponsive'
 
 const ProductsPage = () => {
   const {
@@ -20,10 +17,8 @@ const ProductsPage = () => {
     onSelectProduct, onSearchProduct, onDeleteProduct, onEditProduct,
     onEditProductType, onAddProductType, onDeleteProductType,
     onAddProduct, onFilterByCategory, onDeleteCategoryFilter,
-    onApplyMobileFilters, handleChangePage, onDeleteAllProductsType
+    handleChangePage, onDeleteAllProductsType
   } = useProducts()
-
-  const { isMobileOrTablet } = useResponsive()
 
   /* Components props */
   const productsTableProps = {
@@ -36,14 +31,6 @@ const ProductsPage = () => {
     handleChangePage
   }
 
-  const productListProps = {
-    products: productsList,
-    setShowAddModal,
-    setShowEditModal,
-    onSelectProduct,
-    onDeleteProduct
-  }
-
   const filtersProps = {
     filters,
     categoriesList,
@@ -53,12 +40,6 @@ const ProductsPage = () => {
     onSearchProduct,
     onFilterByCategory,
     onDeleteCategoryFilter
-  }
-
-  const navigationProps = {
-    filters,
-    appliedFilters,
-    onApplyMobileFilters
   }
 
   const commonModalProps = {
@@ -86,25 +67,10 @@ const ProductsPage = () => {
   return (
     <Container maxWidth="xl" sx={{ height: '100%' }}>
       <TitlePage title="Gestión de Productos" />
-      {isMobileOrTablet
-        ? (
-          <>
-            <Navigation {...navigationProps} />
-            {loadingProducts || loadingCategories || refetchingProducts || refetchingCategories
-              ? <LinearProgress />
-              : <ProductList {...productListProps}/>
-            }
-          </>
-        )
-        : (
-          <>
-            <Filters {...filtersProps} />
-            {loadingProducts || loadingCategories || refetchingProducts || refetchingCategories
-              ? <LinearProgress />
-              : <ProductsTable {...productsTableProps} />
-            }
-          </>
-        )
+      <Filters {...filtersProps} />
+      {loadingProducts || loadingCategories || refetchingProducts || refetchingCategories
+        ? <LinearProgress />
+        : <ProductsTable {...productsTableProps} />
       }
       <Modal
         open={showEditModal}

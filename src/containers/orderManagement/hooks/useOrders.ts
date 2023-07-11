@@ -1,14 +1,51 @@
 import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
+import useCategoryApi from 'api/services/useCategoryApi'
+import useProductApi from 'api/services/useProductApi'
+import useTableApi from 'api/services/useTableApi'
+
+import { initialFilters as initialCategoryFilters } from 'pages/categories/helpers/constants'
+import { initialFilters as initialProductFilters } from 'pages/products/helpers/constants'
 import { initialOrder } from '../helpers/constants'
 import { type Order } from '../interfaces/Order'
 import { type ProductType } from '../../../pages/products/interfaces/Products'
 
-const useOrders = () => {
+interface Props {
+  tableId?: string
+}
+
+const useOrders = ({ tableId }: Props) => {
   const [orders, setOrders] = useState<Order[]>([])
   const [totalOrder, setTotalOrder] = useState(0)
   const [showSummaryModal, setShowSummaryModal] = useState(false)
   const [currentOrder, setCurrentOrder] = useState<Order>(initialOrder)
+
+  const [currentCategory, setCurrentCategory] = useState('all-categories')
+
+  const [productFilters, setProductFilters] = useState(initialProductFilters)
+
+  const { getAllCategories } = useCategoryApi()
+  const { getAllProducts } = useProductApi()
+  const { getTableById } = useTableApi()
+
+  /* Get all categories */
+  const { data: categoriesList, isLoading: loadingCategories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => await getAllCategories(initialCategoryFilters)
+  })
+
+  /* Get all products */
+  const { data: productsList, isLoading: loadingProducts } = useQuery({
+    queryKey: ['products', productFilters],
+    queryFn: async () => await getAllProducts(productFilters)
+  })
+
+  /* Get table data */
+  const { data: tableData, isLoading: loadingTable } = useQuery({
+    queryKey: ['table'],
+    queryFn: async () => await getTableById(tableId ?? '')
+  })
 
   useEffect(() => {
     let newTotal = 0
@@ -99,7 +136,17 @@ const useOrders = () => {
  * @param {string} search
  */
   const onSearchProduct = (search: string) => {
-    console.log(search)
+    setProductFilters({ ...productFilters, search })
+  }
+
+  /**
+   * Handles when user select a category
+   * @param {string} categoryId
+   */
+  const onSelectCategory = (categoryId: string) => {
+    const category = categoryId === 'all-categories' ? '' : categoryId
+    setCurrentCategory(categoryId)
+    setProductFilters({ ...productFilters, category })
   }
 
   return {
@@ -108,6 +155,13 @@ const useOrders = () => {
     totalOrder,
     showSummaryModal,
     currentOrder,
+    categoriesList,
+    loadingCategories,
+    currentCategory,
+    productsList: productsList?.products ?? [],
+    loadingProducts,
+    tableData,
+    loadingTable,
 
     /* Function States */
     setShowSummaryModal,
@@ -119,7 +173,8 @@ const useOrders = () => {
     onSearchProduct,
     handleIncrement,
     handleDecrement,
-    onAddNote
+    onAddNote,
+    onSelectCategory
   }
 }
 export default useOrders

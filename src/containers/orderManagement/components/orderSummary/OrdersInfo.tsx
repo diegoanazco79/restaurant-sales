@@ -1,11 +1,13 @@
-import { Grid, TextField, Typography } from '@mui/material'
+import { Grid, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 interface Props {
-  isMobileOrTablet: boolean
   totalOrder: number
 }
 
-const OrdersInfo = ({ isMobileOrTablet, totalOrder }: Props) => {
+const OrdersInfo = ({ totalOrder }: Props) => {
+  const theme = useTheme()
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
+
   return (
     <>
       <Grid container marginTop={3} marginBottom={1}>

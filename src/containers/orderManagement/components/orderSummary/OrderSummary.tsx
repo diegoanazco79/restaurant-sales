@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, useMediaQuery, useTheme } from '@mui/material'
 
 import EmptyOrders from './EmptyOrders'
 import Modal from 'components/modal/Modal'
@@ -16,8 +16,7 @@ import { type ProductType } from 'pages/products/interfaces/Products'
 import { type TableType } from 'pages/restaurant/interfaces/Tables'
 
 interface Props {
-  tableOrder?: TableType
-  isMobileOrTablet: boolean
+  tableData?: TableType
   roomType: string
   orders: Order[]
   totalOrder: number
@@ -31,18 +30,20 @@ interface Props {
 }
 
 const OrderSummary = ({
-  tableOrder, roomType, orders, totalOrder, isMobileOrTablet,
+  tableData, roomType, orders, totalOrder,
   deliveryOrder, currentOrder,
   setCurrentOrder,
   onDeleteOrder, handleDecrement, handleIncrement, onAddNote
 }: Props) => {
   const [showNoteModal, setShowNoteModal] = useState(false)
-  const orderTitle = tableOrder?.name ?? ''
+  const orderTitle = tableData?.name ?? ''
   const currentOrderName = currentOrder?.name ?? ''
+
+  const theme = useTheme()
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
 
   /* Component's Props */
   const orderItemProps = {
-    isMobileOrTablet,
     setCurrentOrder,
     setShowNoteModal,
     onDeleteOrder,
@@ -50,14 +51,9 @@ const OrderSummary = ({
     handleDecrement
   }
 
-  const ordersInfoProps = {
-    isMobileOrTablet,
-    totalOrder
-  }
+  const ordersInfoProps = { totalOrder }
 
-  const ordersActionsProps = {
-    isMobileOrTablet, deliveryOrder, roomType
-  }
+  const ordersActionsProps = { deliveryOrder, roomType }
 
   const noteModalProps = {
     currentOrder,
@@ -66,10 +62,8 @@ const OrderSummary = ({
   }
 
   return (
-    <SummaryLayout maxWidth="xl" isMobileOrTablet={isMobileOrTablet}>
-      {!isMobileOrTablet && (
-        <Title roomType={roomType} orderTitle={orderTitle} />
-      )}
+    <SummaryLayout maxWidth="xl">
+      {!isMobileOrTablet && <Title roomType={roomType} orderTitle={orderTitle} /> }
       {orders.length > 0
         ? (
           <>

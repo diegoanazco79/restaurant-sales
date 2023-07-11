@@ -14,6 +14,7 @@ const DeliveryPage = Loadable(lazy(async () => await import('pages/delivery')))
 const ForgotPasswordPage = Loadable(lazy(async () => await import('pages/password/forgotForm')))
 const InvoicesPage = Loadable(lazy(async () => await import('pages/invoices')))
 const LoginPage = Loadable(lazy(async () => await import('pages/login')))
+const OrderResturantPage = Loadable(lazy(async () => await import('pages/restaurant/order')))
 const ProductsPage = Loadable(lazy(async () => await import('pages/products')))
 const RegisterPage = Loadable(lazy(async () => await import('pages/register')))
 const RestaurantPage = Loadable(lazy(async () => await import('pages/restaurant')))
@@ -40,6 +41,7 @@ const AppRoutes = () => {
         <Route path='/products' element={<ProductsPage />} />
         <Route path='/reports' element={<DashboardPage />} />
         <Route path='/restaurant' element={<RestaurantPage />} />
+        <Route path='/restaurant/:tableId/order/:orderId' element={<OrderResturantPage />} />
         <Route path='/sales' element={<SalesPage />} />
         <Route path='/users' element={<UsersPage />} />
       </Route>

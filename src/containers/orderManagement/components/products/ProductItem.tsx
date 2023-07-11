@@ -1,8 +1,6 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 import ProductButton from './styled/ProductButton'
-
-import useReponsive from 'helpers/hooks/useResponsive'
 
 import { type Order } from 'containers/orderManagement/interfaces/Order'
 import { type Product, type ProductType } from 'pages/products/interfaces/Products'
@@ -19,7 +17,8 @@ const ProductItem = ({
   setSelectedProduct, setShowTypesModal,
   onAddOrder
 }: Props) => {
-  const { isMobileOrTablet } = useReponsive()
+  const theme = useTheme()
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
 
   const { _id, name, price, types, isInfinite, createdAt, updatedAt } = product ?? {}
 
@@ -62,6 +61,7 @@ const ProductItem = ({
       {!isMobileOrTablet && (
         <Grid item md={6}>
           <Box display='flex' flexWrap='wrap'>
+            {types.length === 0 && '-'}
             {types.map((type, idx) => (
               <Typography key={idx} variant="body2" pr='2px'>
                 {type.name}

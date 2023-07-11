@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Grid, useMediaQuery, useTheme } from '@mui/material'
 
 import ActionButton from './styled/ActionButton'
 
@@ -8,12 +8,14 @@ import { useState } from 'react'
 import DetailModal from '../detailModal/DetailModal'
 
 interface Props {
-  isMobileOrTablet: boolean
   deliveryOrder?: DeliveryOrder
   roomType: string
 }
 
-const OrdersActions = ({ deliveryOrder, isMobileOrTablet, roomType }: Props) => {
+const OrdersActions = ({ deliveryOrder, roomType }: Props) => {
+  const theme = useTheme()
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
+
   const [showDeliveryDetails, setShowDeliveryDetails] = useState(false)
 
   return (
@@ -30,7 +32,6 @@ const OrdersActions = ({ deliveryOrder, isMobileOrTablet, roomType }: Props) => 
             justifyContent="center"
           >
             <ActionButton
-              isMobileOrTablet={isMobileOrTablet}
               variant="contained"
               color="inherit"
             >
@@ -48,7 +49,6 @@ const OrdersActions = ({ deliveryOrder, isMobileOrTablet, roomType }: Props) => 
           justifyContent="center"
         >
           <ActionButton
-            isMobileOrTablet={isMobileOrTablet}
             variant="contained"
             color="primary"
             onClick={() => {

@@ -1,10 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Box, Grid, Typography } from '@mui/material'
 
 import { StyledTableBox } from './styled/StyledTableBox'
 import NewTable from './NewTable'
 import TableBody from './TableBody'
 
+import { BLOCKED } from '../helpers/constants'
 import { type TableType } from '../interfaces/Tables'
 
 interface Props {
@@ -21,11 +23,17 @@ const TablesList = ({
   setShowAddModal,
   onSelectTable, onDeleteTable, onBlockTable, onUnlockTable
 }: Props) => {
+  const navigate = useNavigate()
+
   const tableActionsProps = {
     onSelectTable,
     onDeleteTable,
     onBlockTable,
     onUnlockTable
+  }
+
+  const onManageOrder = (table: TableType) => {
+    navigate(`/restaurant/${table._id ?? ''}/order/${table.order ?? 'new'}`)
   }
 
   return (
@@ -42,6 +50,7 @@ const TablesList = ({
                   item key={idx} xs={12} sm={6} md={3}
                   onClick={(ev) => {
                     ev.stopPropagation()
+                    table.status !== BLOCKED && onManageOrder(table)
                   }}
                 >
                   <StyledTableBox status={table.status} height="100% !important">

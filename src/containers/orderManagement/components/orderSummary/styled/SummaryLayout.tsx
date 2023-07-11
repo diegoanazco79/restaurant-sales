@@ -1,14 +1,11 @@
 import { styled } from '@mui/material/styles'
-import { Container, useTheme } from '@mui/material'
+import { Container, useMediaQuery, useTheme } from '@mui/material'
 
 import { pxToRem } from 'theme/helpers/functions'
 
-interface Props {
-  isMobileOrTablet: boolean
-}
-
-const SummaryLayout = styled(Container)(({ isMobileOrTablet }: Props) => {
+const SummaryLayout = styled(Container)(() => {
   const theme = useTheme()
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
 
   const padding = isMobileOrTablet ? '0 !important' : '15px 5px 15px 0 !important'
 

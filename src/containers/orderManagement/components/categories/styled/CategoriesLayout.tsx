@@ -9,7 +9,8 @@ const CategoriesLayout = styled(Box)(() => {
     flexWrap: 'wrap',
     gap: pxToRem(5),
     marginTop: pxToRem(16),
-    height: '12%',
+    height: 'fit-content',
+    maxHeight: pxToRem(300),
     overflow: 'auto'
   }
 })

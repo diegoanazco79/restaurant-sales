@@ -1,4 +1,4 @@
-import { Container, LinearProgress } from '@mui/material'
+import { Container, LinearProgress, useMediaQuery, useTheme } from '@mui/material'
 
 import CategoriesList from './components/CategoriesList'
 import CategoryManagement from 'containers/categoryManagement'
@@ -7,7 +7,6 @@ import Modal from 'components/modal/Modal'
 import TitlePage from 'components/titlePage'
 
 import useCategories from './hooks/useCategories'
-import useResponsive from 'helpers/hooks/useResponsive'
 import EmptyData from './components/EmptyData'
 
 const CategoriesPage = () => {
@@ -19,7 +18,8 @@ const CategoriesPage = () => {
     onEditCategory
   } = useCategories()
 
-  const { isMobileOrTablet } = useResponsive()
+  const theme = useTheme()
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
 
   /* Component's Props */
   const filtersProps = {

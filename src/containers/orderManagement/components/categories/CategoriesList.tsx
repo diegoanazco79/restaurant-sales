@@ -1,12 +1,23 @@
-import { Box, Typography } from '@mui/material'
+import { Box, LinearProgress, Typography } from '@mui/material'
 
-import CategoryItem from './CategoryItem'
 import CategoriesLayout from './styled/CategoriesLayout'
+import CategoryItem from './CategoryItem'
+
+import { type Category } from 'pages/categories/interfaces/Category'
 
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined'
-import categoriesMock from 'containers/orderManagement/mock/categoriesMock'
 
-const CategoriesList = () => {
+interface Props {
+  categories: Category[]
+  currentCategory: string
+  loadingCategories: boolean
+  onSelectCategory: (categoryId: string) => void
+}
+
+const CategoriesList = ({
+  categories, currentCategory, loadingCategories,
+  onSelectCategory
+}: Props) => {
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -15,17 +26,26 @@ const CategoriesList = () => {
           Categorias y Productos
         </Typography>
       </Box>
-      <CategoriesLayout>
-        <CategoryItem id="all-category-btn" name="Todos" selected={true} />
-        {categoriesMock.map((category, idx) => (
+      {loadingCategories
+        ? <LinearProgress />
+        : <CategoriesLayout>
           <CategoryItem
-            key={idx}
-            id={category.id}
-            name={category.name}
-            selected={false}
+            id="all-categories"
+            name="Todos"
+            selected={currentCategory === 'all-categories'}
+            onSelectCategory={onSelectCategory}
           />
-        ))}
-      </CategoriesLayout>
+          {categories?.map((category, idx) => (
+            <CategoryItem
+              key={idx}
+              id={category._id}
+              name={category.name}
+              selected={currentCategory === category._id}
+              onSelectCategory={onSelectCategory}
+            />
+          ))}
+        </CategoriesLayout>
+      }
     </>
   )
 }

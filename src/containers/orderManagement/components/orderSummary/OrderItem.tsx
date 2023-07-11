@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material'
+import { Box, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 import Counter from './Counter'
 
@@ -14,7 +14,6 @@ interface Props {
   amount: number
   note: string | undefined
   type: ProductType | undefined
-  isMobileOrTablet: boolean
   setCurrentOrder: (order: Order) => void
   setShowNoteModal: (value: boolean) => void
   onDeleteOrder: (id: string, orderType: ProductType['_id']) => void
@@ -23,12 +22,14 @@ interface Props {
 }
 
 const OrderItem = ({
-  id, name, price, amount, note, type, isMobileOrTablet,
+  id, name, price, amount, note, type,
   setShowNoteModal, setCurrentOrder,
   onDeleteOrder, handleIncrement, handleDecrement
 }: Props) => {
   const theme = useTheme()
   const currentType = type ?? { _id: '', name: '', price: 0 }
+
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
 
   const onAddNote = () => {
     const order = { id, name, price, amount, note, type: currentType }
