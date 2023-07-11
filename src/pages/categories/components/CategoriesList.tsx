@@ -40,7 +40,6 @@ const CategoriesList = ({
                   <CategoryCard height="100% !important">
                     <CategoryBody category={category} onDeleteCategory={onDeleteCategory} />
                   </CategoryCard>
-
                 </Grid>
               ))}
             </>

@@ -5,19 +5,22 @@ export const BLOCKED = 'blocked'
 export const initialOrdersFilters = {
   search: '',
   status: '',
-  ambient: ''
+  room: '',
+  page: 1,
+  limit: 100
 }
 
 export const initialOrdersAppliedFilters = {
   status: false,
-  ambient: false
+  room: false
 }
 
 export const initialTable = {
-  id: '',
+  _id: '',
   name: '',
-  start_order: '',
-  ambient: '',
-  total_payment: 0,
+  room: {
+    _id: '',
+    name: ''
+  },
   status: ''
 }

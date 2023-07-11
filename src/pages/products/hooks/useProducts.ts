@@ -3,8 +3,10 @@ import { useState } from 'react'
 import Swal from 'sweetalert2'
 
 import {
-  type ProductType, type Product,
-  type FiltersType, type AppliedFiltersType,
+  type ProductType,
+  type Product,
+  type FiltersType,
+  type AppliedFiltersType,
   type CategoryProductType
 } from '../interfaces/Products'
 
@@ -12,7 +14,9 @@ import useProductApi from 'api/services/useProductApi'
 import useCategoryApi from 'api/services/useCategoryApi'
 
 import {
-  initialAppliedFilters, initialFilters, initialProduct
+  initialAppliedFilters,
+  initialFilters,
+  initialProduct
 } from '../helpers/constants'
 import { type CreateProduct } from 'api/interfaces/ProductApi'
 
@@ -29,8 +33,29 @@ const useProducts = () => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showAddModal, setShowAddModal] = useState(false)
 
-  const { createProduct, getAllProducts, deleteProduct, updateProduct } = useProductApi()
+  const { createProduct, getAllProducts, deleteProduct, updateProduct } =
+    useProductApi()
   const { getAllCategories } = useCategoryApi()
+
+  const {
+    data: productsList,
+    isLoading: loadingProducts,
+    refetch: productRefetch,
+    isRefetching: refetchingProducts
+  } = useQuery({
+    queryKey: ['products', filters],
+    queryFn: async () => await getAllProducts(filters)
+  })
+
+  const {
+    data: categoriesList,
+    isLoading: loadingCategories,
+    refetch: categoriesRefetch,
+    isRefetching: refetchingCategories
+  } = useQuery({
+    queryKey: ['categories', filters],
+    queryFn: async () => await getAllCategories(filters)
+  })
 
   const createMutation = useMutation({
     mutationFn: async (formValues: CreateProduct) =>
@@ -40,11 +65,16 @@ const useProducts = () => {
         title: '¡Producto creado!',
         text: 'El producto ha sido creado correctamente',
         icon: 'success'
+      }).then(async () => {
+        await productRefetch()
+        await categoriesRefetch()
       })
     },
     onError: (error: Error) => {
       const errorJson = JSON.parse(error.message)
-      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      const errorMessages = errorJson.map(
+        (error: { msg: string }) => error.msg
+      )
       if (errorMessages.length > 0) {
         void Swal.fire({
           title: 'Oops...',
@@ -69,11 +99,16 @@ const useProducts = () => {
         title: '¡Producto editado!',
         text: 'El producto ha sido editado correctamente',
         icon: 'success'
+      }).then(async () => {
+        await productRefetch()
+        await categoriesRefetch()
       })
     },
     onError: (error: Error) => {
       const errorJson = JSON.parse(error.message)
-      const errorMessages = errorJson.map((error: { msg: string }) => error.msg)
+      const errorMessages = errorJson.map(
+        (error: { msg: string }) => error.msg
+      )
       if (errorMessages.length > 0) {
         void Swal.fire({
           title: 'Oops...',
@@ -92,16 +127,6 @@ const useProducts = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => await deleteProduct(id)
-  })
-
-  const { data: productsList, isLoading: loadingProducts } = useQuery({
-    queryKey: ['products', filters, createMutation, deleteMutation, updateMutation],
-    queryFn: async () => await getAllProducts(filters)
-  })
-
-  const { data: categoriesList, isLoading: loadingCategories } = useQuery({
-    queryKey: ['categories', filters, createMutation],
-    queryFn: async () => await getAllCategories(filters)
   })
 
   /**
@@ -167,7 +192,11 @@ const useProducts = () => {
       isInfinite: type.isInfinite,
       stockQuantity: type.stockQuantity
     }))
-    const newProduct = { ...product, category: product.category?._id, types: productTypes }
+    const newProduct = {
+      ...product,
+      category: product.category?._id,
+      types: productTypes
+    }
     await Swal.fire({
       title: '¿Estas seguro de añadir este producto?',
       icon: 'warning',
@@ -318,7 +347,7 @@ const useProducts = () => {
           title: '¡Eliminado!',
           text: 'Su producto ha sido eliminado correctamente',
           icon: 'success'
-        })
+        }).then(async () => await productRefetch())
       } else if (!result?.isDismissed) {
         void Swal.fire({
           title: 'Oops...',
@@ -333,8 +362,10 @@ const useProducts = () => {
    * This function displays a confirmation dialog and deletes all product types from the current product
    * if confirmed.
    * @param {React.Dispatch<React.SetStateAction<boolean>>} setHasTypes
-  */
-  const onDeleteAllProductsType = (setHasTypes: React.Dispatch<React.SetStateAction<boolean>>) => {
+   */
+  const onDeleteAllProductsType = (
+    setHasTypes: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     void Swal.fire({
       title: '¿Estas seguro de eliminar todos los tipos de este producto?',
       text: 'Esta acción no se puede deshacer',
@@ -369,6 +400,8 @@ const useProducts = () => {
     showAddModal,
     categoriesList,
     loadingCategories,
+    refetchingProducts,
+    refetchingCategories,
 
     /* States Functions */
     setShowEditModal,

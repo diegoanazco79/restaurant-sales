@@ -11,17 +11,17 @@ import { type TableType } from '../interfaces/Tables'
 interface Props {
   table: TableType
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>
-  setCurrentTableEdit: React.Dispatch<React.SetStateAction<TableType>>
   setTableOrder: React.Dispatch<React.SetStateAction<TableType>>
+  onSelectTable: (table: TableType) => void
   onDeleteTable: (idTable: string) => void
-  onBlockTable: (idTable: string) => void
-  onUnlockTable: (idTable: string) => void
+  onBlockTable: (newTable: TableType) => void
+  onUnlockTable: (newTable: TableType) => void
 }
 
 const TableCard = ({
   table,
-  setShowEditModal, setCurrentTableEdit, setTableOrder,
-  onDeleteTable, onBlockTable, onUnlockTable
+  setShowEditModal, setTableOrder,
+  onSelectTable, onDeleteTable, onBlockTable, onUnlockTable
 }: Props) => {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null)
 
@@ -41,10 +41,8 @@ const TableCard = ({
   }
 
   const tableBodyProps = {
-    startOrder: table?.start_order,
-    ambient: table?.ambient,
-    status: table?.status,
-    totalPayment: table?.total_payment
+    room: table?.room,
+    status: table?.status
   }
 
   const tableActionsProps = {
@@ -52,7 +50,7 @@ const TableCard = ({
     status: table?.status,
     setOpen,
     setShowEditModal,
-    setCurrentTableEdit,
+    onSelectTable,
     onDeleteTable,
     onBlockTable,
     onUnlockTable

@@ -1,19 +1,26 @@
-export interface TableType {
-  id: string
+export interface Room {
+  _id: string
   name: string
-  start_order: string
-  ambient: string
-  total_payment: number
+}
+export interface TableType {
+  _id?: string
+  name: string
+  room: Room
   status: string
+  order?: string
+  subsidiary?: string
+  organization?: string
 }
 
 export interface FiltersType {
   search: string
   status: string
-  ambient: string
+  room: string
+  page: number
+  limit: number
 }
 
 export interface AppliedFiltersType {
   status: boolean
-  ambient: boolean
+  room: boolean
 }

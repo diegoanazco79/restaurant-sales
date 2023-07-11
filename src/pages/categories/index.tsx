@@ -13,7 +13,7 @@ import EmptyData from './components/EmptyData'
 const CategoriesPage = () => {
   const {
     categoriesList, currentCategory, loadingCategories, showAddModal,
-    showEditModal,
+    showEditModal, refetchingCategories,
     setShowAddModal, setShowEditModal,
     onSearchCategory, onSelectCategory, onDeleteCategory, onAddCategory,
     onEditCategory
@@ -38,11 +38,11 @@ const CategoriesPage = () => {
     <Container maxWidth="xl" sx={{ height: '100%' }}>
       <TitlePage title="Gestión de Categorías" />
       {!isMobileOrTablet && <Filters {...filtersProps} />}
-      {loadingCategories
+      {loadingCategories || refetchingCategories
         ? <LinearProgress />
         : (
           <>
-            {!categoriesList && !loadingCategories
+            {!categoriesList && !loadingCategories && !refetchingCategories
               ? <EmptyData setShowAddModal={setShowAddModal} />
               : <CategoriesList {...categoriesListProps} />
             }

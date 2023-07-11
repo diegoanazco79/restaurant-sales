@@ -27,6 +27,12 @@ const useUsers = () => {
 
   const { updateUser, inviteUser, getAllUsers } = useUsersApi()
 
+  /* Get all users with filters */
+  const { data: usersData, isLoading, refetch: refetchUsers, isRefetching: isRefetchingUsers } = useQuery({
+    queryKey: ['users', filters],
+    queryFn: async () => await getAllUsers(subsidiaryId, filters)
+  })
+
   /* Handles a edit user mutation */
   const editUserMutation = useMutation({
     mutationFn: async (user: UpdateUser) => await updateUser(user),
@@ -35,7 +41,7 @@ const useUsers = () => {
         title: '¡Editado!',
         text: 'El usuario ha sido editado correctamente',
         icon: 'success'
-      })
+      }).then(async () => await refetchUsers())
     },
     onError: (error: Error) => {
       const errorJson = JSON.parse(error.message)
@@ -94,7 +100,7 @@ const useUsers = () => {
         title: '¡Activado!',
         text: 'El usuario ha sido activado correctamente',
         icon: 'success'
-      })
+      }).then(async () => await refetchUsers())
     },
     onError: () => {
       void Swal.fire({
@@ -113,7 +119,7 @@ const useUsers = () => {
         title: '¡Desactivado!',
         text: 'El usuario ha sido desactivado correctamente',
         icon: 'success'
-      })
+      }).then(async () => await refetchUsers())
     },
     onError: () => {
       void Swal.fire({
@@ -122,12 +128,6 @@ const useUsers = () => {
         icon: 'error'
       })
     }
-  })
-
-  /* Get all users with filters */
-  const { data: usersData, isLoading } = useQuery({
-    queryKey: ['users', filters, editUserMutation, activeUserMutation, deactiveUserMutation],
-    queryFn: async () => await getAllUsers(subsidiaryId, filters)
   })
 
   /**
@@ -267,6 +267,7 @@ const useUsers = () => {
     showAddModal,
     showEditModal,
     loadingInvitation: inviteUserMutation.isLoading,
+    isRefetchingUsers,
 
     /* Function States */
     setShowAddModal,

@@ -7,28 +7,27 @@ import {
   IN_PROGRESS,
   EMPTY
 } from 'pages/restaurant/helpers/constants'
+import { type Room } from 'pages/restaurant/interfaces/Tables'
 
 interface Props {
-  startOrder: string
-  ambient: string
+  room: Room
   status: string
-  totalPayment: number
 }
 
-const TableBody = ({ startOrder, ambient, status, totalPayment }: Props) => {
+const TableBody = ({ room, status }: Props) => {
   return (
     <Box pt={2}>
       {status === EMPTY && <Badge type="default" label="Vacía" />}
       {status === IN_PROGRESS && (
         <>
           <Typography variant="body2" gutterBottom>
-            <b>Inicio:</b> {startOrder}
+            <b>Inicio:</b>
           </Typography>
           <Typography variant="body2" gutterBottom>
-            <b>Ambiente:</b> {ambient}
+            <b>Ambiente:</b> {room.name}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            <b>Total a pagar:</b> S/ {totalPayment}
+            <b>Total a pagar:</b> S/
           </Typography>
         </>
       )}

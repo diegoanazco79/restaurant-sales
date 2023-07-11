@@ -1,45 +1,41 @@
-import { Container, Grid } from '@mui/material'
+import { Container, LinearProgress } from '@mui/material'
 
-import AddTable from './components/modals/AddTable'
-import EditTable from './components/modals/EditTable'
 import Filters from './components/Filters'
 import Modal from 'components/modal/Modal'
-import Navigation from './components/Navigation'
-import OrderManagement from 'containers/orderManagement'
-import TableCard from './components/TableCard'
 import TitlePage from 'components/titlePage'
 
 import useRestaurant from './hooks/useRestaurant'
-import useResponsive from 'helpers/hooks/useResponsive'
 
-import { initialTable } from './helpers/constants'
+import TablesList from './components/TablesList'
+import EmptyData from './components/EmptyData'
+import RoomsManagement from './components/RoomsManagement'
 
 const RestaurantPage = () => {
   const {
-    filters, appliedFilters, tables, showEditModal, currentTableEdit,
-    showFiltersModal, tableOrder,
-    setShowEditModal, setCurrentTableEdit, setShowFiltersModal, setTableOrder,
-    onAddTable, onDeleteTable, onEditTable, onBlockTable, onUnlockTable,
-    onFilterByStatus, onFilterByAmbient, onDeleteStatusFilter, onDeleteAmbientFilter,
-    onSearchTable
+    filters, appliedFilters, tablesList, showEditModal, currentTable, roomsList,
+    loadingRooms, loadingTables, showAddModal, isRefetchingRooms, isRefetchingTables,
+    setShowEditModal, setTableOrder, setShowAddModal,
+    onDeleteTable, onEditTable, onBlockTable, onUnlockTable, onAddTable,
+    onFilterByStatus, onFilterByRoom, onDeleteStatusFilter, onDeleteRoomFilter,
+    onSearchTable, onSelectTable
   } = useRestaurant()
-
-  const { isMobileOrTablet } = useResponsive()
 
   /* Component's Props */
   const filtersProps = {
+    roomsList,
     filters,
     appliedFilters,
     onSearchTable,
     onFilterByStatus,
-    onFilterByAmbient,
+    onFilterByRoom,
     onDeleteStatusFilter,
-    onDeleteAmbientFilter
+    onDeleteRoomFilter
   }
 
-  const tableCardProps = {
-    setShowEditModal,
-    setCurrentTableEdit,
+  const tableListProps = {
+    tables: tablesList,
+    onSelectTable,
+    setShowAddModal,
     setTableOrder,
     onDeleteTable,
     onEditTable,
@@ -47,64 +43,47 @@ const RestaurantPage = () => {
     onUnlockTable
   }
 
-  const editTableProps = {
-    table: currentTableEdit,
-    setShowEditModal,
-    onEditTable
-  }
-
-  const navigationProps = {
-    showFiltersModal,
-    filters,
-    appliedFilters,
-    setShowFiltersModal,
-    onFilterByStatus,
-    onFilterByAmbient,
-    onDeleteStatusFilter,
-    onDeleteAmbientFilter
-  }
-
-  const orderManagementProps = {
-    tableOrder,
-    roomType: 'restaurant',
-    onBackAction: () => { setTableOrder(initialTable) }
-  }
-
   return (
-    <>
-      {tableOrder === initialTable
-        ? (
-          <Container maxWidth='xl' sx={{ height: '100%' }}>
-            <TitlePage title='Restaurante' />
-            {isMobileOrTablet
-              ? <Navigation {...navigationProps} />
-              : <Filters {...filtersProps} />
+    <Container maxWidth='xl' sx={{ height: '100%' }}>
+      <TitlePage title='Restaurante' />
+      <Filters {...filtersProps} />
+      {loadingRooms || loadingTables || isRefetchingRooms || isRefetchingTables
+        ? <LinearProgress />
+        : (
+          <>
+            {!tablesList && !loadingTables && !isRefetchingTables && !isRefetchingRooms
+              ? <EmptyData setShowAddModal={setShowAddModal} />
+              : <TablesList {...tableListProps} />
             }
-            <Grid container spacing={3} pb={10}>
-              <Grid item xs={12} sm={6} md={3}>
-                <AddTable onAddTable={onAddTable}/>
-              </Grid>
-              {tables?.map(table => (
-                <Grid key={table.id} item xs={12} sm={6} md={3}>
-                  <TableCard
-                    table={table}
-                    {...tableCardProps}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <Modal
-              open={showEditModal}
-              setOpen={setShowEditModal}
-              title='Editar Mesa'
-            >
-              <EditTable {...editTableProps} />
-            </Modal>
-          </Container>
+          </>
         )
-        : <OrderManagement {...orderManagementProps} />
       }
-    </>
+      <Modal
+        open={showEditModal}
+        setOpen={setShowEditModal}
+        title='Editar Mesa'
+      >
+        <RoomsManagement
+          actionType='edit'
+          table={currentTable}
+          roomsList={roomsList}
+          setShow={setShowEditModal}
+          onFinishModal={onEditTable}
+        />
+      </Modal>
+      <Modal
+        open={showAddModal}
+        setOpen={setShowAddModal}
+        title='Añadir Mesa'
+      >
+        <RoomsManagement
+          actionType='create'
+          roomsList={roomsList}
+          setShow={setShowAddModal}
+          onFinishModal={onAddTable}
+        />
+      </Modal>
+    </Container>
   )
 }
 

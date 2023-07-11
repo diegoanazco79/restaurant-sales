@@ -3,6 +3,7 @@ import { ListItemIcon, MenuItem, Stack, Typography, useTheme } from '@mui/materi
 
 import { type TableType } from '../interfaces/Tables'
 import { EMPTY, IN_PROGRESS } from '../helpers/constants'
+
 import BlockIcon from '@mui/icons-material/Block'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -12,16 +13,15 @@ interface Props {
   status: string
   onDeleteTable: (idTable: string) => void
   setOpen: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>
-  setShowEditModal: (open: boolean) => void
-  setCurrentTableEdit: React.Dispatch<React.SetStateAction<TableType>>
-  onBlockTable: (idTable: string) => void
-  onUnlockTable: (idTable: string) => void
+  onSelectTable: (table: TableType) => void
+  onBlockTable: (newTable: TableType) => void
+  onUnlockTable: (newTable: TableType) => void
 }
 
 const TableActions = ({
   table, status,
-  setOpen, setShowEditModal, setCurrentTableEdit,
-  onDeleteTable, onBlockTable, onUnlockTable
+  setOpen,
+  onSelectTable, onDeleteTable, onBlockTable, onUnlockTable
 }: Props) => {
   const { palette } = useTheme()
 
@@ -29,9 +29,9 @@ const TableActions = ({
     <Stack sx={{ p: 1 }}>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={() => {
-          setCurrentTableEdit(table)
-          setShowEditModal(true)
+        onClick={(ev) => {
+          ev.stopPropagation()
+          onSelectTable(table)
           setOpen(null)
         }}>
         <ListItemIcon>
@@ -41,8 +41,9 @@ const TableActions = ({
       </MenuItem>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={() => {
-          [EMPTY, IN_PROGRESS].includes(status) ? onBlockTable(table?.id) : onUnlockTable(table?.id)
+        onClick={(ev) => {
+          ev.stopPropagation();
+          [EMPTY, IN_PROGRESS].includes(status) ? onBlockTable(table) : onUnlockTable(table)
           setOpen(null)
         }}>
         <ListItemIcon>
@@ -60,8 +61,9 @@ const TableActions = ({
       </MenuItem>
       <MenuItem
         sx={{ px: 1 }}
-        onClick={() => {
-          onDeleteTable(table?.id)
+        onClick={(ev) => {
+          ev.stopPropagation()
+          onDeleteTable(table?._id ?? '')
           setOpen(null)
         }}>
         <ListItemIcon>

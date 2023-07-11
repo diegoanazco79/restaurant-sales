@@ -19,6 +19,12 @@ const useCategories = () => {
   const { deleteCategory, updateCategory, createCategory, getAllCategories } =
     useCategoryApi()
 
+  /* Get all categories with filters */
+  const { data: categoriesList, isLoading: loadingCategories, isRefetching: refetchingCategories, refetch: categoriesRefetch } = useQuery({
+    queryKey: ['categories', filters],
+    queryFn: async () => await getAllCategories(filters)
+  })
+
   const createMutation = useMutation({
     mutationFn: async (formValues: Category) =>
       await createCategory(formValues.name),
@@ -27,7 +33,7 @@ const useCategories = () => {
         title: '¡Categoría creada!',
         text: 'La categoría ha sido creada correctamente',
         icon: 'success'
-      })
+      }).then(async () => await categoriesRefetch())
     },
     onError: (error: Error) => {
       const errorJson = JSON.parse(error.message)
@@ -56,7 +62,7 @@ const useCategories = () => {
         title: '¡Categoría editada!',
         text: 'La categoría ha sido editada correctamente',
         icon: 'success'
-      })
+      }).then(async () => await categoriesRefetch())
     },
     onError: (error: Error) => {
       const errorJson = JSON.parse(error.message)
@@ -80,18 +86,6 @@ const useCategories = () => {
   const deleteMutation = useMutation({
     mutationFn: async (categoryId: Category['_id']) =>
       await deleteCategory(categoryId)
-  })
-
-  /* Get all categories with filters */
-  const { data: categoriesList, isLoading: loadingCategories } = useQuery({
-    queryKey: [
-      'categories',
-      filters,
-      createMutation,
-      updateMutation,
-      deleteMutation
-    ],
-    queryFn: async () => await getAllCategories(filters)
   })
 
   /**
@@ -181,7 +175,7 @@ const useCategories = () => {
           title: '¡Eliminada!',
           text: 'Su categoría ha sido eliminada correctamente',
           icon: 'success'
-        })
+        }).then(async () => await categoriesRefetch())
       } else if (!result?.isDismissed) {
         void Swal.fire({
           title: 'Oops...',
@@ -199,6 +193,7 @@ const useCategories = () => {
     loadingCategories,
     showAddModal,
     showEditModal,
+    refetchingCategories,
 
     /* State Functions */
     setShowAddModal,

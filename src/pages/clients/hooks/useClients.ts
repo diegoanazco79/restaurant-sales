@@ -19,6 +19,12 @@ const useClients = () => {
 
   const { getAllClients, createClient, updateClient, deleteClient } = useClientApi()
 
+  /* Get all users with filters */
+  const { data: clientList, isLoading: loadingClients, refetch: refectchClients, isRefetching: isRefetchingClients } = useQuery({
+    queryKey: ['clients', filters],
+    queryFn: async () => await getAllClients(filters)
+  })
+
   const createMutation = useMutation({
     mutationFn: async (client: Client) => await createClient(client),
     onSuccess: () => {
@@ -27,7 +33,7 @@ const useClients = () => {
         title: '¡Cliente creado!',
         text: 'El cliente ha sido creado correctamente',
         icon: 'success'
-      })
+      }).then(async () => await refectchClients())
     },
     onError: (error: Error) => {
       const errorJson = JSON.parse(error.message)
@@ -56,7 +62,7 @@ const useClients = () => {
         title: '¡Cliente actualizado!',
         text: 'El cliente ha sido actualizado correctamente',
         icon: 'success'
-      })
+      }).then(async () => await refectchClients())
     },
     onError: (error: Error) => {
       const errorJson = JSON.parse(error.message)
@@ -84,7 +90,7 @@ const useClients = () => {
         title: '¡Cliente eliminado!',
         text: 'El cliente ha sido eliminado correctamente',
         icon: 'success'
-      })
+      }).then(async () => await refectchClients())
     },
     onError: () => {
       void Swal.fire({
@@ -93,12 +99,6 @@ const useClients = () => {
         icon: 'error'
       })
     }
-  })
-
-  /* Get all users with filters */
-  const { data: clientList, isLoading: loadingClients } = useQuery({
-    queryKey: ['clients', filters, createMutation, updateMutation, deleteMutation],
-    queryFn: async () => await getAllClients(filters)
   })
 
   /**
@@ -197,6 +197,7 @@ const useClients = () => {
     loadingClients,
     showAddModal,
     showEditModal,
+    isRefetchingClients,
 
     /* Function States */
     setShowAddModal,

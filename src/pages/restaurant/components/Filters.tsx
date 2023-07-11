@@ -7,25 +7,27 @@ import { getOrderStatusLabel } from '../helpers/functions'
 
 import { BLOCKED, EMPTY, IN_PROGRESS } from '../helpers/constants'
 import { type AppliedFiltersType, type FiltersType } from '../interfaces/Tables'
+import { type Room } from 'pages/rooms/interfaces/Room'
 
 interface Props {
+  roomsList: Room[]
   filters: FiltersType
   appliedFilters: AppliedFiltersType
   onSearchTable: (search: string) => void
   onFilterByStatus: (status: string) => void
-  onFilterByAmbient: (status: string) => void
+  onFilterByRoom: (status: string) => void
   onDeleteStatusFilter: () => void
-  onDeleteAmbientFilter: () => void
+  onDeleteRoomFilter: () => void
 }
 
 const Filters = ({
-  filters, appliedFilters,
-  onFilterByStatus, onFilterByAmbient, onDeleteStatusFilter,
-  onDeleteAmbientFilter, onSearchTable
+  roomsList, filters, appliedFilters,
+  onFilterByStatus, onFilterByRoom, onDeleteStatusFilter,
+  onDeleteRoomFilter, onSearchTable
 }: Props) => {
   const hasFilters = Object.values(appliedFilters).some(val => val === true)
   const hasStatusFilter = appliedFilters?.status
-  const hasAmbientFilter = appliedFilters?.ambient
+  const hasRoomFilter = appliedFilters?.room
 
   const handleOptionStatus = (option: Option) => {
     if (option?.filterLabel === 'empty') onFilterByStatus(EMPTY)
@@ -34,8 +36,15 @@ const Filters = ({
   }
 
   const handleOptionAmbient = (option: Option) => {
-    onFilterByAmbient(option?.id)
+    onFilterByRoom(option?.id)
   }
+
+  const formatRooms = roomsList?.map((room) => ({
+    id: room._id,
+    label: room.name
+  }))
+
+  const roomLabel = formatRooms?.find(room => room.id === filters.room)?.label ?? ''
 
   return (
     <Box marginBottom={2}>
@@ -60,12 +69,8 @@ const Filters = ({
           />
           <Dropdown
             buttonLabel='Filtrar por Ambiente'
-            selected={hasAmbientFilter}
-            options={[
-              { id: '004', label: 'Ambiente 01' },
-              { id: '005', label: 'Ambiente 02' },
-              { id: '006', label: 'Ambiente 03' }
-            ]}
+            selected={hasRoomFilter}
+            options={formatRooms}
             handleOptionClick={handleOptionAmbient}
           />
         </Grid>
@@ -83,10 +88,10 @@ const Filters = ({
                   onDelete={onDeleteStatusFilter}
                 />
               )}
-              {hasAmbientFilter && (
+              {hasRoomFilter && (
                 <Chip
-                  label={`Ambiente: ${filters?.ambient}`}
-                  onDelete={onDeleteAmbientFilter}
+                  label={`Ambiente: ${roomLabel}`}
+                  onDelete={onDeleteRoomFilter}
                 />
               )}
             </Stack>

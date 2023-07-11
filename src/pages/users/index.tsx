@@ -9,7 +9,7 @@ import useUsers from './hooks/useUsers'
 const UsersPage = () => {
   const {
     usersList, currentPage, currentUser, isLoading, totalPages,
-    showAddModal, showEditModal, loadingInvitation,
+    showAddModal, showEditModal, loadingInvitation, isRefetchingUsers,
     setShowAddModal, setShowEditModal,
     onSearchUser, handleChangePage,
     onSelectUser, onEditUser, onInviteUser, onActiveUser, onDeactiveUser
@@ -42,7 +42,7 @@ const UsersPage = () => {
     <Container maxWidth='xl' sx={{ height: '100%' }}>
       <TitlePage title='Gestión de Usuarios'/>
       <Filters {...filtersProps} />
-      {isLoading
+      {isLoading || isRefetchingUsers
         ? <LinearProgress />
         : <UsersTable {...usersTableProps} />
       }

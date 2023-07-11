@@ -37,9 +37,7 @@ export const StyledTableBox = styled(Box)(({ status }: Props) => {
       case BLOCKED:
         return {
           borderColor: theme.palette.error.light,
-          backgroundColor: alpha(theme.palette.error.main, 0.16),
-          hoverBackgroundColor: alpha(theme.palette.error.dark, 0.2),
-          hoverBorderColor: theme.palette.error.dark
+          backgroundColor: alpha(theme.palette.error.main, 0.16)
         }
     }
   }
@@ -48,7 +46,7 @@ export const StyledTableBox = styled(Box)(({ status }: Props) => {
     height: pxToRem(184),
     minHeight: pxToRem(184),
     maxHeight: pxToRem(184),
-    cursor: 'pointer',
+    cursor: status === BLOCKED ? 'not-allowed' : 'pointer',
     padding: pxToRem(24),
     borderRadius: pxToRem(12),
     boxShadow: '0 0 2px 0 rgb(145 158 171 / 20%), 0 12px 24px -4px rgb(145 158 171 / 12%)',

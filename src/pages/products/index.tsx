@@ -15,7 +15,7 @@ const ProductsPage = () => {
   const {
     productsList, currentPage, currentProduct, showEditModal, showAddModal,
     filters, appliedFilters, loadingProducts, totalPages, categoriesList,
-    loadingCategories,
+    loadingCategories, refetchingProducts, refetchingCategories,
     setShowEditModal, setShowAddModal, setCurrentProduct,
     onSelectProduct, onSearchProduct, onDeleteProduct, onEditProduct,
     onEditProductType, onAddProductType, onDeleteProductType,
@@ -90,7 +90,7 @@ const ProductsPage = () => {
         ? (
           <>
             <Navigation {...navigationProps} />
-            {loadingProducts || loadingCategories
+            {loadingProducts || loadingCategories || refetchingProducts || refetchingCategories
               ? <LinearProgress />
               : <ProductList {...productListProps}/>
             }
@@ -99,7 +99,7 @@ const ProductsPage = () => {
         : (
           <>
             <Filters {...filtersProps} />
-            {loadingProducts || loadingCategories
+            {loadingProducts || loadingCategories || refetchingProducts || refetchingCategories
               ? <LinearProgress />
               : <ProductsTable {...productsTableProps} />
             }

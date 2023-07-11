@@ -12,7 +12,7 @@ import useClients from './hooks/useClients'
 const ClientsPage = () => {
   const {
     clientList, currentPage, currentClient, totalPages, loadingClients,
-    showAddModal, showEditModal,
+    showAddModal, showEditModal, isRefetchingClients,
     setShowAddModal, setShowEditModal,
     onSearchClient, handleChangePage,
     onSelectClient, onDeleteClient, onEditClient, onAddClient
@@ -34,11 +34,11 @@ const ClientsPage = () => {
   return (
     <Container maxWidth='xl' sx={{ height: '100%', pb: 5 }}>
       <TitlePage title="Gestión de Clientes"/>
-      {loadingClients
+      {loadingClients || isRefetchingClients
         ? <LinearProgress />
         : (
           <>
-            {!clientList && !loadingClients
+            {!clientList && !loadingClients && !isRefetchingClients
               ? <EmptyData setShowAddModal={setShowAddModal} />
               : <>
                 <Filters {...filtersProps} />
