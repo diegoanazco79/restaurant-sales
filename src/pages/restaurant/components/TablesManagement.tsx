@@ -22,7 +22,7 @@ interface Props {
   onFinishModal: (newTable: TableType) => Promise<void>
 }
 
-const RoomsManagement = ({ table, roomsList, actionType, setShow, onFinishModal }: Props) => {
+const TablesManagement = ({ table, roomsList, actionType, setShow, onFinishModal }: Props) => {
   const [currentRoom, setCurrentRoom] = useState(table?.room ?? null)
 
   const validationSchema = Yup.object({
@@ -79,7 +79,7 @@ const RoomsManagement = ({ table, roomsList, actionType, setShow, onFinishModal 
                   setFieldValue('room', value)
                   setCurrentRoom({ _id: value?.id ?? '', name: value?.label ?? '' })
                 }}
-                value={{ id: currentRoom?._id ?? '', label: currentRoom?.name ?? '' }}
+                value={ currentRoom && { id: currentRoom?._id ?? '', label: currentRoom?.name ?? '' }}
               />
               <Box display='flex' justifyContent='space-between'>
                 <Button
@@ -104,4 +104,4 @@ const RoomsManagement = ({ table, roomsList, actionType, setShow, onFinishModal 
     </Formik>)
 }
 
-export default RoomsManagement
+export default TablesManagement

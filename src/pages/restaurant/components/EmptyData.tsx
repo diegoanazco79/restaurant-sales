@@ -18,7 +18,7 @@ const EmptyData = ({ setShowAddModal }: Props) => {
       width="100%"
     >
       <Typography variant="h5" align="center" mb={2}>
-        Crea tu primera categoría
+        Crea tu primera mesa
       </Typography>
       <NewTable isEmpty setShowAddModal={setShowAddModal} />
     </Box>

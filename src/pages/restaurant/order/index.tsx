@@ -15,7 +15,7 @@ const OrderResturantPage = () => {
       <OrderManagement
         roomType='restaurant'
         tableId={tableId}
-        orderId={orderId}
+        orderId={orderId ?? 'new'}
         onBackAction={onBackToResturant}
       />
     </>

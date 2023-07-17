@@ -8,7 +8,7 @@ import useRestaurant from './hooks/useRestaurant'
 
 import TablesList from './components/TablesList'
 import EmptyData from './components/EmptyData'
-import RoomsManagement from './components/RoomsManagement'
+import TablesManagement from './components/TablesManagement'
 
 const RestaurantPage = () => {
   const {
@@ -63,7 +63,7 @@ const RestaurantPage = () => {
         setOpen={setShowEditModal}
         title='Editar Mesa'
       >
-        <RoomsManagement
+        <TablesManagement
           actionType='edit'
           table={currentTable}
           roomsList={roomsList}
@@ -76,7 +76,7 @@ const RestaurantPage = () => {
         setOpen={setShowAddModal}
         title='Añadir Mesa'
       >
-        <RoomsManagement
+        <TablesManagement
           actionType='create'
           roomsList={roomsList}
           setShow={setShowAddModal}

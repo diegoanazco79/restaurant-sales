@@ -49,7 +49,7 @@ const useLogin = () => {
   const { mutate: onSubmitLogin, isLoading: loadingLogin } = useMutation({
     mutationFn: async (loginForm: LoginFormValues) => await loginApp(loginForm.username, loginForm.password, loginForm.subsidiary),
     onSuccess: (data) => {
-      const { organization, token, email, username, firstName, lastName, role, subsidiary } = data
+      const { _id, organization, token, email, username, firstName, lastName, role, subsidiary } = data
       const profileName = `${firstName as string} ${lastName as string}`
       setOrganization({
         id: organization?._id,
@@ -62,6 +62,7 @@ const useLogin = () => {
       })
       setToken(token)
       setProfile({
+        id: _id,
         email,
         name: profileName,
         username

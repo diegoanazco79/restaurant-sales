@@ -10,7 +10,7 @@ import { BLOCKED } from '../helpers/constants'
 import { type TableType } from '../interfaces/Tables'
 
 interface Props {
-  tables: TableType[]
+  tables?: TableType[]
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>
   onSelectTable: (table: TableType) => void
   onDeleteTable: (tableId: TableType['_id']) => void
@@ -33,13 +33,13 @@ const TablesList = ({
   }
 
   const onManageOrder = (table: TableType) => {
-    navigate(`/restaurant/${table._id ?? ''}/order/${table.order ?? 'new'}`)
+    navigate(`/restaurant/${table._id ?? ''}/order/${table.order?._id ?? 'new'}`)
   }
 
   return (
     <>
       <Grid container spacing={3} pb={10}>
-        {tables?.length > 0
+        {tables && tables?.length > 0
           ? (
             <>
               <Grid item xs={12} sm={6} md={3}>

@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { useState } from 'react'
 import { Box, Typography, IconButton, Popover } from '@mui/material'
 
@@ -21,6 +22,9 @@ const TableBody = ({ table, onSelectTable, onDeleteTable, onBlockTable, onUnlock
   const [open, setOpen] = useState<HTMLButtonElement | null>(null)
 
   const { name, status, room } = table
+
+  const totalPrice = table.order?.total_price ?? 0
+  const startTime = moment(table.order?.start_time).format('hh:mm A') ?? ''
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation()
@@ -62,14 +66,16 @@ const TableBody = ({ table, onSelectTable, onDeleteTable, onBlockTable, onUnlock
         {status === IN_PROGRESS && (
           <>
             <Typography variant="body2" gutterBottom>
-              <b>Inicio:</b>
+              <b>Inicio:</b> {startTime}
             </Typography>
             <Typography variant="body2" gutterBottom>
               <b>Ambiente:</b> {room.name}
             </Typography>
-            <Typography variant="body2" gutterBottom>
-              <b>Total a pagar:</b> S/
-            </Typography>
+            {totalPrice > 0 && (
+              <Typography variant= "body2" gutterBottom>
+                <b>Total a pagar:</b> S/ {totalPrice}
+              </Typography>
+            )}
           </>
         )}
         {status === BLOCKED && <Badge type="error" label="Bloqueado" />}

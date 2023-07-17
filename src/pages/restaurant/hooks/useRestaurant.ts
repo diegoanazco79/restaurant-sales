@@ -11,6 +11,7 @@ import { initialFilters as roomFilters } from 'pages/rooms/helpers/constants'
 
 const useRestaurant = () => {
   const [currentTable, setCurrentTable] = useState<TableType>(initialTable)
+  const [tablesList, setTablesList] = useState<TableType[] | undefined>()
 
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
@@ -26,13 +27,18 @@ const useRestaurant = () => {
   const { getAllRooms } = useRoomApi()
 
   const {
-    data: tablesList,
     isLoading: loadingTables,
     refetch: refetchTables,
     isRefetching: isRefetchingTables
   } = useQuery({
     queryKey: ['tables', filters],
-    queryFn: async () => await getAllTables(filters)
+    queryFn: async () => await getAllTables(filters),
+    onSuccess: (data: TableType[]) => {
+      setTablesList(data)
+    },
+    onError: () => {
+      setTablesList(undefined)
+    }
   })
 
   const {

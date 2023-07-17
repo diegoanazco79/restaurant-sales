@@ -8,45 +8,48 @@ import { useState } from 'react'
 import DetailModal from '../detailModal/DetailModal'
 
 interface Props {
+  orderId: string
   deliveryOrder?: DeliveryOrder
   roomType: string
+  onCancelNewOrder: (roomType: string, isNewOrder: boolean) => void
+  onSaveNewResturantOrder: () => void
 }
 
-const OrdersActions = ({ deliveryOrder, roomType }: Props) => {
+const OrdersActions = ({
+  orderId, deliveryOrder, roomType,
+  onCancelNewOrder, onSaveNewResturantOrder
+}: Props) => {
   const theme = useTheme()
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
 
   const [showDeliveryDetails, setShowDeliveryDetails] = useState(false)
 
+  const isNewOrder = orderId === 'new'
+  const isRestaurantOrder = roomType === 'restaurant'
+
   return (
     <>
       <Grid container marginTop={1} spacing={2}>
         {!isMobileOrTablet && (
-          <Grid
-            item
-            xs={6}
-            sm={6}
-            md={6}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
+          <Grid item xs={6} sm={6} md={6}
+            display="flex" alignItems="center" justifyContent="center"
           >
             <ActionButton
-              variant="contained"
-              color="inherit"
+              variant="contained" color="inherit"
+              onClick={() => { onCancelNewOrder(roomType, isNewOrder) }}
             >
-              Cancelar
+              {isNewOrder
+                ? isRestaurantOrder
+                  ? 'Volver a las mesas'
+                  : 'Volver a los pedidos'
+                : 'Cancelar orden'
+              }
             </ActionButton>
           </Grid>
         )}
         <Grid
-          item
-          xs={isMobileOrTablet ? 12 : 6}
-          sm={isMobileOrTablet ? 12 : 6}
-          md={6}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+          item xs={isMobileOrTablet ? 12 : 6} sm={isMobileOrTablet ? 12 : 6} md={6}
+          display="flex" alignItems="center" justifyContent="center"
         >
           <ActionButton
             variant="contained"
@@ -54,7 +57,7 @@ const OrdersActions = ({ deliveryOrder, roomType }: Props) => {
             onClick={() => {
               roomType === 'delivery'
                 ? setShowDeliveryDetails(true)
-                : console.log('Holi')
+                : onSaveNewResturantOrder()
             }}
           >
             Guardar orden

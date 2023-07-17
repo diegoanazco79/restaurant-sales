@@ -16,24 +16,30 @@ import { type ProductType } from 'pages/products/interfaces/Products'
 import { type TableType } from 'pages/restaurant/interfaces/Tables'
 
 interface Props {
+  orderId: string
   tableData?: TableType
   roomType: string
   orders: Order[]
   totalOrder: number
   deliveryOrder?: DeliveryOrder
   currentOrder?: Order
+  mainOrderNote?: string
   setCurrentOrder: (order: Order) => void
   onDeleteOrder: (id: string, type: ProductType['_id']) => void
   handleIncrement: (id: string, type: ProductType['_id']) => void
   handleDecrement: (id: string, type: ProductType['_id']) => void
   onAddNote: (note: string, type: ProductType['_id']) => void
+  onCancelNewOrder: (roomType: string, isNewOrder: boolean) => void
+  onSaveNewResturantOrder: () => void
+  onChangeMainOrderNote: (note: string) => void
 }
 
 const OrderSummary = ({
-  tableData, roomType, orders, totalOrder,
-  deliveryOrder, currentOrder,
+  orderId, tableData, roomType, orders, totalOrder,
+  deliveryOrder, currentOrder, mainOrderNote,
   setCurrentOrder,
-  onDeleteOrder, handleDecrement, handleIncrement, onAddNote
+  onDeleteOrder, handleDecrement, handleIncrement, onAddNote,
+  onCancelNewOrder, onSaveNewResturantOrder, onChangeMainOrderNote
 }: Props) => {
   const [showNoteModal, setShowNoteModal] = useState(false)
   const orderTitle = tableData?.name ?? ''
@@ -51,9 +57,15 @@ const OrderSummary = ({
     handleDecrement
   }
 
-  const ordersInfoProps = { totalOrder }
+  const ordersInfoProps = { totalOrder, mainOrderNote, onChangeMainOrderNote }
 
-  const ordersActionsProps = { deliveryOrder, roomType }
+  const ordersActionsProps = {
+    orderId,
+    deliveryOrder,
+    roomType,
+    onCancelNewOrder,
+    onSaveNewResturantOrder
+  }
 
   const noteModalProps = {
     currentOrder,
@@ -67,11 +79,7 @@ const OrderSummary = ({
       {orders.length > 0
         ? (
           <>
-            <Box
-              height='50vh'
-              overflow="auto"
-              mt={isMobileOrTablet ? 0 : 1}
-            >
+            <Box height='50vh' overflow="auto" mt={isMobileOrTablet ? 0 : 1} >
               {orders.map((order, idx) => (
                 <OrderItem
                   key={idx}

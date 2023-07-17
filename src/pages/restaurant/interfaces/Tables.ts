@@ -2,12 +2,19 @@ export interface Room {
   _id: string
   name: string
 }
+
+export interface Order {
+  _id: string
+  start_time: string
+  total_price: number
+}
+
 export interface TableType {
   _id?: string
   name: string
   room: Room
   status: string
-  order?: string
+  order?: Order
   subsidiary?: string
   organization?: string
 }

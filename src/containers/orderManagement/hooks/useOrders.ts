@@ -1,33 +1,49 @@
+import 'moment-timezone'
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
+import Swal from 'sweetalert2'
 
+import { useAuthStore } from 'store/auth'
 import useCategoryApi from 'api/services/useCategoryApi'
+import useOrderApi from 'api/services/useOrderApi'
 import useProductApi from 'api/services/useProductApi'
 import useTableApi from 'api/services/useTableApi'
 
 import { initialFilters as initialCategoryFilters } from 'pages/categories/helpers/constants'
 import { initialFilters as initialProductFilters } from 'pages/products/helpers/constants'
 import { initialOrder } from '../helpers/constants'
+
 import { type Order } from '../interfaces/Order'
+import { type Order as OrderApi } from 'api/interfaces/OrderApi'
 import { type ProductType } from '../../../pages/products/interfaces/Products'
+import { type TableType } from 'pages/restaurant/interfaces/Tables'
 
 interface Props {
   tableId?: string
+  orderId: string
 }
 
-const useOrders = ({ tableId }: Props) => {
+const useOrders = ({ tableId, orderId }: Props) => {
   const [orders, setOrders] = useState<Order[]>([])
   const [totalOrder, setTotalOrder] = useState(0)
   const [showSummaryModal, setShowSummaryModal] = useState(false)
   const [currentOrder, setCurrentOrder] = useState<Order>(initialOrder)
+  const [mainOrderNote, setMainOrderNote] = useState('')
 
   const [currentCategory, setCurrentCategory] = useState('all-categories')
 
   const [productFilters, setProductFilters] = useState(initialProductFilters)
 
+  const navigate = useNavigate()
+
+  const user = useAuthStore((state) => state.profile)
+
   const { getAllCategories } = useCategoryApi()
   const { getAllProducts } = useProductApi()
-  const { getTableById } = useTableApi()
+  const { getTableById, updateTable } = useTableApi()
+  const { createOrder, getOrderById } = useOrderApi()
 
   /* Get all categories */
   const { data: categoriesList, isLoading: loadingCategories } = useQuery({
@@ -45,6 +61,28 @@ const useOrders = ({ tableId }: Props) => {
   const { data: tableData, isLoading: loadingTable } = useQuery({
     queryKey: ['table'],
     queryFn: async () => await getTableById(tableId ?? '')
+  })
+
+  /* Get order data */
+  const { isLoading: loadingOrder } = useQuery({
+    queryKey: ['order'],
+    queryFn: async () => await getOrderById(orderId),
+    enabled: orderId !== 'new',
+    onSuccess: (data) => {
+      console.log(data)
+      setOrders(data?.products ?? [])
+      setMainOrderNote(data?.note ?? '')
+    }
+  })
+
+  /* Create a order */
+  const createMutation = useMutation({
+    mutationFn: async (formValues: OrderApi) => await createOrder(formValues)
+  })
+
+  /* Update a table */
+  const updateTableMutation = useMutation({
+    mutationFn: async (formValues: TableType) => await updateTable(formValues)
   })
 
   useEffect(() => {
@@ -140,6 +178,14 @@ const useOrders = ({ tableId }: Props) => {
   }
 
   /**
+   * Handles when user change the main order note
+   * @param {string} note
+   */
+  const onChangeMainOrderNote = (note: string) => {
+    setMainOrderNote(note)
+  }
+
+  /**
    * Handles when user select a category
    * @param {string} categoryId
    */
@@ -147,6 +193,98 @@ const useOrders = ({ tableId }: Props) => {
     const category = categoryId === 'all-categories' ? '' : categoryId
     setCurrentCategory(categoryId)
     setProductFilters({ ...productFilters, category })
+  }
+
+  /**
+   * Handles when user want cancel a order in resturant
+   * @param {string} roomType
+   * @param {boolean} isNewOrder
+   * */
+  const onCancelNewOrder = (roomType: string, isNewOrder: boolean) => {
+    void Swal.fire({
+      title: '¿Estás seguro de cancelar esta orden?',
+      text: 'Esta acción no se puede revertir',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No, volver'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (roomType === 'restaurant') {
+          if (isNewOrder) {
+            navigate('/restaurant')
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * Handles when user want save a new order in resturant
+   **/
+  const onSaveNewResturantOrder = () => {
+    const formartedOrders = orders.map((order) =>
+      order.type
+        ? { ...order, type: { id: order.type._id, name: order.type.name } }
+        : order
+    )
+    const newResturantOrder = {
+      products: formartedOrders,
+      restaurant: tableData?._id,
+      start_time: moment().tz('America/Lima').format(),
+      total_price: totalOrder,
+      user: user?.id ?? '',
+      note: mainOrderNote,
+      status: 'in-progress'
+    }
+
+    void Swal.fire({
+      title: '¿Estás seguro de guardar esta orden?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, guardar',
+      cancelButtonText: 'No, volver',
+      reverseButtons: true,
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          const { room } = tableData
+          const orderResponse = await createMutation.mutateAsync(
+            newResturantOrder
+          )
+          await updateTableMutation.mutateAsync({
+            ...tableData,
+            order: {
+              _id: orderResponse._id,
+              start_time: orderResponse.start_time,
+              total_price: orderResponse.total_price
+            },
+            status: 'in_progress',
+            room: { _id: room }
+          })
+          return { isConfirmed: true }
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.value?.isConfirmed) {
+        void Swal.fire({
+          title: '¡Orden guardada!',
+          text: 'La orden se guardó correctamente',
+          icon: 'success'
+        }).then(() => {
+          navigate('/restaurant')
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
   }
 
   return {
@@ -162,6 +300,8 @@ const useOrders = ({ tableId }: Props) => {
     loadingProducts,
     tableData,
     loadingTable,
+    mainOrderNote,
+    loadingOrder,
 
     /* Function States */
     setShowSummaryModal,
@@ -174,7 +314,10 @@ const useOrders = ({ tableId }: Props) => {
     handleIncrement,
     handleDecrement,
     onAddNote,
-    onSelectCategory
+    onSelectCategory,
+    onCancelNewOrder,
+    onSaveNewResturantOrder,
+    onChangeMainOrderNote
   }
 }
 export default useOrders

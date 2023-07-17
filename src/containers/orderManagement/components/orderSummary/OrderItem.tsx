@@ -1,9 +1,8 @@
-import { Box, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Grid, IconButton, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 
 import Counter from './Counter'
 
-import { type Order } from 'containers/orderManagement/interfaces/Order'
-import { type ProductType } from 'pages/products/interfaces/Products'
+import { type OrderProductType, type Order } from 'containers/orderManagement/interfaces/Order'
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
@@ -12,13 +11,13 @@ interface Props {
   name: string
   price: number
   amount: number
-  note: string | undefined
-  type: ProductType | undefined
+  note?: string
+  type?: OrderProductType
   setCurrentOrder: (order: Order) => void
   setShowNoteModal: (value: boolean) => void
-  onDeleteOrder: (id: string, orderType: ProductType['_id']) => void
-  handleIncrement: (id: string, type: ProductType['_id']) => void
-  handleDecrement: (id: string, type: ProductType['_id']) => void
+  onDeleteOrder: (id: string, orderType: OrderProductType['_id']) => void
+  handleIncrement: (id: string, type: OrderProductType['_id']) => void
+  handleDecrement: (id: string, type: OrderProductType['_id']) => void
 }
 
 const OrderItem = ({
@@ -103,12 +102,11 @@ const OrderItem = ({
         <Typography variant="body2" mr={1}>
           S/ {(price * amount).toFixed(2)}
         </Typography>
-        <IconButton
-          sx={{ padding: '2px' }}
-          onClick={() => { onAddNote() }}
-        >
-          <DescriptionOutlinedIcon />
-        </IconButton>
+        <Tooltip title='Añadir nota sobre el producto'>
+          <IconButton sx={{ p: '2px' }} onClick={() => { onAddNote() }} >
+            <DescriptionOutlinedIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
     </Grid>
   )

@@ -19,6 +19,7 @@ const DeliveryPage = () => {
 
   const orderManagementProps = {
     deliveryOrder,
+    orderId: '',
     roomType: 'delivery',
     onBackAction: onBackToDeliveryList
   }

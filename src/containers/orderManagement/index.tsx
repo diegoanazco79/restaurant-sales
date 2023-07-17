@@ -12,7 +12,7 @@ import useOrders from './hooks/useOrders'
 interface Props {
   roomType: string
   tableId?: string
-  orderId?: string
+  orderId: string
   deliveryId?: string
   onBackAction: () => void
 }
@@ -21,11 +21,12 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
   const {
     orders, totalOrder, showSummaryModal, currentOrder, categoriesList,
     currentCategory, loadingCategories, productsList, loadingProducts,
-    tableData, loadingTable,
+    tableData, loadingTable, mainOrderNote, loadingOrder,
     setShowSummaryModal, setCurrentOrder,
     onAddOrder, onDeleteOrder, handleIncrement, handleDecrement,
-    onAddNote, onSearchProduct, onSelectCategory
-  } = useOrders({ tableId })
+    onAddNote, onSearchProduct, onSelectCategory, onCancelNewOrder,
+    onSaveNewResturantOrder, onChangeMainOrderNote
+  } = useOrders({ tableId, orderId })
 
   const theme = useTheme()
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
@@ -39,11 +40,15 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
     tableData,
     deliveryId,
     currentOrder,
+    mainOrderNote,
     setCurrentOrder,
     onDeleteOrder,
     handleIncrement,
     handleDecrement,
-    onAddNote
+    onAddNote,
+    onCancelNewOrder,
+    onSaveNewResturantOrder,
+    onChangeMainOrderNote
   }
 
   const productSelectionProps = {
@@ -68,7 +73,7 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
 
   return (
     <Container maxWidth="xl" sx={{ height: '100%' }}>
-      {loadingTable
+      {loadingTable || loadingOrder
         ? <LinearProgress />
         : <>
           {!isMobileOrTablet && (
