@@ -30,6 +30,11 @@ export default function Button (theme: any) {
           boxShadow: theme.customShadows.secondary
         },
 
+        containedError: {
+          textTransform: 'none',
+          boxShadow: 'none'
+        },
+
         textPrimary: {
           fontSize: '13px',
           textTransform: 'none',

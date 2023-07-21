@@ -12,17 +12,23 @@ export interface Product {
   note?: string
 }
 
-export interface Order {
+export interface CreateRestaurantOrder {
   id?: string
   products: any
   client?: string
-  // delivery?:
   restaurant?: string
   start_time: string
   end_time?: string
   total_price: number
-  // invoice
   user: string
+  note?: string
+  status: string
+}
+
+export interface UpdateRestaurantOrder {
+  id: string
+  products: any
+  total_price: number
   note?: string
   status: string
 }

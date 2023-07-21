@@ -9,10 +9,9 @@ import { type Order } from '../interfaces/Order'
 interface Props {
   orders: Order[]
   setShowSummaryModal: React.Dispatch<React.SetStateAction<boolean>>
-  onBackAction: () => void
 }
 
-const Navigation = ({ orders, setShowSummaryModal, onBackAction }: Props) => {
+const Navigation = ({ orders, setShowSummaryModal }: Props) => {
   const ordersLength = orders.length
 
   return (
@@ -23,7 +22,6 @@ const Navigation = ({ orders, setShowSummaryModal, onBackAction }: Props) => {
         <BottomNavigationAction
           label="Volver a Mesas"
           icon={<FirstPageIcon />}
-          onClick={onBackAction}
         />
         <BottomNavigationAction
           label="Ordenes"

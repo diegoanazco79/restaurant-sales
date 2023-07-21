@@ -5,7 +5,7 @@ import Modal from 'components/modal/Modal'
 import Navigation from './components/Navigation'
 import OrderSummary from './components/orderSummary/OrderSummary'
 import ProductSelection from './components/products/ProductsSelection'
-import TitlePage from 'components/titlePage'
+import Title from './components/Title'
 
 import useOrders from './hooks/useOrders'
 
@@ -14,19 +14,19 @@ interface Props {
   tableId?: string
   orderId: string
   deliveryId?: string
-  onBackAction: () => void
 }
 
-const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction }: Props) => {
+const OrderManagement = ({ roomType, tableId, deliveryId, orderId }: Props) => {
   const {
     orders, totalOrder, showSummaryModal, currentOrder, categoriesList,
     currentCategory, loadingCategories, productsList, loadingProducts,
-    tableData, loadingTable, mainOrderNote, loadingOrder,
+    tableData, loadingTable, mainOrderNote, loadingOrder, ordersCopy,
     setShowSummaryModal, setCurrentOrder,
     onAddOrder, onDeleteOrder, handleIncrement, handleDecrement,
     onAddNote, onSearchProduct, onSelectCategory, onCancelNewOrder,
-    onSaveNewResturantOrder, onChangeMainOrderNote
-  } = useOrders({ tableId, orderId })
+    onSaveNewResturantOrder, onChangeMainOrderNote, onUpdateResturantOrder,
+    onBackAction, onCancelResturantOrder
+  } = useOrders({ tableId, orderId, roomType })
 
   const theme = useTheme()
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
@@ -36,6 +36,7 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
     orderId,
     roomType,
     orders,
+    ordersCopy,
     totalOrder,
     tableData,
     deliveryId,
@@ -48,7 +49,8 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
     onAddNote,
     onCancelNewOrder,
     onSaveNewResturantOrder,
-    onChangeMainOrderNote
+    onChangeMainOrderNote,
+    onUpdateResturantOrder
   }
 
   const productSelectionProps = {
@@ -60,8 +62,7 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
 
   const navigationProps = {
     orders,
-    setShowSummaryModal,
-    onBackAction
+    setShowSummaryModal
   }
 
   const categoriesListProps = {
@@ -73,7 +74,7 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
 
   return (
     <Container maxWidth="xl" sx={{ height: '100%' }}>
-      {loadingTable || loadingOrder
+      {loadingTable || (loadingOrder && orderId !== 'new')
         ? <LinearProgress />
         : <>
           {!isMobileOrTablet && (
@@ -81,7 +82,10 @@ const OrderManagement = ({ roomType, tableId, deliveryId, orderId, onBackAction 
               {roomType === 'delivery' ? ' < Volver a los deliveries' : ' < Volver a las mesas'}
             </Button>
           )}
-          <TitlePage title="Administración del Pedido" />
+          <Title
+            orderId={orderId}
+            onCancelResturantOrder={onCancelResturantOrder}
+          />
           <Grid container height="90%">
             {!isMobileOrTablet && (
               <Grid item xs={12} sm={12} md={6}>

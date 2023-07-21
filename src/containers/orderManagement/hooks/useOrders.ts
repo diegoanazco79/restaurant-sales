@@ -16,17 +16,19 @@ import { initialFilters as initialProductFilters } from 'pages/products/helpers/
 import { initialOrder } from '../helpers/constants'
 
 import { type Order } from '../interfaces/Order'
-import { type Order as OrderApi } from 'api/interfaces/OrderApi'
+import { type UpdateRestaurantOrder, type CreateRestaurantOrder } from 'api/interfaces/OrderApi'
 import { type ProductType } from '../../../pages/products/interfaces/Products'
 import { type TableType } from 'pages/restaurant/interfaces/Tables'
 
 interface Props {
   tableId?: string
   orderId: string
+  roomType: string
 }
 
-const useOrders = ({ tableId, orderId }: Props) => {
+const useOrders = ({ tableId, orderId, roomType }: Props) => {
   const [orders, setOrders] = useState<Order[]>([])
+  const [ordersCopy, setOrdersCopy] = useState<Order[]>([])
   const [totalOrder, setTotalOrder] = useState(0)
   const [showSummaryModal, setShowSummaryModal] = useState(false)
   const [currentOrder, setCurrentOrder] = useState<Order>(initialOrder)
@@ -43,7 +45,7 @@ const useOrders = ({ tableId, orderId }: Props) => {
   const { getAllCategories } = useCategoryApi()
   const { getAllProducts } = useProductApi()
   const { getTableById, updateTable } = useTableApi()
-  const { createOrder, getOrderById } = useOrderApi()
+  const { createOrder, getOrderById, updateOrder, deleteOrder } = useOrderApi()
 
   /* Get all categories */
   const { data: categoriesList, isLoading: loadingCategories } = useQuery({
@@ -69,15 +71,25 @@ const useOrders = ({ tableId, orderId }: Props) => {
     queryFn: async () => await getOrderById(orderId),
     enabled: orderId !== 'new',
     onSuccess: (data) => {
-      console.log(data)
       setOrders(data?.products ?? [])
+      setOrdersCopy(data?.products ?? [])
       setMainOrderNote(data?.note ?? '')
     }
   })
 
   /* Create a order */
   const createMutation = useMutation({
-    mutationFn: async (formValues: OrderApi) => await createOrder(formValues)
+    mutationFn: async (formValues: CreateRestaurantOrder) => await createOrder(formValues)
+  })
+
+  /* Update a order */
+  const updateMutation = useMutation({
+    mutationFn: async (formValues: UpdateRestaurantOrder) => await updateOrder(formValues)
+  })
+
+  /* Delete a order */
+  const deleteMutation = useMutation({
+    mutationFn: async (orderId: string) => await deleteOrder(orderId)
   })
 
   /* Update a table */
@@ -221,6 +233,7 @@ const useOrders = ({ tableId, orderId }: Props) => {
 
   /**
    * Handles when user want save a new order in resturant
+   * @param {string} orderTicket
    **/
   const onSaveNewResturantOrder = () => {
     const formartedOrders = orders.map((order) =>
@@ -287,9 +300,123 @@ const useOrders = ({ tableId, orderId }: Props) => {
     })
   }
 
+  /**
+   * Handles when user want update a order in resturant
+   * @param {string} orderId
+   * */
+  const onUpdateResturantOrder = async (orderId: string) => {
+    const formartedOrders = orders.map((order) =>
+      order.type
+        ? { ...order, type: { id: order.type._id, name: order.type.name } }
+        : order
+    )
+    const newResturantOrder = {
+      id: orderId,
+      products: formartedOrders,
+      total_price: totalOrder,
+      note: mainOrderNote,
+      status: 'in-progress'
+    }
+
+    void Swal.fire({
+      title: '¿Estás seguro de actualizar esta orden?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, actualizar',
+      cancelButtonText: 'No, volver',
+      reverseButtons: true,
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          await updateMutation.mutateAsync(newResturantOrder)
+          return { isConfirmed: true }
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.value?.isConfirmed) {
+        void Swal.fire({
+          title: '¡Orden actualizada!',
+          text: 'La orden se actualizó correctamente',
+          icon: 'success'
+        }).then(() => {
+          navigate('/restaurant')
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+  /**
+   * Handles when user want cancel a order in resturant
+   * @param {string} orderId
+   * */
+  const onCancelResturantOrder = (orderId: string) => {
+    const { room } = tableData
+    void Swal.fire({
+      title: '¿Estás seguro de cancelar esta orden?',
+      text: 'Esta acción no se puede revertir',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No, volver',
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          await deleteMutation.mutateAsync(orderId)
+          await updateTableMutation.mutateAsync({
+            ...tableData,
+            order: undefined,
+            status: 'empty',
+            room: { _id: room }
+          })
+          return { isConfirmed: true }
+        } catch (error) {
+          return { isConfirmed: false }
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.value?.isConfirmed) {
+        void Swal.fire({
+          title: '¡Orden cancelada!',
+          text: 'La orden se canceló correctamente',
+          icon: 'success'
+        }).then(() => {
+          navigate('/restaurant')
+        })
+      } else if (!result?.isDismissed) {
+        void Swal.fire({
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor vuelve a intentarlo. Si el problema persiste comunicate con soporte',
+          icon: 'error'
+        })
+      }
+    })
+  }
+
+  /**
+   * Navigate to the previous page
+   */
+  const onBackAction = () => {
+    if (roomType === 'delivery') {
+      navigate('/delivery')
+    } else {
+      navigate('/restaurant')
+    }
+  }
+
   return {
     /* States */
     orders,
+    ordersCopy,
     totalOrder,
     showSummaryModal,
     currentOrder,
@@ -317,7 +444,10 @@ const useOrders = ({ tableId, orderId }: Props) => {
     onSelectCategory,
     onCancelNewOrder,
     onSaveNewResturantOrder,
-    onChangeMainOrderNote
+    onChangeMainOrderNote,
+    onUpdateResturantOrder,
+    onBackAction,
+    onCancelResturantOrder
   }
 }
 export default useOrders

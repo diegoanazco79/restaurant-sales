@@ -20,6 +20,7 @@ interface Props {
   tableData?: TableType
   roomType: string
   orders: Order[]
+  ordersCopy: Order[]
   totalOrder: number
   deliveryOrder?: DeliveryOrder
   currentOrder?: Order
@@ -32,14 +33,16 @@ interface Props {
   onCancelNewOrder: (roomType: string, isNewOrder: boolean) => void
   onSaveNewResturantOrder: () => void
   onChangeMainOrderNote: (note: string) => void
+  onUpdateResturantOrder: (orderId: string) => void
 }
 
 const OrderSummary = ({
   orderId, tableData, roomType, orders, totalOrder,
-  deliveryOrder, currentOrder, mainOrderNote,
+  deliveryOrder, currentOrder, mainOrderNote, ordersCopy,
   setCurrentOrder,
   onDeleteOrder, handleDecrement, handleIncrement, onAddNote,
-  onCancelNewOrder, onSaveNewResturantOrder, onChangeMainOrderNote
+  onCancelNewOrder, onSaveNewResturantOrder, onChangeMainOrderNote,
+  onUpdateResturantOrder
 }: Props) => {
   const [showNoteModal, setShowNoteModal] = useState(false)
   const orderTitle = tableData?.name ?? ''
@@ -60,11 +63,16 @@ const OrderSummary = ({
   const ordersInfoProps = { totalOrder, mainOrderNote, onChangeMainOrderNote }
 
   const ordersActionsProps = {
+    orderTitle,
     orderId,
+    orders,
+    ordersCopy,
     deliveryOrder,
     roomType,
+    mainOrderNote,
     onCancelNewOrder,
-    onSaveNewResturantOrder
+    onSaveNewResturantOrder,
+    onUpdateResturantOrder
   }
 
   const noteModalProps = {
